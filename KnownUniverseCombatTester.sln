@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnownUniverseCombatTester", "KnownUniverseCombatTester\KnownUniverseCombatTester.csproj", "{CBF4866F-10A1-48FD-BE53-8B099286E00C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTester", "SimpleTester\SimpleTester.csproj", "{81D72998-D80A-4E83-B85E-71F8F9E8B611}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simple Subsector Generator", "Simple Subsector Generator\Simple Subsector Generator.csproj", "{AB9A7C6C-4456-4382-A922-06E3031EDFCB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CBF4866F-10A1-48FD-BE53-8B099286E00C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBF4866F-10A1-48FD-BE53-8B099286E00C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBF4866F-10A1-48FD-BE53-8B099286E00C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBF4866F-10A1-48FD-BE53-8B099286E00C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81D72998-D80A-4E83-B85E-71F8F9E8B611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81D72998-D80A-4E83-B85E-71F8F9E8B611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81D72998-D80A-4E83-B85E-71F8F9E8B611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81D72998-D80A-4E83-B85E-71F8F9E8B611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB9A7C6C-4456-4382-A922-06E3031EDFCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB9A7C6C-4456-4382-A922-06E3031EDFCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB9A7C6C-4456-4382-A922-06E3031EDFCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB9A7C6C-4456-4382-A922-06E3031EDFCB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

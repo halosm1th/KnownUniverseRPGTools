@@ -1,0 +1,36 @@
+﻿using System.Text;
+
+namespace Simple_Subsector_Generator;
+
+public class KURPGMegaSector
+{
+    public KURPGSuperSector[,] SuperSectors { get; }
+    public string Name { get; }
+    public int Seed { get; }
+    public bool UsingSeed { get; }
+    
+    public KURPGMegaSector(string name, int seed)
+    {
+        Name = name;
+        Seed = seed;
+        SuperSectors = new KURPGSuperSector[4, 4];
+    }
+    
+    
+    public override string ToString()
+    {
+        return $"# {Name} Sector ({SuperSectors.GetLength(0)+1}x{SuperSectors.GetLength(1)+1})\n" +
+               $"{SectorsText()}";
+    }
+
+    private string SectorsText()
+    {
+        var sb = new StringBuilder();
+        foreach (var s in SuperSectors)
+        {
+            sb.Append(s.ToString());
+        }
+
+        return sb.ToString();
+    }
+}

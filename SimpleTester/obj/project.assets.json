@@ -1,0 +1,125 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0": {
+      "Antlr4.Runtime.Standard/4.9.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Antlr4.Runtime.Standard.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Antlr4.Runtime.Standard.dll": {}
+        }
+      },
+      "DiceRoller/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Antlr4.Runtime.Standard": "4.9.2"
+        },
+        "compile": {
+          "lib/netstandard2.0/Dice.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Dice.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Antlr4.Runtime.Standard/4.9.2": {
+      "sha512": "NH/CZeP56ERa+1w7HqlQKXMVBlkNHOWrjF3holW5XgUdyDP36Mw0SynoNj6jD7UNqhxc+4YYfOWXajO3U1Q2dw==",
+      "type": "package",
+      "path": "antlr4.runtime.standard/4.9.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "antlr4.runtime.standard.4.9.2.nupkg.sha512",
+        "antlr4.runtime.standard.nuspec",
+        "lib/netstandard2.0/Antlr4.Runtime.Standard.dll",
+        "lib/netstandard2.0/Antlr4.Runtime.Standard.xml"
+      ]
+    },
+    "DiceRoller/4.2.0": {
+      "sha512": "6OaVYm2XJyvvh+s9ctZMcqiCSpg0yL7syep43c20xgjXjSj5r4/0K5mJojy4sMpMJe+WmHDguXQncuPLbsV4cw==",
+      "type": "package",
+      "path": "diceroller/4.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "diceroller.4.2.0.nupkg.sha512",
+        "diceroller.nuspec",
+        "lib/net452/Dice.dll",
+        "lib/net452/Dice.xml",
+        "lib/netstandard2.0/Dice.dll",
+        "lib/netstandard2.0/Dice.xml"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0": [
+      "DiceRoller >= 4.2.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\thoma\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\thoma\\RiderProjects\\KnownUniverseRPGTools\\SimpleTester\\SimpleTester.csproj",
+      "projectName": "SimpleTester",
+      "projectPath": "C:\\Users\\thoma\\RiderProjects\\KnownUniverseRPGTools\\SimpleTester\\SimpleTester.csproj",
+      "packagesPath": "C:\\Users\\thoma\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\thoma\\RiderProjects\\KnownUniverseRPGTools\\SimpleTester\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\thoma\\AppData\\Roaming\\NuGet\\NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0": {
+        "targetAlias": "net6.0",
+        "dependencies": {
+          "DiceRoller": {
+            "target": "Package",
+            "version": "[4.2.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Users\\thoma\\.dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
