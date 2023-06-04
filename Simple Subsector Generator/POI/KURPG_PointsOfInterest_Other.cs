@@ -21,7 +21,7 @@
     {
     }
 
-    public override string SubtypeName  => SubtypeRoll switch
+    public override string? SubtypeName  => SubtypeRoll switch
     {
         1 => "Space Casino",
         2 => "System Defense Station",

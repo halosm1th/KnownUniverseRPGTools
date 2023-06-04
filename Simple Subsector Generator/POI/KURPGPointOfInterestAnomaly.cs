@@ -37,7 +37,7 @@
         return codes;
     }
 
-    public override string SubtypeName  => SubtypeRoll switch
+    public override string? SubtypeName  => SubtypeRoll switch
     {
         1 => "Wormhole",
         2 => "Nebula",

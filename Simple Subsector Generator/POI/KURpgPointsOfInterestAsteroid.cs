@@ -217,7 +217,7 @@
         
     };
     
-    public override string SubtypeName  => SubtypeRoll switch
+    public override string? SubtypeName  => SubtypeRoll switch
     {
         1 => "Resource Extraction operation",
         2 => "Someone's Hidden Base",

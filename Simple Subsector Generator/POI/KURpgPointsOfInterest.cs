@@ -6,7 +6,7 @@ public abstract class KURpgPointsOfInterest
     public abstract bool HasComplexInfo { get; }
     public int SubtypeRoll { get; }
     
-    public abstract string SubtypeName  { get; }
+    public abstract string? SubtypeName  { get; }
     public abstract string SubTypeDescription { get; }
 
     protected KURpgPointsOfInterest(KURpgPoiTypes poiType, int subtypeRoll)

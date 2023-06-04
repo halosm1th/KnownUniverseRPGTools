@@ -4,7 +4,7 @@ namespace Simple_Subsector_Generator;
 
 public class KURPGMegaSector
 {
-    public KURPGSuperSector[,] SuperSectors { get; }
+    public KURPGSuperSector?[,] SuperSectors { get; }
     public string Name { get; }
     public int Seed { get; }
     public bool UsingSeed { get; }
@@ -12,8 +12,8 @@ public class KURPGMegaSector
     public KURPGMegaSector(string name, int seed)
     {
         Name = name;
-        Seed = seed;
-        SuperSectors = new KURPGSuperSector[4, 4];
+        Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
+        SuperSectors = new KURPGSuperSector?[6, 6];
     }
     
     
@@ -28,7 +28,7 @@ public class KURPGMegaSector
         var sb = new StringBuilder();
         foreach (var s in SuperSectors)
         {
-            sb.Append(s.ToString());
+            sb.Append(s?.ToString());
         }
 
         return sb.ToString();

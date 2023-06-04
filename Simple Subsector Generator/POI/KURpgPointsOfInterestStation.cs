@@ -231,7 +231,7 @@
         
     };
     
-    public override string SubtypeName  => SubtypeRoll switch
+    public override string? SubtypeName  => SubtypeRoll switch
     {
         1 => "General Purpose Station",
         2 => "Illegal or illict station",

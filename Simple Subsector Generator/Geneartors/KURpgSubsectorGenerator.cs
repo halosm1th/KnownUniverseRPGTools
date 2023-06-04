@@ -19,20 +19,20 @@ class KURpgSubsectorGenerator
     public KURpgSubsectorGenerator(string name, bool usingSeed = false, int seed = 01122000, bool isPrinting = false)
     {
         Name = name;
-        Seed = seed;
+        Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
         r = new Random(seed);
         UsingSeed = usingSeed;
         Subsector = new KURpgSubsector(name, XSize, YSize);
         IsPrinting = isPrinting;
     }
 
-    public async Task<KURpgSubsector> Generate()
+    public Task<KURpgSubsector> Generate()
     {
         PlaceSystems();
         DetermineSpacePortQuality();
         GeneratePointsOfInterest();
 
-        return Subsector;
+        return Task.FromResult(Subsector);
     }
 
     private int RollDice(string diceToRoll = "2d6")
@@ -41,7 +41,7 @@ class KURpgSubsectorGenerator
         {
             var total = 0;
             var numbDice = Convert.ToInt32(diceToRoll.ToLower().Split('d')[0]);
-            var numbSides =  Convert.ToInt32(diceToRoll.ToLower().Split('d')[1]);
+            var numbSides = Convert.ToInt32(diceToRoll.ToLower().Split('d')[1]);
             for (var dice = 0; dice < numbDice; dice++)
             {
                 total += r.Next(0, numbSides) + 1;
@@ -56,7 +56,7 @@ class KURpgSubsectorGenerator
         }
     }
 
-    private int SpacePortRatingModifierTable(string SpacePortRating)
+    private int SpacePortRatingModifierTable(string? SpacePortRating)
     {
         if (SpacePortRating[0] == 'A') return 2;
         if (SpacePortRating[0] == 'B') return 1;
@@ -64,10 +64,10 @@ class KURpgSubsectorGenerator
         if (SpacePortRating[0] == 'D') return -1;
         if (SpacePortRating[0] == 'E') return -2;
         if (SpacePortRating[0] == 'F') return -3;
-        
+
         return 0;
     }
-    
+
     private void PlaceSystems()
     {
         for (var y = 0; y < YSize; y++)
@@ -77,27 +77,97 @@ class KURpgSubsectorGenerator
                 if (RollDice("1d10") > 5)
                 {
                     var name = GenerateName();
-                    Subsector.PlaceSystem(new KURpgFilledSystem(name,x,y),x,y);
-                    if(IsPrinting) Console.WriteLine($"Generated a new system at x: {x+1}, y: {y+1}");
+                    Subsector.PlaceSystem(new KURpgFilledSystem(name, x, y), x, y);
+                    if (IsPrinting)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                       // Console.WriteLine($"Generated a new system at x: {x+1}, y: {y+1}");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
                 }
                 else
                 {
-                    Subsector.PlaceSystem(new KURpgEmptySystem(x,y),x,y);
-                    if(IsPrinting) Console.WriteLine($"Generated an empty system at x: {x+1}, y: {y+1}");
+                    Subsector.PlaceSystem(new KURpgEmptySystem(x, y), x, y);
+                    if (IsPrinting)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                       // Console.WriteLine($"Generated an empty system at x: {x+1}, y: {y+1}");
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                    }
                 }
             }
         }
     }
 
-    private static readonly string[]
-        nameListText = File.ReadAllLines(Directory.GetCurrentDirectory() + "/namelist.csv");
+    private static string[]? _nameListText { get; set; } = null;
 
-    private static List<string> nameList => nameListText.Select(x => x.Split(",")[0]).ToList();
+    private static string[]? nameListText {get {
+        if (_nameList == null)
+        {
+            _nameListText = File.ReadAllLines(Directory.GetCurrentDirectory() + "/namelist.csv");
+        }
+
+        return _nameListText;
+    }}
+        
+
+
+    private static bool hasSplitNameList = false;
+    private static List<string>? _nameList = null;
+
+    private static List<string>? nameList {get {
+        if (!hasSplitNameList)
+        {
+            _nameList = nameListText.Select(x => x.Split(",")[0]).ToList();
+            hasSplitNameList = true;
+        } 
+        return _nameList;
+    }}
     
+    private static List<string>? CountryNameList {get {
+        if (!hasSplitNameList)
+        {
+            _nameList = nameListText.Select(x => x.Split(",")[2]).ToList();
+            hasSplitNameList = true;
+        } 
+        return _nameList;
+    }}
+    
+    private static List<string>? ProvinceNameList { get {
+        if (!hasSplitNameList)
+        {
+            _nameList = nameListText.Select(x => x.Split(",")[1]).ToList();
+            hasSplitNameList = true;
+        } 
+        return _nameList;
+    }}
+    
+    
+    public static string GetProvinceName(int numb)
+    {
+        Random r = new Random(numb);
+
+        return ProvinceNameList[r.Next(0,nameList.Count)];
+    }
+    
+    
+    public static string GetCountryName(int numb)
+    {
+        Random r = new Random(numb);
+
+        return CountryNameList[r.Next(0,nameList.Count)];
+    }
+
+    public static string GetName(int numb)
+    {
+        Random r = new Random(numb);
+
+        return nameList[r.Next(0,nameList.Count)];
+    }
     
     private string GenerateName()
     {
-        var name = nameList[r.Next(0, nameList.Count)];
+        var name = GetName(r.Next(0, nameList.Count));
 
         return name;
     }
@@ -105,22 +175,22 @@ class KURpgSubsectorGenerator
 
     private void DetermineSpacePortQuality()
     {
-        foreach (var realSystem in Subsector.GetFilledSystems())
+        Parallel.ForEach(Subsector.GetFilledSystems(), realSystem =>
         {
             if (realSystem != null)
             {
                 var station = new KURpgPrimaryStation(RollDice());
                 realSystem.AddPoint(station);
                 //if (IsPrinting)
-                    //Console.WriteLine(
-                      //  $"System at {realSystem.SystemX},{realSystem.SystemY} has a class {station.SubtypeName}, which means it is: {station.SubTypeDescription}");
+                //Console.WriteLine(
+                //  $"System at {realSystem.SystemX},{realSystem.SystemY} has a class {station.SubtypeName}, which means it is: {station.SubTypeDescription}");
             }
-        }
+        });
     }
 
     private void GeneratePointsOfInterest()
     {
-        foreach (var system in Subsector.GetFilledSystems())
+        Parallel.ForEach (Subsector.GetFilledSystems(), system =>
         {
             var poiCount = PointOfInterestCount(system);
             
@@ -130,7 +200,7 @@ class KURpgSubsectorGenerator
                 FleshOutPointsOfInterest(system, poi);
                 FleshOutPrimaryStation(system);
             }
-        }
+        });
     }
 
     private int PointOfInterestCount(KURpgFilledSystem system)
@@ -138,7 +208,7 @@ class KURpgSubsectorGenerator
             var roll = RollDice();
             var poi = system.PointsOfInterest
                 .First(x => x.GetType() == typeof(KURpgPrimaryStation)) as KURpgPrimaryStation;
-            var modifierResult = roll + SpacePortRatingModifierTable(poi.SubtypeName);
+            var modifierResult = roll + SpacePortRatingModifierTable(poi?.SubtypeName);
 
             var result = modifierResult switch
             {
@@ -213,7 +283,7 @@ class KURpgSubsectorGenerator
         
     }
 
-    private void GenerateStation(KURpgFilledSystem system, KURpgPointsOfInterestStation poi)
+    private void GenerateStation(KURpgFilledSystem system, KURpgPointsOfInterestStation? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -227,18 +297,18 @@ class KURpgSubsectorGenerator
        //                                  $"Size: {poi.SizeMeaning}");
     }
 
-    private void GenerateWreck(KURpgFilledSystem system, KURPG_PointsOfInterest_Wreck poi)
+    private void GenerateWreck(KURpgFilledSystem system, KURPG_PointsOfInterest_Wreck? poi)
     {
         poi.SizeRoll = GetMainStationModifiedResult(system);
         poi.AliensInsideRoll  = GetMainStationModifiedResult(system);
         poi.LootedRoll = GetMainStationModifiedResult(system);
-        if (IsPrinting)
+        /* if (IsPrinting)
         {
             Console.WriteLine($"{poi.POIType} at {system.SystemX},{system.SystemY} is: {poi.SizeMeaning}, {poi.AliensInsideRoll}, {poi.LootedMeaning}");
-        }
+        } */
     }
 
-    private void GenerateAsteorid(KURpgFilledSystem system, KURpgPointsOfInterestAsteroid poi)
+    private void GenerateAsteorid(KURpgFilledSystem system, KURpgPointsOfInterestAsteroid? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -251,7 +321,7 @@ class KURpgSubsectorGenerator
        //                                  $"Size: {poi.SizeMeaning}");
     }
 
-    private void GeneratePlanetPOI(KURpgFilledSystem system, KURpgPointsOfInterestWorld poi)
+    private void GeneratePlanetPOI(KURpgFilledSystem system, KURpgPointsOfInterestWorld? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -274,7 +344,7 @@ class KURpgSubsectorGenerator
         var roll = RollDice();
         var mainStation = system.PointsOfInterest
             .First(x => x.GetType() == typeof(KURpgPrimaryStation)) as KURpgPrimaryStation;
-        var modifierResult = roll + SpacePortRatingModifierTable(mainStation.SubtypeName);
+        var modifierResult = roll + SpacePortRatingModifierTable(mainStation?.SubtypeName);
 
         return modifierResult;
     }
@@ -283,15 +353,21 @@ class KURpgSubsectorGenerator
     
     private void FleshOutPrimaryStation(KURpgFilledSystem system)
     {
-        system.SystemsPrimaryStation.TLRoll = GetMainStationModifiedResult(system)
-                                          + GetHighTechModifier(system) + GetLowTechModifier(system);
-        system.SystemsPrimaryStation.PopulationRangeRoll = GetMainStationModifiedResult(system)
-                                                           + GetHighPopMod(system) + GetLowPopMod(system);
-        system.SystemsPrimaryStation.GovernemntRoll = GetMainStationModifiedResult(system) + GetHighGovMod(system) + GetLowGovMod(system);
-        system.SystemsPrimaryStation.LawLevelRoll = GetMainStationModifiedResult(system) + determineLawModifers(system);
-        system.SystemsPrimaryStation.SizeRoll = GetMainStationModifiedResult(system);
+        if (system.SystemsPrimaryStation != null)
+        {
+            system.SystemsPrimaryStation.TLRoll = GetMainStationModifiedResult(system)
+                                                  + GetHighTechModifier(system) + GetLowTechModifier(system);
+            system.SystemsPrimaryStation.PopulationRangeRoll = GetMainStationModifiedResult(system)
+                                                               + GetHighPopMod(system) + GetLowPopMod(system);
+            system.SystemsPrimaryStation.GovernemntRoll =
+                GetMainStationModifiedResult(system) + GetHighGovMod(system) + GetLowGovMod(system);
+            system.SystemsPrimaryStation.LawLevelRoll =
+                GetMainStationModifiedResult(system) + determineLawModifers(system);
+            system.SystemsPrimaryStation.SizeRoll = GetMainStationModifiedResult(system);
 
-        var station = system.SystemsPrimaryStation;
+            var station = system.SystemsPrimaryStation;
+        }
+
         //if(IsPrinting) Console.WriteLine($"Station @ {system.SystemX},{system.SystemY}: " +
         //                                 $"{station.SubtypeName}, {station.TLMeaning}, {station.PopulationMeaning}," +
         //                                 $"{station.LawLevelMeaning}, {station.SizeMeaning}");
@@ -384,23 +460,23 @@ class KURpgSubsectorGenerator
         
         foreach (var poi in complexPOI)
         {
-            if (complexPOI is KURpgPointsOfInterestWorld)
+            if (poi is KURpgPointsOfInterestWorld world)
             {
-                if ((complexPOI as KURpgPointsOfInterestWorld).TLRoll >= 11)
+                if (world.TLRoll >= 11)
                 {
                     result++;
                 }
-            }else if (complexPOI is KURpgPointsOfInterestStation)
+            }else if (poi is KURpgPointsOfInterestStation)
             {
-                if ((complexPOI as KURpgPointsOfInterestStation).TLRoll >= 11)
+                if ((poi as KURpgPointsOfInterestStation).TLRoll >= 11)
                 {
                     result++;
                 }
                 
-            }else if (complexPOI is KURpgPointsOfInterestAsteroid)
+            }else if (poi is KURpgPointsOfInterestAsteroid)
             {
                 
-                if ((complexPOI as KURpgPointsOfInterestAsteroid).TLRoll >= 11)
+                if ((poi as KURpgPointsOfInterestAsteroid).TLRoll >= 11)
                 {
                     result++;
                 }
@@ -465,23 +541,23 @@ class KURpgSubsectorGenerator
         
         foreach (var poi in complexPOI)
         {
-            if (complexPOI is KURpgPointsOfInterestWorld)
+            if (poi is KURpgPointsOfInterestWorld)
             {
-                if ((complexPOI as KURpgPointsOfInterestWorld).PopulationRangeRoll <= 5)
+                if ((poi as KURpgPointsOfInterestWorld).PopulationRangeRoll <= 5)
                 {
                     result++;
                 }
-            }else if (complexPOI is KURpgPointsOfInterestStation)
+            }else if (poi is KURpgPointsOfInterestStation)
             {
-                if ((complexPOI as KURpgPointsOfInterestStation).PopulationRangeRoll <= 5)
+                if ((poi as KURpgPointsOfInterestStation).PopulationRangeRoll <= 5)
                 {
                     result++;
                 }
                 
-            }else if (complexPOI is KURpgPointsOfInterestAsteroid)
+            }else if (poi is KURpgPointsOfInterestAsteroid)
             {
                 
-                if ((complexPOI as KURpgPointsOfInterestAsteroid).PopulationRangeRoll <= 5)
+                if ((poi as KURpgPointsOfInterestAsteroid).PopulationRangeRoll <= 5)
                 {
                     result++;
                 }
@@ -510,26 +586,17 @@ class KURpgSubsectorGenerator
         
         foreach (var poi in complexPOI)
         {
-            if (complexPOI is KURpgPointsOfInterestWorld)
+            if (poi is KURpgPointsOfInterestWorld {PopulationRangeRoll: >= 10})
             {
-                if ((complexPOI as KURpgPointsOfInterestWorld).PopulationRangeRoll >= 10)
-                {
                     result++;
-                }
-            }else if (complexPOI is KURpgPointsOfInterestStation)
+            }else if (poi is KURpgPointsOfInterestStation {PopulationRangeRoll: >= 10})
             {
-                if ((complexPOI as KURpgPointsOfInterestStation).PopulationRangeRoll >= 10)
-                {
                     result++;
-                }
                 
-            }else if (complexPOI is KURpgPointsOfInterestAsteroid)
+            }else if (poi is KURpgPointsOfInterestAsteroid {PopulationRangeRoll: >= 10})
             {
                 
-                if ((complexPOI as KURpgPointsOfInterestAsteroid).PopulationRangeRoll >= 10)
-                {
                     result++;
-                }
             }
         }
 
@@ -555,26 +622,17 @@ class KURpgSubsectorGenerator
         
         foreach (var poi in complexPOI)
         {
-            if (complexPOI is KURpgPointsOfInterestWorld)
+            if (poi is KURpgPointsOfInterestWorld {PopulationRangeRoll: <= 5})
             {
-                if ((complexPOI as KURpgPointsOfInterestWorld).PopulationRangeRoll <= 5)
-                {
                     result++;
-                }
-            }else if (complexPOI is KURpgPointsOfInterestStation)
+            }
+            else if (poi is KURpgPointsOfInterestStation {PopulationRangeRoll: <= 5})
             {
-                if ((complexPOI as KURpgPointsOfInterestStation).PopulationRangeRoll <= 5)
-                {
                     result++;
-                }
-                
-            }else if (complexPOI is KURpgPointsOfInterestAsteroid)
+
+            }else if (poi is KURpgPointsOfInterestAsteroid {PopulationRangeRoll: <= 5})
             {
-                
-                if ((complexPOI as KURpgPointsOfInterestAsteroid).PopulationRangeRoll <= 5)
-                {
-                    result++;
-                }
+                result++;
             }
         }
 

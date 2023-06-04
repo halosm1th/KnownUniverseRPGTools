@@ -201,7 +201,7 @@
         
     };
     
-    public override string SubtypeName => SubtypeRoll switch
+    public override string? SubtypeName => SubtypeRoll switch
     {
 
         2 => "F",
@@ -215,9 +215,11 @@
         10 => "B",
         11 => "A",
         >=12 => "A",
+        _ => "F",
     };
     public override string SubTypeDescription => SubtypeRoll switch
     {
+        
         2 => "No Starport",
         3 => "A landing strip or field, not much to look at, might not even offer refueling. No repair.",
         4 => "A landing strip or pad for a shuttle or small ship and maybe some kind of air traffic control. Some refueling capabilities, and extremely limited repair capabilities.   ",
@@ -229,5 +231,6 @@
         10 => "A medium to large, modern station or starport, often with tons of people. Has facilities to repair Capital, Space-Craft, and Small Craft, and has all types of fuel, and common fuels for a reasonable price. ",
         11 => "A super modern, advanced and often massive starport, filled with trade, jobs, ships, people, shops selling all sorts of gear, and all the interesting and sometimes criminal things that come with it. Has all Kinds of fuel, and commons fuels for a cheap price. Can repair supermassive and capital ships.",
         >=12 => "A super modern, advanced and often massive starport, filled with trade, jobs, ships, people, shops selling all sorts of gear, and all the interesting and sometimes criminal things that come with it. Has all Kinds of fuel, and commons fuels for a cheap price. Can repair supermassive and capital ships.",
+        _ => "No Starport"
     };
 }

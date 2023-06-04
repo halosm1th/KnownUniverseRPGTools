@@ -17,8 +17,10 @@ namespace TravellerMapSystem.Tools
         private static readonly int ySize = 1500;
         private static readonly int HEIGHT = 140;
         private static readonly float WIDTH = HexWidth(HEIGHT);
-        private static readonly Image GRID = CreateGrid();
+        private static readonly Image? GRID = CreateGrid();
 
+        private static readonly SolidBrush Brush = new SolidBrush(Color.Black);
+        
         private readonly KURpgSubsector _knownUniverseSubsectorToDraw;
 
         public DrawSubsector(KURpgSubsector knownUniverseSubsectorToDraw)
@@ -26,21 +28,22 @@ namespace TravellerMapSystem.Tools
             _knownUniverseSubsectorToDraw = knownUniverseSubsectorToDraw;
         }
 
-        public Image GenerateSubSectorImage(bool highVersian = false)
+        public Image GenerateImage(bool highVersian = false)
         {
+            Console.WriteLine($"starting to draw Subector: {_knownUniverseSubsectorToDraw.Name}");
             Image subsector = GRID.CloneAs<Rgb24>();
             DrawWorlds(subsector, highVersian);
+            Console.WriteLine($"Finished drawing Subector: {_knownUniverseSubsectorToDraw.Name}");
 
             return subsector;
         }
 
+        private static readonly int fontSize = 18;
+        private static readonly Font systemFont = SystemFonts.CreateFont("Segoe UI Emoji", fontSize);
+        private FontCollection fonts = new FontCollection();
+
         private void DrawWorlds(Image subsector, bool highVersian = false)
         {
-            var brush = new SolidBrush(Color.Black);
-
-            var fontSize = 18;
-            var systemFont = SystemFonts.CreateFont("Segoe UI Emoji", fontSize);
-            var fonts = new FontCollection();
             fonts.AddSystemFonts();
             
             Font fontWorld;
@@ -56,8 +59,8 @@ namespace TravellerMapSystem.Tools
                 {
                     var world =
                         _knownUniverseSubsectorToDraw.GetFilledSystem(row, col);
-                    DrawSystemName(col, row, fontSize, HEIGHT, WIDTH, fontWorld, subsector, brush, world);
-                    DrawUniversalWorldProfile(HEIGHT, col, row, WIDTH, systemFont, subsector, brush, world);
+                    DrawSystemName(col, row, fontSize, HEIGHT, WIDTH, fontWorld, subsector, Brush, world);
+                    DrawUniversalWorldProfile(HEIGHT, col, row, WIDTH, systemFont, subsector, Brush, world);
 
                     //DrawSystemStation(subsector, row, col, fontSize, world, fontRest, brush);
                 }
@@ -71,16 +74,19 @@ namespace TravellerMapSystem.Tools
             if (col % 2 == 1) y += HEIGHT / 2;
             y += fontSize * 1.5f;
 
-            var text = $"{world.GetTradeCodesDisplay()}";
+            var text = $"{world?.GetTradeCodesDisplay()}";
 
             var x = col * (WIDTH * 0.75f);
-            x += WIDTH / 2 - text.Length * Font.Size / 2.0f;
-            //x += Font.Size;
+            if (Font != null)
+            {
+                x += WIDTH / 2 - text.Length * Font.Size / 2.0f;
+                //x += Font.Size;
 
-            subsector.Mutate(ctx => ctx.DrawText(text, Font, brush, new PointF(x, y)));
+                subsector.Mutate(ctx => ctx.DrawText(text, Font, brush, new PointF(x, y)));
+            }
         }
 
-        private void DrawSystemName(int row, int col, int fontSize, int height, float width, Font Font, Image graphics,
+        private void DrawSystemName(int row, int col, int fontSize, int height, float width, Font font, Image graphics,
             SolidBrush brush, KURpgFilledSystem? world)
         {
             var text = world.Name ?? "";
@@ -93,7 +99,7 @@ namespace TravellerMapSystem.Tools
             var x = (col * (width * 0.75f))+SPACER;
             x += width / 2 - text.Length/2; //* Font.Size / 4.5f;
 
-            TextOptions options = new(Font)
+            TextOptions options = new(font)
             {
                 Origin = new PointF(x, y), // Set the rendering origin.
                 TabWidth = 8, // A tab renders as 8 spaces wide
@@ -132,7 +138,7 @@ namespace TravellerMapSystem.Tools
 
         private static void DrawUniversalWorldProfile(int height, int row, int col, float width, Font Font,
             Image graphics,
-            SolidBrush brush, KURpgFilledSystem travellerWorld)
+            SolidBrush brush, KURpgFilledSystem? travellerWorld)
         {
             //Get Text Coords
             var y = (height / 2 + row * height)+20;
@@ -188,9 +194,9 @@ namespace TravellerMapSystem.Tools
             return (float)(4 * (height / 2 / Math.Sqrt(3)));
         }
 
-        private static Image CreateGrid()
+        private static Image? CreateGrid()
         {
-            Image retImage = null;
+            Image? retImage = null;
             var fontSize = 18;
             using (var grid = new Image<Rgb24>(xSize, ySize))
             {

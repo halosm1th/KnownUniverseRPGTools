@@ -275,7 +275,7 @@
     {
     }
 
-    public override string SubtypeName => SubtypeRoll switch
+    public override string? SubtypeName => SubtypeRoll switch
     {
         1 => "Inhabited World / Government World",
         2 => "Agricultural World",

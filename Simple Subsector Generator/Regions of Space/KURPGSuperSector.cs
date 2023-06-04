@@ -4,7 +4,7 @@ namespace Simple_Subsector_Generator;
 
 public class KURPGSuperSector
 {
-    public KURPGSector[,] Sectors { get; }
+    public KURPGSector?[,] Sectors { get; }
     public string Name { get; }
     public int Seed { get; }
     public bool UsingSeed { get; }
@@ -13,7 +13,7 @@ public class KURPGSuperSector
     {
         Name = name;
         Seed = seed;
-        Sectors = new KURPGSector[4, 4];
+        Sectors = new KURPGSector?[4, 4];
     }
     
     

@@ -19,28 +19,34 @@ namespace TravellerMapSystem.Tools
         private static readonly float WIDTH = HexWidth(HEIGHT);
         private static readonly Image GRID = CreateGrid();
 
-        private readonly KURPGSector _knownUniverseSectorToDraw;
+        private readonly KURPGSector? _knownUniverseSectorToDraw;
 
-        public DrawSector(KURPGSector knownUniverseSectorToDraw)
+        public DrawSector(KURPGSector? knownUniverseSectorToDraw)
         {
             _knownUniverseSectorToDraw = knownUniverseSectorToDraw;
         }
 
-        public Image GenerateSectorImage(bool highVersian = false)
+        public Image GenerateImage(bool highVersian = false)
         {
-            Image subsector = GRID.CloneAs<Rgb24>();
+            Console.WriteLine($"Beging to Generate Sector: {_knownUniverseSectorToDraw.Name}");
+            Image subsector = CreateGrid();
             for (int x = 0; x < _knownUniverseSectorToDraw.Subsectors.GetLength(0); x++)
             {
                 for (int y = 0; y < _knownUniverseSectorToDraw.Subsectors.GetLength(1); y++)
                 {
                     var imageToAdd = new DrawSubsector(_knownUniverseSectorToDraw.Subsectors[x,y]);
-                    var image = imageToAdd.GenerateSubSectorImage();
+                    var image = imageToAdd.GenerateImage();
                     var placeX = 1050 * x;
                     var placeY = 1500 * y;
                     var location = new Point(placeX, placeY);
                     subsector.Mutate(i => i.DrawImage(image,location,1));
                 }   
             }
+
+            var rect = new Rectangle(x: 0, y: 0, xSize, ySize);
+                subsector.Mutate(i => i.Draw(Color.Black,10,rect));
+
+            Console.WriteLine($"Finished Generating sector: {_knownUniverseSectorToDraw.Name}");
             return subsector;
         }
 
@@ -131,6 +137,8 @@ namespace TravellerMapSystem.Tools
 
         private static Image CreateGrid()
         {
+            return new Image<Rgb24>(xSize, ySize);
+            /*
             Image retImage = null;
             var fontSize = 18;
             using (var grid = new Image<Rgb24>(xSize, ySize))
@@ -154,7 +162,7 @@ namespace TravellerMapSystem.Tools
             }
 
 
-            return retImage;
+            return retImage;*/
         }
     }
 }

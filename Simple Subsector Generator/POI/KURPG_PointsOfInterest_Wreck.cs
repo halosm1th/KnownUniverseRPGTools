@@ -77,7 +77,7 @@
     {
     }
 
-    public override string SubtypeName  => SubtypeRoll switch
+    public override string? SubtypeName  => SubtypeRoll switch
     {
         1 => "Ruins from an ancient battle",
         2 => "Ruins from a recent battle",

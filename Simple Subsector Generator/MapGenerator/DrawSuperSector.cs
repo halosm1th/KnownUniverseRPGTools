@@ -17,30 +17,34 @@ namespace TravellerMapSystem.Tools
         private static readonly int ySize = (1500*4)*4;
         private static readonly int HEIGHT = 140;
         private static readonly float WIDTH = HexWidth(HEIGHT);
-        private static readonly Image GRID = CreateGrid();
 
-        private readonly KURPGSuperSector _knownUniverseSuperSectorToDraw;
+        private readonly KURPGSuperSector? _knownUniverseSuperSectorToDraw;
 
-        public DrawSuperSector(KURPGSuperSector knownUniverseSuperSectorToDraw)
+        public DrawSuperSector(KURPGSuperSector? knownUniverseSuperSectorToDraw)
         {
             _knownUniverseSuperSectorToDraw = knownUniverseSuperSectorToDraw;
         }
 
-        public Image GenerateSectorImage(bool highVersian = false)
+        public Image GenerateImage(bool highVersian = false)
         {
-            Image subsector = GRID.CloneAs<Rgb24>();
+            Console.WriteLine($"Starting to Generate Super Sector: {_knownUniverseSuperSectorToDraw.Name}");
+            Image subsector = CreateGrid();
             for (int x = 0; x < _knownUniverseSuperSectorToDraw.Sectors.GetLength(0); x++)
             {
                 for (int y = 0; y < _knownUniverseSuperSectorToDraw.Sectors.GetLength(1); y++)
                 {
                     var imageToAdd = new DrawSector(_knownUniverseSuperSectorToDraw.Sectors[x,y]);
-                    var image = imageToAdd.GenerateSectorImage();
+                    var image = imageToAdd.GenerateImage();
                     var placeX = (1050*4) * x;
                     var placeY = (1500*4) * y;
                     var location = new Point(placeX, placeY);
                     subsector.Mutate(i => i.DrawImage(image,location,1));
                 }   
             }
+            var rect = new Rectangle(x: 0, y: 0, xSize, ySize);
+            subsector.Mutate(i => i.Draw(Color.Black,10,rect));
+
+            Console.WriteLine($"Finished Generating Supersector: {_knownUniverseSuperSectorToDraw.Name}");
             return subsector;
         }
 
@@ -131,9 +135,10 @@ namespace TravellerMapSystem.Tools
 
         private static Image CreateGrid()
         {
-            Image retImage = null;
+            return new Image<Rgb24>(xSize, ySize);
+           /* Image retImage = null;
             var fontSize = 18;
-            using (var grid = new Image<Rgb24>(xSize, ySize))
+            using (var grid = )
             {
                 var brush = new SolidBrush(Color.White);
                 var BlackBrush = new SolidBrush(Color.Black);
@@ -154,7 +159,7 @@ namespace TravellerMapSystem.Tools
             }
 
 
-            return retImage;
+            return retImage;*/
         }
     }
 }

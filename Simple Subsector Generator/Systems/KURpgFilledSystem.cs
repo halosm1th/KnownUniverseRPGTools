@@ -62,7 +62,7 @@ public class KURpgFilledSystem : KURpgStarSystem
     private string GetSystemTradeCodesText()
     {
         var sb = new StringBuilder();
-        sb.Append($"{SystemsPrimaryStation.SubtypeName}{PointsOfInterest.Count} -");
+        sb.Append($"{SystemsPrimaryStation?.SubtypeName}{PointsOfInterest.Count} -");
 
         var text = GetTradeCodesDisplay().Aggregate("", (h, t) =>
         {
@@ -78,7 +78,7 @@ public class KURpgFilledSystem : KURpgStarSystem
             return sb.ToString();
     }
 
-    public KURpgPrimaryStation SystemsPrimaryStation =>
+    public KURpgPrimaryStation? SystemsPrimaryStation =>
         PointsOfInterest.First(x => x.GetType() == typeof(KURpgPrimaryStation)) as KURpgPrimaryStation;
 
     public KURpgFilledSystem(string name, int x, int y) : base(x, y)
