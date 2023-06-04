@@ -10,6 +10,8 @@ public class KURpgSubsector
     public string Name { get; }
     public int XSize { get; }
     public int YSize { get; }
+    
+    
 
 
     private string SubsectorText()

@@ -11,16 +11,16 @@ class Tester
 {
     public static void Main()
     {
-        var name = "New Seedless System Barbetii Supersector test9";
+        var name = "test of coloured subsectors";
         var seed = 01122000;
         var usingSeed = false;
 
         if(usingSeed) Console.WriteLine($"Creating {name} with seed: {seed}");
         else Console.WriteLine($"Creating {name}");
-        var tester = new KURPGMegaSectorGenerator(name,usingSeed, seed, true);
+        var tester = new KURPGSuperSectorGenerator(name,usingSeed, seed, true);
         
         Console.WriteLine($"Generating {name}");
-        var task = Task.Run(() => tester.GenerateAsync());
+        var task = Task.Run(() => tester.Generate());
         while (!task.IsCompleted)
         {
         }
@@ -31,7 +31,7 @@ class Tester
             tester.WriteToFile(name, Directory.GetCurrentDirectory() + "/Generated Data/");
 
             Console.WriteLine($"Generating Image for {name}");
-            var imageCreator = new DrawMegaSector(tester.MegaSector);
+            var imageCreator = new DrawSuperSector(tester.SuperSector);
             var image = imageCreator.GenerateImage();
 
             Console.WriteLine($"Writing image of {name} to {Directory.GetCurrentDirectory() + "/Generated Data/" + name}.png");
