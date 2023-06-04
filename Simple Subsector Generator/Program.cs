@@ -17,8 +17,8 @@ class Tester
 
         if(usingSeed) Console.WriteLine($"Creating {name} with seed: {seed}");
         else Console.WriteLine($"Creating {name}");
-        var tester = new KURPGMegaSectorGenerator(name,usingSeed, seed, true);
-        
+        var tester = new KURPGMegaSectorGenerator(name, usingSeed, seed, true);
+
         Console.WriteLine($"Generating {name}");
         var task = Task.Run(() => tester.GenerateAsync());
         while (!task.IsCompleted)

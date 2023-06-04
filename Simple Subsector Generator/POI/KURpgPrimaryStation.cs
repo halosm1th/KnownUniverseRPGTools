@@ -1,4 +1,4 @@
-﻿public class KURpgPrimaryStation: KURpgPointsOfInterest
+﻿public class KURPGPrimaryStation: KURPGPointsOfInterest
 {
     public int TLRoll { get; set; }
     public int PopulationRangeRoll { get; set; }
@@ -43,7 +43,7 @@
         }
         return tags;
     }
-    public KURpgPrimaryStation(int subtypeRoll) : base(KURpgPoiTypes.Primary_Station, subtypeRoll)
+    public KURPGPrimaryStation(int subtypeRoll) : base(KURPGPoiTypes.Primary_Station, subtypeRoll)
     {
     }
 

@@ -1,4 +1,4 @@
-﻿class KURpgPointsOfInterestWorld : KURpgPointsOfInterest
+﻿class KURPGPointsOfInterestWorld : KURPGPointsOfInterest
 {
     public int TLRoll { get; set; }
     public int PopulationRangeRoll { get; set; }
@@ -271,7 +271,7 @@
         
     };
     
-    public KURpgPointsOfInterestWorld(int subtypeRoll) : base(KURpgPoiTypes.Planet, subtypeRoll)
+    public KURPGPointsOfInterestWorld(int subtypeRoll) : base(KURPGPoiTypes.Planet, subtypeRoll)
     {
     }
 

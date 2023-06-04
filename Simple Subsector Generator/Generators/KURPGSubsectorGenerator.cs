@@ -4,7 +4,7 @@ using System.Xml;
 using Dice;
 using Simple_Subsector_Generator;
 
-class KURpgSubsectorGenerator
+class KURPGSubsectorGenerator
 {
     public KURpgSubsector Subsector { get; }
     public string Name { get; }
@@ -13,10 +13,9 @@ class KURpgSubsectorGenerator
     private bool UsingSeed = true;
     private readonly int XSize = 8;
     private readonly int YSize = 10;
-
     private readonly bool IsPrinting = false;
 
-    public KURpgSubsectorGenerator(string name, bool usingSeed = false, int seed = 01122000, bool isPrinting = false)
+    public KURPGSubsectorGenerator(string name, bool usingSeed = false, int seed = 01122000, bool isPrinting = false)
     {
         Name = name;
         Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
@@ -77,7 +76,7 @@ class KURpgSubsectorGenerator
                 if (RollDice("1d10") > 5)
                 {
                     var name = GenerateName();
-                    Subsector.PlaceSystem(new KURpgFilledSystem(name, x, y), x, y);
+                    Subsector.PlaceSystem(new KURPGFilledSystem(name, x, y), x, y);
                     if (IsPrinting)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -109,8 +108,6 @@ class KURpgSubsectorGenerator
 
         return _nameListText;
     }}
-        
-
 
     private static bool hasSplitNameList = false;
     private static List<string>? _nameList = null;
@@ -120,10 +117,10 @@ class KURpgSubsectorGenerator
         {
             _nameList = nameListText.Select(x => x.Split(",")[0]).ToList();
             hasSplitNameList = true;
-        } 
+        }
         return _nameList;
     }}
-    
+
     private static List<string>? CountryNameList {get {
         if (!hasSplitNameList)
         {
@@ -203,7 +200,7 @@ class KURpgSubsectorGenerator
         });
     }
 
-    private int PointOfInterestCount(KURpgFilledSystem system)
+    private int PointOfInterestCount(KURPGFilledSystem system)
     {
             var roll = RollDice();
             var poi = system.PointsOfInterest
@@ -234,19 +231,19 @@ class KURpgSubsectorGenerator
             return result;
     }
 
-    private KURpgPointsOfInterest PointOfInterestTypeAndSubtype(KURpgFilledSystem system)
+    private KURPGPointsOfInterest PointOfInterestTypeAndSubtype(KURPGFilledSystem system)
     {
         var typeRoll = RollDice("1d6");
         var subtypeRoll = RollDice("1d8");
 
-        KURpgPointsOfInterest poi = typeRoll switch
+        KURPGPointsOfInterest poi = typeRoll switch
         {
             1 => new KURpgPointsOfInterestWorld(subtypeRoll),
             2 => new KURpgPointsOfInterestStation(subtypeRoll),
-            3 => new KURPG_PointsOfInterest_Wreck(subtypeRoll),
+            3 => new KURPGPointsOfInterestWreck(subtypeRoll),
             4 => new KURpgPointsOfInterestAsteroid(subtypeRoll),
             5 => new KURPGPointOfInterestAnomaly(subtypeRoll),
-            6 => new KURPG_PointsOfInterest_Other(subtypeRoll),
+            6 => new KURPGPointsOfInterestOther(subtypeRoll),
             _ => throw new ArgumentOutOfRangeException()
         };
         
@@ -257,7 +254,7 @@ class KURpgSubsectorGenerator
         return poi;
     }
 
-    private void FleshOutPointsOfInterest(KURpgFilledSystem system, KURpgPointsOfInterest poi)
+    private void FleshOutPointsOfInterest(KURPGFilledSystem system, KURPGPointsOfInterest poi)
     {
         if (poi.POIType is KURpgPoiTypes.Planet)
         {
@@ -278,12 +275,12 @@ class KURpgSubsectorGenerator
         
         if (poi.POIType is KURpgPoiTypes.Wreck)
         {
-            GenerateWreck(system, poi as KURPG_PointsOfInterest_Wreck);
+            GenerateWreck(system, poi as KURPGPointsOfInterestWreck);
         }
         
     }
 
-    private void GenerateStation(KURpgFilledSystem system, KURpgPointsOfInterestStation? poi)
+    private void GenerateStation(KURPGFilledSystem system, KURpgPointsOfInterestStation? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -297,7 +294,7 @@ class KURpgSubsectorGenerator
        //                                  $"Size: {poi.SizeMeaning}");
     }
 
-    private void GenerateWreck(KURpgFilledSystem system, KURPG_PointsOfInterest_Wreck? poi)
+    private void GenerateWreck(KURPGFilledSystem system, KURPGPointsOfInterestWreck? poi)
     {
         poi.SizeRoll = GetMainStationModifiedResult(system);
         poi.AliensInsideRoll  = GetMainStationModifiedResult(system);
@@ -308,7 +305,7 @@ class KURpgSubsectorGenerator
         } */
     }
 
-    private void GenerateAsteorid(KURpgFilledSystem system, KURpgPointsOfInterestAsteroid? poi)
+    private void GenerateAsteorid(KURPGFilledSystem system, KURpgPointsOfInterestAsteroid? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -321,7 +318,7 @@ class KURpgSubsectorGenerator
        //                                  $"Size: {poi.SizeMeaning}");
     }
 
-    private void GeneratePlanetPOI(KURpgFilledSystem system, KURpgPointsOfInterestWorld? poi)
+    private void GeneratePlanetPOI(KURPGFilledSystem system, KURpgPointsOfInterestWorld? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -339,7 +336,7 @@ class KURpgSubsectorGenerator
         //                                 $"Grav: {poi.GravityMeaning}");
     }
 
-    private int GetMainStationModifiedResult(KURpgFilledSystem system)
+    private int GetMainStationModifiedResult(KURPGFilledSystem system)
     {
         var roll = RollDice();
         var mainStation = system.PointsOfInterest
@@ -351,7 +348,7 @@ class KURpgSubsectorGenerator
 
     
     
-    private void FleshOutPrimaryStation(KURpgFilledSystem system)
+    private void FleshOutPrimaryStation(KURPGFilledSystem system)
     {
         if (system.SystemsPrimaryStation != null)
         {
@@ -373,11 +370,11 @@ class KURpgSubsectorGenerator
         //                                 $"{station.LawLevelMeaning}, {station.SizeMeaning}");
     }
 
-    private int GetHighGovMod(KURpgFilledSystem system)
+    private int GetHighGovMod(KURPGFilledSystem system)
     {
         var complexPOI = system.PointsOfInterest.Where(x =>
             x.HasComplexInfo
-            && x.GetType() != typeof(KURPG_PointsOfInterest_Wreck)
+            && x.GetType() != typeof(KURPGPointsOfInterestWreck)
             && x.GetType() != typeof(KURpgPrimaryStation));
 
         var result = 0;
@@ -411,11 +408,11 @@ class KURpgSubsectorGenerator
 
         return result;
     }
-    private int GetLowGovMod(KURpgFilledSystem system)
+    private int GetLowGovMod(KURPGFilledSystem system)
     {
         var complexPOI = system.PointsOfInterest.Where(x =>
             x.HasComplexInfo
-            && x.GetType() != typeof(KURPG_PointsOfInterest_Wreck)
+            && x.GetType() != typeof(KURPGPointsOfInterestWreck)
             && x.GetType() != typeof(KURpgPrimaryStation));
 
         var result = 0;
@@ -449,11 +446,11 @@ class KURpgSubsectorGenerator
 
         return result;
     }
-    private int GetHighTechModifier(KURpgFilledSystem system)
+    private int GetHighTechModifier(KURPGFilledSystem system)
     {
         var complexPOI =  system.PointsOfInterest.Where(x =>
             x.HasComplexInfo 
-            && x.GetType() != typeof(KURPG_PointsOfInterest_Wreck) 
+            && x.GetType() != typeof(KURPGPointsOfInterestWreck) 
             && x.GetType() != typeof(KURpgPrimaryStation));
 
         var result = 0;
@@ -493,7 +490,7 @@ class KURpgSubsectorGenerator
             >=5 => 3
         };
     }
-    private int determineLawModifers(KURpgFilledSystem system)
+    private int determineLawModifers(KURPGFilledSystem system)
     {
         var IlleaglPOICount = system.PointsOfInterest
             .Count(x => x.SubtypeName.Contains("Illegal")
@@ -530,11 +527,11 @@ class KURpgSubsectorGenerator
     }
     
 
-    private int GetLowPopMod(KURpgFilledSystem system)
+    private int GetLowPopMod(KURPGFilledSystem system)
     {
         var complexPOI =  system.PointsOfInterest.Where(x =>
             x.HasComplexInfo 
-            && x.GetType() != typeof(KURPG_PointsOfInterest_Wreck) 
+            && x.GetType() != typeof(KURPGPointsOfInterestWreck) 
             && x.GetType() != typeof(KURpgPrimaryStation));
 
         var result = 0;
@@ -575,11 +572,11 @@ class KURpgSubsectorGenerator
         };
     }
 
-    private int GetHighPopMod(KURpgFilledSystem system)
+    private int GetHighPopMod(KURPGFilledSystem system)
     {
         var complexPOI =  system.PointsOfInterest.Where(x =>
             x.HasComplexInfo 
-            && x.GetType() != typeof(KURPG_PointsOfInterest_Wreck) 
+            && x.GetType() != typeof(KURPGPointsOfInterestWreck) 
             && x.GetType() != typeof(KURpgPrimaryStation));
 
         var result = 0;
@@ -611,11 +608,11 @@ class KURpgSubsectorGenerator
         };
     }
 
-    private int GetLowTechModifier(KURpgFilledSystem system)
+    private int GetLowTechModifier(KURPGFilledSystem system)
     {
         var complexPOI =  system.PointsOfInterest.Where(x =>
             x.HasComplexInfo 
-            && x.GetType() != typeof(KURPG_PointsOfInterest_Wreck) 
+            && x.GetType() != typeof(KURPGPointsOfInterestWreck) 
             && x.GetType() != typeof(KURpgPrimaryStation));
 
         var result = 0;

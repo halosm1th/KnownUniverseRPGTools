@@ -8,15 +8,15 @@ public class KURPGMegaSector
     public string Name { get; }
     public int Seed { get; }
     public bool UsingSeed { get; }
-    
+
     public KURPGMegaSector(string name, int seed)
     {
         Name = name;
         Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
         SuperSectors = new KURPGSuperSector?[6, 6];
     }
-    
-    
+
+
     public override string ToString()
     {
         return $"# {Name} Sector ({SuperSectors.GetLength(0)+1}x{SuperSectors.GetLength(1)+1})\n" +
