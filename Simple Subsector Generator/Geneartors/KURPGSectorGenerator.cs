@@ -64,7 +64,8 @@ class KURPGSectorGenerator
         {
             Parallel.For(0, Sector.Subsectors.GetLength(1), y =>
             {
-                tasks[x, y] = GenerateSectorData(x, y);
+                _Index++;
+                tasks[x, y] = GenerateSectorData(x, y,_Index);
             });
         });
             
@@ -82,7 +83,9 @@ class KURPGSectorGenerator
         return Sector;
     }
 
-    private async Task<KURpgSubsector> GenerateSectorData(int x, int y)
+    public static int _Index = 0;
+    
+    private async Task<KURpgSubsector> GenerateSectorData(int x, int y, int index)
     {
         if (IsPrinting)
         {
@@ -91,7 +94,10 @@ class KURPGSectorGenerator
             Console.ForegroundColor = ConsoleColor.Gray;
 
         }
-                var generator = new KURpgSubsectorGenerator(Name + $" {x},{y} Subsector", UsingSeed, Seed + x + y, IsPrinting);
+
+                var name = Name + $" {x},{y}  "+ KURpgSubsectorGenerator.GetName(Seed);
+                var seed = Seed + index;
+                var generator = new KURpgSubsectorGenerator(name,UsingSeed,seed , IsPrinting);
                 var result = generator.Generate();
 
                 if (Sector != null) Sector.Subsectors[x, y] = await result;

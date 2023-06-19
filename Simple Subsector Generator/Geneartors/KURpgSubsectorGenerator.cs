@@ -17,10 +17,11 @@ class KURpgSubsectorGenerator
     private readonly bool IsPrinting = false;
 
     public KURpgSubsectorGenerator(string name, bool usingSeed = false, int seed = 01122000, bool isPrinting = false)
-    {
-        Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
-        Name = KURpgSubsectorGenerator.GetName(Seed);
-        r = new Random(seed);
+    {   
+        Seed = seed + name.Aggregate(0, (h,t) => h * ((int) t));
+        Name = GetName(Seed);
+        //Seed *= Name.Aggregate(0, (h,t) => h * ((int) t)) + name.Aggregate(0, (h,t) => h * ((int) t));
+        r = new Random(Seed);
         UsingSeed = usingSeed;
         Subsector = new KURpgSubsector(name, XSize, YSize);
         IsPrinting = isPrinting;

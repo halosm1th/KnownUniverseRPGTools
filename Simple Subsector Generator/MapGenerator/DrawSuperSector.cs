@@ -25,7 +25,7 @@ namespace TravellerMapSystem.Tools
             _knownUniverseSuperSectorToDraw = knownUniverseSuperSectorToDraw;
         }
 
-        public Image GenerateImage(bool highVersian = false)
+        public Image GenerateImage(bool printSubImages = false, string path = "", bool highVersian = false)
         {
             Console.WriteLine($"Starting to Generate Super Sector: {_knownUniverseSuperSectorToDraw.Name}");
             Image subsector = CreateGrid();
@@ -34,11 +34,17 @@ namespace TravellerMapSystem.Tools
                 for (int y = 0; y < _knownUniverseSuperSectorToDraw.Sectors.GetLength(1); y++)
                 {
                     var imageToAdd = new DrawSector(_knownUniverseSuperSectorToDraw.Sectors[x,y]);
-                    var image = imageToAdd.GenerateImage();
+                    var image = imageToAdd.GenerateImage(printSubImages,path);
                     var placeX = (1050*4) * x;
                     var placeY = (1500*4) * y;
                     var location = new Point(placeX, placeY);
                     subsector.Mutate(i => i.DrawImage(image,location,1));
+
+                    if (printSubImages)
+                    {
+                        image.SaveAsPng(path + " " + _knownUniverseSuperSectorToDraw.Sectors[x,y].Name + ".png");
+                    }
+                    
                 }   
             }
             var rect = new Rectangle(x: 0, y: 0, xSize, ySize);

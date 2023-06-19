@@ -26,7 +26,7 @@ namespace TravellerMapSystem.Tools
             _knownUniverseSectorToDraw = knownUniverseSectorToDraw;
         }
 
-        public Image GenerateImage(bool highVersian = false)
+        public Image GenerateImage(bool printSubImages = false, string path = "", bool highVersian = false)
         {
             Console.WriteLine($"Beging to Generate Sector: {_knownUniverseSectorToDraw.Name}");
             Image subsector = CreateGrid();
@@ -35,11 +35,16 @@ namespace TravellerMapSystem.Tools
                 for (int y = 0; y < _knownUniverseSectorToDraw.Subsectors.GetLength(1); y++)
                 {
                     var imageToAdd = new DrawSubsector(_knownUniverseSectorToDraw.Subsectors[x,y]);
-                    var image = imageToAdd.GenerateImage();
+                    var image = imageToAdd.GenerateImage(printSubImages,path);
                     var placeX = 1050 * x;
                     var placeY = 1500 * y;
                     var location = new Point(placeX, placeY);
                     subsector.Mutate(i => i.DrawImage(image,location,1));
+                    
+                    if (printSubImages)
+                    {
+                        image.SaveAsPng(path + " " + _knownUniverseSectorToDraw.Subsectors[x,y].Name + ".png");
+                    }
                 }   
             }
 
