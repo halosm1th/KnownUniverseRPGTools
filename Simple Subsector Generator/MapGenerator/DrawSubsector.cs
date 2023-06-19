@@ -17,7 +17,7 @@ namespace TravellerMapSystem.Tools
         private static readonly int ySize = 1500;
         private static readonly int HEIGHT = 140;
         private static readonly float WIDTH = HexWidth(HEIGHT);
-        private static readonly Image? GRID = CreateGrid();
+        //private static readonly Image? GRID = CreateGrid();
 
         private static readonly SolidBrush Brush = new SolidBrush(Color.Black);
         
@@ -31,7 +31,7 @@ namespace TravellerMapSystem.Tools
         public Image GenerateImage(bool highVersian = false)
         {
             Console.WriteLine($"starting to draw Subector: {_knownUniverseSubsectorToDraw.Name}");
-            Image subsector = GRID.CloneAs<Rgb24>();
+            Image subsector = CreateGrid(_knownUniverseSubsectorToDraw);
             DrawWorlds(subsector, highVersian);
             Console.WriteLine($"Finished drawing Subector: {_knownUniverseSubsectorToDraw.Name}");
 
@@ -194,7 +194,9 @@ namespace TravellerMapSystem.Tools
             return (float)(4 * (height / 2 / Math.Sqrt(3)));
         }
 
-        private static Image? CreateGrid()
+        public bool PRINTER_FRIENDLY = false;
+        
+        private Image? CreateGrid(KURpgSubsector subsector)
         {
             Image? retImage = null;
             var fontSize = 18;
@@ -203,16 +205,67 @@ namespace TravellerMapSystem.Tools
                 var brush = new SolidBrush(Color.White);
                 var BlackBrush = new SolidBrush(Color.Black);
                 var font = SystemFonts.CreateFont("Arial", fontSize);
-                grid.Mutate(x => x.Fill(brush, new Rectangle(0, 0, xSize, ySize)));
+                grid.Mutate(x => x.Fill(PRINTER_FRIENDLY? brush : BlackBrush, new Rectangle(0, 0, xSize, ySize)));
 
                 for (var row = 0; row < 10; row++)
                 for (var col = 0; col < 8; col++)
                 {
                     var points = HexToPoints(HEIGHT, row, col);
-                    grid.Mutate(x => x.DrawPolygon(Color.Black, 2, points));
+                    var system = subsector.Subsector[(col, row)];
+                    if (system is KURpgEmptySystem && !PRINTER_FRIENDLY)
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.Black,points));
+                    }
 
+                    else{
+                    if(!PRINTER_FRIENDLY) grid.Mutate(x => x.FillPolygon(Color.White,points));
+                    grid.Mutate(x => x.DrawPolygon(Color.Black, 2, points));
+                    if (!PRINTER_FRIENDLY && system is KURpgFilledSystem && ((KURpgFilledSystem) system).GetTradeCodesDisplay()
+                        .Contains("💳"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.Gold, points));
+                    }
+                    else if (!PRINTER_FRIENDLY && system is KURpgFilledSystem filledSystem && filledSystem.GetTradeCodesDisplay().Contains("🚜"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.LawnGreen, points));
+                    }else if (system is KURpgFilledSystem factSys && factSys.GetTradeCodesDisplay().Contains("🏭"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.LightGrey, points));
+
+                    }else if (system is KURpgFilledSystem resSys && resSys.GetTradeCodesDisplay().Contains("⚒"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.SlateGray, points));
+
+                    }else if (system is KURpgFilledSystem gasSys && gasSys.GetTradeCodesDisplay().Contains("⛽"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.Salmon, points));
+
+                    }else if (system is KURpgFilledSystem sdySys && sdySys.GetTradeCodesDisplay().Contains("🔬"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.Wheat, points));
+
+                    }
+                    else if (!PRINTER_FRIENDLY && system is KURpgFilledSystem && ((KURpgFilledSystem) system).GetTradeCodesDisplay()
+                             .Contains("📀"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.Blue, points));
+                    }else if (system is KURpgFilledSystem gesSys && gesSys.GetTradeCodesDisplay().Contains("🪐"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.Orange, points));
+
+                    }else if (system is KURpgFilledSystem highpop && highpop.GetTradeCodesDisplay().Contains("👨‍👩‍👧‍👦"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.Cyan, points));
+
+                    }else if (system is KURpgFilledSystem inhabit && inhabit.GetTradeCodesDisplay().Contains("🌎"))
+                    {
+                        grid.Mutate(x => x.FillPolygon(Color.SkyBlue, points));
+
+                    }
+                    
 
                     DrawLocationText(row, col, fontSize, HEIGHT, WIDTH, font, grid, BlackBrush);
+                    }
                 }
 
                 retImage = grid.Clone();

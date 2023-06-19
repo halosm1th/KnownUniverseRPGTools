@@ -17,8 +17,8 @@ class KURPGSubsectorGenerator
 
     public KURPGSubsectorGenerator(string name, bool usingSeed = false, int seed = 01122000, bool isPrinting = false)
     {
-        Name = name;
         Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
+        Name = KURpgSubsectorGenerator.GetName(Seed);
         r = new Random(seed);
         UsingSeed = usingSeed;
         Subsector = new KURpgSubsector(name, XSize, YSize);
@@ -124,7 +124,7 @@ class KURPGSubsectorGenerator
     private static List<string>? CountryNameList {get {
         if (!hasSplitNameList)
         {
-            _nameList = nameListText.Select(x => x.Split(",")[2]).ToList();
+            _nameList = nameListText.Select(x => x.Split(",")[1]).ToList();
             hasSplitNameList = true;
         } 
         return _nameList;
@@ -133,7 +133,7 @@ class KURPGSubsectorGenerator
     private static List<string>? ProvinceNameList { get {
         if (!hasSplitNameList)
         {
-            _nameList = nameListText.Select(x => x.Split(",")[1]).ToList();
+            _nameList = nameListText.Select(x => x.Split(",")[2]).ToList();
             hasSplitNameList = true;
         } 
         return _nameList;
