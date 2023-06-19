@@ -21,9 +21,9 @@ namespace TravellerMapSystem.Tools
 
         private static readonly SolidBrush Brush = new SolidBrush(Color.Black);
         
-        private readonly KURpgSubsector _knownUniverseSubsectorToDraw;
+        private readonly KURPGSubsector _knownUniverseSubsectorToDraw;
 
-        public DrawSubsector(KURpgSubsector knownUniverseSubsectorToDraw)
+        public DrawSubsector(KURPGSubsector knownUniverseSubsectorToDraw)
         {
             _knownUniverseSubsectorToDraw = knownUniverseSubsectorToDraw;
         }
@@ -66,7 +66,7 @@ namespace TravellerMapSystem.Tools
                 }
         }
 
-        private static void DrawSystemStation(Image subsector, int row, int col, int fontSize, KURpgFilledSystem? world,
+        private static void DrawSystemStation(Image subsector, int row, int col, int fontSize, KURPGFilledSystem? world,
             Font? Font, SolidBrush? brush)
         {
             //Get Text Coords
@@ -87,7 +87,7 @@ namespace TravellerMapSystem.Tools
         }
 
         private void DrawSystemName(int row, int col, int fontSize, int height, float width, Font font, Image graphics,
-            SolidBrush brush, KURpgFilledSystem? world)
+            SolidBrush brush, KURPGFilledSystem? world)
         {
             var text = world.Name ?? "";
 
@@ -138,7 +138,7 @@ namespace TravellerMapSystem.Tools
 
         private static void DrawUniversalWorldProfile(int height, int row, int col, float width, Font Font,
             Image graphics,
-            SolidBrush brush, KURpgFilledSystem? travellerWorld)
+            SolidBrush brush, KURPGFilledSystem? travellerWorld)
         {
             //Get Text Coords
             var y = (height / 2 + row * height)+20;

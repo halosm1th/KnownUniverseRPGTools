@@ -3,9 +3,9 @@ using System.Text;
 
 namespace Simple_Subsector_Generator;
 
-public class KURpgSubsector
+public class KURPGSubsector
 {
-    public Dictionary<(int X, int Y),KURpgStarSystem> Subsector { get; private set; }
+    public Dictionary<(int X, int Y),KURPGStarSystem> Subsector { get; private set; }
 
     public string Name { get; }
     public int XSize { get; }
@@ -33,34 +33,34 @@ public class KURpgSubsector
         
     }
     
-    public KURpgSubsector(string name, int xSize, int ySize)
+    public KURPGSubsector(string name, int xSize, int ySize)
     {
         //Y,X
-        Subsector = new Dictionary<(int X, int Y), KURpgStarSystem>();
+        Subsector = new Dictionary<(int X, int Y), KURPGStarSystem>();
         Name = name;
         XSize = xSize;
         YSize = ySize;
     }
 
-    public KURpgFilledSystem? GetFilledSystem(int x, int y)
+    public KURPGFilledSystem? GetFilledSystem(int x, int y)
     {
         if (IsFilledSystem(x, y))
-            return Subsector[(x, y)] as KURpgFilledSystem;
+            return Subsector[(x, y)] as KURPGFilledSystem;
         return null;
     }
     
-    public KURpgStarSystem GetSystem(int x, int y)
+    public KURPGStarSystem GetSystem(int x, int y)
     {
         return Subsector[(x, y)];
     }
 
-    public List<KURpgFilledSystem?> GetFilledSystems()
+    public List<KURPGFilledSystem?> GetFilledSystems()
     {
-        return Subsector.Where(x => x.Value.GetType() == typeof(KURpgFilledSystem))
-            .Select(x => x.Value as KURpgFilledSystem).ToList();
+        return Subsector.Where(x => x.Value.GetType() == typeof(KURPGFilledSystem))
+            .Select(x => x.Value as KURPGFilledSystem).ToList();
     }
     
-    public void PlaceSystem(KURpgStarSystem system, int x, int y)
+    public void PlaceSystem(KURPGStarSystem system, int x, int y)
     {
         Subsector[(x, y)] = system;
     }
@@ -69,9 +69,9 @@ public class KURpgSubsector
     {
         return !IsEmptySystem(x,y);
     }
-    
+
     public bool IsEmptySystem(int x, int y)
     {
-        return Subsector[(x, y)].GetType() == typeof(KURpgEmptySystem);
+        return Subsector[(x, y)].GetType() == typeof(KURPGEmptySystem);
     }
 }

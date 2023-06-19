@@ -6,23 +6,19 @@ class KURPGSectorGenerator
 {
     public string Name { get; }
     public int Seed { get; }
-    
     public bool UsingSeed { get; }
-
     public bool IsPrinting = false;
-
     public KURPGSector? Sector { get; private set; }
 
     public KURPGSectorGenerator(string name, bool usingSeed, int seed, bool isPrinting = false)
     {
         Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
-        Name = KURpgSubsectorGenerator.GetProvinceName(Seed);
+        Name = KURPGSubsectorGenerator.GetProvinceName(Seed);
         UsingSeed = usingSeed;
         IsPrinting = isPrinting;
     }
 
-    
-    
+
     private static readonly Encoding Utf8Encoder = Encoding.GetEncoding(
         "UTF-8",
         new EncoderReplacementFallback(string.Empty),
@@ -31,7 +27,8 @@ class KURPGSectorGenerator
     
     public void WriteToFile(string name, string path)
     {
-        var utf8Text = Utf8Encoder.GetString(Utf8Encoder.GetBytes(Sector.ToString()));
+        var utf8Text = GeneratorUtils.Utf8Encoder.GetString(
+            GeneratorUtils.Utf8Encoder.GetBytes(Sector.ToString()));
         
         var st = utf8Text;
         
@@ -82,16 +79,16 @@ class KURPGSectorGenerator
         return Sector;
     }
 
-    private async Task<KURpgSubsector> GenerateSectorData(int x, int y)
+    private async Task<KURPGSubsector> GenerateSectorData(int x, int y)
     {
         if (IsPrinting)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"Begining generation of {Name} {x} {y} Subsector");        
+            Console.WriteLine($"Beginning generation of {Name} {x} {y} Subsector");        
             Console.ForegroundColor = ConsoleColor.Gray;
 
         }
-                var generator = new KURpgSubsectorGenerator(Name + $" {x},{y} Subsector", UsingSeed, Seed + x + y, IsPrinting);
+                var generator = new KURPGSubsectorGenerator(Name + $" {x},{y} Subsector", UsingSeed, Seed + x + y, IsPrinting);
                 var result = generator.Generate();
 
                 if (Sector != null) Sector.Subsectors[x, y] = await result;

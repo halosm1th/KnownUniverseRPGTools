@@ -18,7 +18,7 @@ class Tester
         if(usingSeed) Console.WriteLine($"Creating {name} with seed: {seed}");
         else Console.WriteLine($"Creating {name}");
         var tester = new KURPGSuperSectorGenerator(name,usingSeed, seed, true);
-        
+
         Console.WriteLine($"Generating {name}");
         var task = Task.Run(() => tester.Generate());
         while (!task.IsCompleted)

@@ -1,8 +1,8 @@
 ﻿using Simple_Subsector_Generator;
 
-class KURpgEmptySystem : KURpgStarSystem
+class KURPGEmptySystem : KURPGStarSystem
 {
-    public KURpgEmptySystem(int x, int y) : base(x, y)
+    public KURPGEmptySystem(int x, int y) : base(x, y)
     {
     }
 
