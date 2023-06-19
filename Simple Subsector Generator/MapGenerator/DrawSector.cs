@@ -84,7 +84,7 @@ namespace TravellerMapSystem.Tools
 
         private static void DrawUniversalWorldProfile(int height, int row, int col, float width, Font Font,
             Image graphics,
-            SolidBrush brush, KURpgFilledSystem travellerWorld)
+            SolidBrush brush, KURPGFilledSystem travellerWorld)
         {
             //Get Text Coords
             var y = (height / 2 + row * height)+20;

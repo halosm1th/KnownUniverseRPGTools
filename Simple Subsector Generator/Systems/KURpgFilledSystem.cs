@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using Simple_Subsector_Generator;
 
-public class KURpgFilledSystem : KURpgStarSystem
+public class KURPGFilledSystem : KURPGStarSystem
 {
-    public List<KURpgPointsOfInterest> PointsOfInterest { get; }
+    public List<KURPGPointsOfInterest> PointsOfInterest { get; }
     public string Name { get; }
 
     public string USPDisplay()
@@ -46,7 +46,7 @@ public class KURpgFilledSystem : KURpgStarSystem
     {
         var tc = new List<string>();
         foreach (var poi in PointsOfInterest.Where(x => x.HasComplexInfo 
-                                                         && x.GetType() != typeof(KURPG_PointsOfInterest_Wreck)))
+                                                         && x.GetType() != typeof(KURPGPointsOfInterestWreck)))
         {
             foreach (var code in poi.GetTradeCodeDisplay().Replace(" ","").Split(","))
             {
@@ -78,16 +78,16 @@ public class KURpgFilledSystem : KURpgStarSystem
             return sb.ToString();
     }
 
-    public KURpgPrimaryStation? SystemsPrimaryStation =>
-        PointsOfInterest.First(x => x.GetType() == typeof(KURpgPrimaryStation)) as KURpgPrimaryStation;
+    public KURPGPrimaryStation? SystemsPrimaryStation =>
+        PointsOfInterest.First(x => x.GetType() == typeof(KURPGPrimaryStation)) as KURPGPrimaryStation;
 
-    public KURpgFilledSystem(string name, int x, int y) : base(x, y)
+    public KURPGFilledSystem(string name, int x, int y) : base(x, y)
     {
         Name = name;
-        PointsOfInterest = new List<KURpgPointsOfInterest>();
+        PointsOfInterest = new List<KURPGPointsOfInterest>();
     }
 
-    public void AddPoint(KURpgPointsOfInterest poi)
+    public void AddPoint(KURPGPointsOfInterest poi)
     {
         PointsOfInterest.Add(poi);
     }

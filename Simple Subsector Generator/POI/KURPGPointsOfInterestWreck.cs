@@ -1,4 +1,4 @@
-﻿class KURPG_PointsOfInterest_Wreck: KURpgPointsOfInterest
+﻿class KURPGPointsOfInterestWreck: KURPGPointsOfInterest
 {
     public int SizeRoll { get; set; }
     public int AliensInsideRoll { get; set; }
@@ -73,7 +73,7 @@
         >=14 => "0%"
     };
     
-    public KURPG_PointsOfInterest_Wreck( int subtypeRoll) : base(KURpgPoiTypes.Wreck, subtypeRoll)
+    public KURPGPointsOfInterestWreck( int subtypeRoll) : base(KURPGPoiTypes.Wreck, subtypeRoll)
     {
     }
 

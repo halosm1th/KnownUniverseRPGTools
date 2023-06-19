@@ -4,10 +4,9 @@ namespace Simple_Subsector_Generator;
 
 class KURPGSuperSectorGenerator
 {
-    
+
     public string Name { get; }
     public int Seed { get; }
-    
     public bool UsingSeed { get; }
     public bool IsPrinting = false;
 
@@ -16,7 +15,7 @@ class KURPGSuperSectorGenerator
     public KURPGSuperSectorGenerator(string name, bool usingSeed, int seed, bool isPrinting)
     {
         Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
-        Name = KURpgSubsectorGenerator.GetCountryName(Seed);
+        Name = KURPGSubsectorGenerator.GetCountryName(Seed);
         UsingSeed = usingSeed;
         IsPrinting = isPrinting;
     }
@@ -26,13 +25,13 @@ class KURPGSuperSectorGenerator
         new EncoderReplacementFallback(string.Empty),
         new DecoderExceptionFallback()
     );
-    
+
     public void WriteToFile(string name, string path)
     {
         var utf8Text = Utf8Encoder.GetString(Utf8Encoder.GetBytes(SuperSector.ToString()));
-        
+
         var st = utf8Text;
-        
+
         var fs = File.OpenWrite(path + $"/{name}.md");
         var sw = new StreamWriter(fs);
         foreach (var s in st.Split('\n'))
@@ -45,7 +44,6 @@ class KURPGSuperSectorGenerator
         fs.Close();
     }
 
-    
     public async Task<KURPGSuperSector?> Generate()
     {
         if (IsPrinting)

@@ -4,7 +4,7 @@ namespace Simple_Subsector_Generator;
 
 public class KURPGSector
 {
-    public KURpgSubsector[,] Subsectors { get; }
+    public KURPGSubsector[,] Subsectors { get; }
     public string Name { get; }
     public int Seed { get; }
 
@@ -12,7 +12,7 @@ public class KURPGSector
     {
         Name = name;
         Seed = seed;
-        Subsectors = new KURpgSubsector[4, 4];
+        Subsectors = new KURPGSubsector[4, 4];
     }
 
     public override string ToString()

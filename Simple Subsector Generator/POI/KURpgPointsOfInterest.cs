@@ -1,15 +1,15 @@
 ﻿using System.Text;
 
-public abstract class KURpgPointsOfInterest
+public abstract class KURPGPointsOfInterest
 {
-    public KURpgPoiTypes POIType { get; }
+    public KURPGPoiTypes POIType { get; }
     public abstract bool HasComplexInfo { get; }
     public int SubtypeRoll { get; }
     
     public abstract string? SubtypeName  { get; }
     public abstract string SubTypeDescription { get; }
 
-    protected KURpgPointsOfInterest(KURpgPoiTypes poiType, int subtypeRoll)
+    protected KURPGPointsOfInterest(KURPGPoiTypes poiType, int subtypeRoll)
     {
         POIType = poiType;
         SubtypeRoll = subtypeRoll;
