@@ -8,6 +8,7 @@ class KURPGEmptySystem : KURPGStarSystem
 
     public override string ToString()
     {
+        return "";
         return base.ToString() + "**An Empty System**";
     }
 }

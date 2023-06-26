@@ -15,7 +15,7 @@ class KURPGSuperSectorGenerator
     public KURPGSuperSectorGenerator(string name, bool usingSeed, int seed, bool isPrinting)
     {
         Seed = seed + name.Aggregate(0, (h,t) => h + ((int) t));
-        Name = KURPGSubsectorGenerator.GetCountryName(Seed);
+        Name = KURpgSubsectorGenerator.GetCountryName(Seed);
         UsingSeed = usingSeed;
         IsPrinting = isPrinting;
     }

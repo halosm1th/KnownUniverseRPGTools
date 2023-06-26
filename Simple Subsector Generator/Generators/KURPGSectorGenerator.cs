@@ -85,7 +85,7 @@ class KURPGSectorGenerator
 
     public static int _Index = 0;
     
-    private async Task<KURpgSubsector> GenerateSectorData(int x, int y, int index)
+    private async Task<KURPGSubsector> GenerateSectorData(int x, int y, int index)
     {
         if (IsPrinting)
         {

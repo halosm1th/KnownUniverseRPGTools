@@ -200,7 +200,7 @@ namespace TravellerMapSystem.Tools
 
         public bool PRINTER_FRIENDLY = true;
         
-        private Image? CreateGrid(KURpgSubsector subsector)
+        private Image? CreateGrid(KURPGSubsector subsector)
         {
             Image? retImage = null;
             var fontSize = 18;
@@ -216,7 +216,7 @@ namespace TravellerMapSystem.Tools
                 {
                     var points = HexToPoints(HEIGHT, row, col);
                     var system = subsector.Subsector[(col, row)];
-                    if ( !PRINTER_FRIENDLY && system is KURpgEmptySystem)
+                    if ( !PRINTER_FRIENDLY && system is KURPGEmptySystem)
                     {
                         grid.Mutate(x => x.FillPolygon(Color.Black,points));
                     }
@@ -224,44 +224,44 @@ namespace TravellerMapSystem.Tools
                     else{
                     if(!PRINTER_FRIENDLY) grid.Mutate(x => x.FillPolygon(Color.White,points));
                     grid.Mutate(x => x.DrawPolygon(Color.Black, 2, points));
-                    if (!PRINTER_FRIENDLY && system is KURpgFilledSystem && ((KURpgFilledSystem) system).GetTradeCodesDisplay()
+                    if (!PRINTER_FRIENDLY && system is KURPGFilledSystem && ((KURPGFilledSystem) system).GetTradeCodesDisplay()
                         .Contains("💳"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.Gold, points));
                     }
-                    else if (!PRINTER_FRIENDLY && system is KURpgFilledSystem filledSystem && filledSystem.GetTradeCodesDisplay().Contains("🚜"))
+                    else if (!PRINTER_FRIENDLY && system is KURPGFilledSystem filledSystem && filledSystem.GetTradeCodesDisplay().Contains("🚜"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.LawnGreen, points));
-                    }else if ( !PRINTER_FRIENDLY &&system is KURpgFilledSystem factSys && factSys.GetTradeCodesDisplay().Contains("🏭"))
+                    }else if ( !PRINTER_FRIENDLY &&system is KURPGFilledSystem factSys && factSys.GetTradeCodesDisplay().Contains("🏭"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.LightGrey, points));
 
-                    }else if ( !PRINTER_FRIENDLY &&system is KURpgFilledSystem resSys && resSys.GetTradeCodesDisplay().Contains("⚒"))
+                    }else if ( !PRINTER_FRIENDLY &&system is KURPGFilledSystem resSys && resSys.GetTradeCodesDisplay().Contains("⚒"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.SlateGray, points));
 
-                    }else if ( !PRINTER_FRIENDLY &&system is KURpgFilledSystem gasSys && gasSys.GetTradeCodesDisplay().Contains("⛽"))
+                    }else if ( !PRINTER_FRIENDLY &&system is KURPGFilledSystem gasSys && gasSys.GetTradeCodesDisplay().Contains("⛽"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.Salmon, points));
 
-                    }else if ( !PRINTER_FRIENDLY &&system is KURpgFilledSystem sdySys && sdySys.GetTradeCodesDisplay().Contains("🔬"))
+                    }else if ( !PRINTER_FRIENDLY &&system is KURPGFilledSystem sdySys && sdySys.GetTradeCodesDisplay().Contains("🔬"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.Wheat, points));
 
                     }
-                    else if (!PRINTER_FRIENDLY && system is KURpgFilledSystem && ((KURpgFilledSystem) system).GetTradeCodesDisplay()
+                    else if (!PRINTER_FRIENDLY && system is KURPGFilledSystem && ((KURPGFilledSystem) system).GetTradeCodesDisplay()
                              .Contains("📀"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.Blue, points));
-                    }else if ( !PRINTER_FRIENDLY &&system is KURpgFilledSystem gesSys && gesSys.GetTradeCodesDisplay().Contains("🪐"))
+                    }else if ( !PRINTER_FRIENDLY &&system is KURPGFilledSystem gesSys && gesSys.GetTradeCodesDisplay().Contains("🪐"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.Orange, points));
 
-                    }else if ( !PRINTER_FRIENDLY &&system is KURpgFilledSystem highpop && highpop.GetTradeCodesDisplay().Contains("👨‍👩‍👧‍👦"))
+                    }else if ( !PRINTER_FRIENDLY &&system is KURPGFilledSystem highpop && highpop.GetTradeCodesDisplay().Contains("👨‍👩‍👧‍👦"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.Cyan, points));
 
-                    }else if ( !PRINTER_FRIENDLY &&system is KURpgFilledSystem inhabit && inhabit.GetTradeCodesDisplay().Contains("🌎"))
+                    }else if ( !PRINTER_FRIENDLY &&system is KURPGFilledSystem inhabit && inhabit.GetTradeCodesDisplay().Contains("🌎"))
                     {
                         grid.Mutate(x => x.FillPolygon(Color.SkyBlue, points));
 

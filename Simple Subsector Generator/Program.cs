@@ -11,7 +11,7 @@ class Tester
 {
     public static void Main()
     {
-        var name = "Wednesday Test";
+        var name = "Wednesday Test Map";
         var seed = 01091999;
         var usingSeed = true;
         var printSubImages = true;
