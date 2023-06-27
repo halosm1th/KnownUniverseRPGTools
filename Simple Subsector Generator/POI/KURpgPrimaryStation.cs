@@ -43,7 +43,8 @@
         }
         return tags;
     }
-    public KURPGPrimaryStation(int subtypeRoll) : base(KURPGPoiTypes.Primary_Station, subtypeRoll)
+    public KURPGPrimaryStation(int subtypeRoll, KURPGFilledSystem system) 
+        : base(KURPGPoiTypes.Primary_Station, subtypeRoll, system)
     {
     }
 

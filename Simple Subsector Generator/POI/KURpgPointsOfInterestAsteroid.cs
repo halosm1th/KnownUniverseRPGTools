@@ -1,4 +1,4 @@
-﻿class KURPGPointsOfInterestAsteroid: KURPGPointsOfInterest
+﻿public class KURPGPointsOfInterestAsteroid: KURPGPointsOfInterest
 {
     public int TLRoll { get; set; }
     public int PopulationRangeRoll { get; set; }
@@ -7,7 +7,8 @@
     public int SizeRoll { get; set; }
 
     public override bool HasComplexInfo => true;
-    public KURPGPointsOfInterestAsteroid(int subtypeRoll) : base(KURPGPoiTypes.Asteroid, subtypeRoll)
+    public KURPGPointsOfInterestAsteroid(int subtypeRoll, KURPGFilledSystem system) 
+        : base(KURPGPoiTypes.Asteroid, subtypeRoll, system)
     {
     }
 

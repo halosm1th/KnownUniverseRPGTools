@@ -1,0 +1,34 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@inject KUPEventService EventService;
+<h3>@Faction.Name - @Faction.Player</h3>
+
+@code {
+   [Parameter]
+   public KUPFaction Faction { get; set; }
+}
+
+<p>Money: $@Faction.Money</p>
+<p>Influence: 😊@Faction.Influence</p>
+
+<details>
+   <summary>Events & Notifications</summary>
+   <ul>
+      @foreach (var evnt in EventService.GetEvents(Faction.ReciverID))
+      {
+         <li> @evnt</li>
+      }
+      
+   </ul>
+</details>
+<details>
+   <summary>Military Assets</summary>
+   <ul>
+      
+   </ul>
+</details>
+<details>
+   <summary>Location Assets</summary>
+   <ul>
+      
+   </ul>
+</details>

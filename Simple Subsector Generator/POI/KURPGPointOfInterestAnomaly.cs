@@ -1,6 +1,7 @@
 ﻿class KURPGPointOfInterestAnomaly : KURPGPointsOfInterest
 {
-    public KURPGPointOfInterestAnomaly(int subtypeRoll) : base(KURPGPoiTypes.Anomaly, subtypeRoll)
+    public KURPGPointOfInterestAnomaly(int subtypeRoll, KURPGFilledSystem system) 
+        : base(KURPGPoiTypes.Anomaly, subtypeRoll, system)
     {
     }
     public override bool HasComplexInfo => false;

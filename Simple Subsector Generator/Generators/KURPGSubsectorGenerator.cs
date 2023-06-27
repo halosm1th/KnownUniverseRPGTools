@@ -9,7 +9,7 @@ class KURpgSubsectorGenerator
     public KURPGSubsector Subsector { get; }
     public string Name { get; }
     private int Seed { get; set; }
-    private Random r;
+    private Random RandomNumberGenerator;
     private bool UsingSeed = true;
     private readonly int XSize = 8;
     private readonly int YSize = 10;
@@ -21,13 +21,22 @@ class KURpgSubsectorGenerator
         Seed = seed + name.Aggregate(0, (h,t) => h * ((int) t));
         Name = GetName(Seed);
         //Seed *= Name.Aggregate(0, (h,t) => h * ((int) t)) + name.Aggregate(0, (h,t) => h * ((int) t));
-        r = new Random(Seed);
+        RandomNumberGenerator = new Random(Seed);
         UsingSeed = usingSeed;
         Subsector = new KURPGSubsector(name, XSize, YSize);
         IsPrinting = isPrinting;
     }
 
-    public Task<KURPGSubsector> Generate()
+    public KURPGSubsector Generate()
+    {
+        PlaceSystems();
+        DetermineSpacePortQuality();
+        GeneratePointsOfInterest();
+
+        return Subsector;
+    }
+    
+    public Task<KURPGSubsector> GenerateAsync()
     {
         PlaceSystems();
         DetermineSpacePortQuality();
@@ -45,7 +54,7 @@ class KURpgSubsectorGenerator
             var numbSides = Convert.ToInt32(diceToRoll.ToLower().Split('d')[1]);
             for (var dice = 0; dice < numbDice; dice++)
             {
-                total += r.Next(0, numbSides) + 1;
+                total += RandomNumberGenerator.Next(0, numbSides) + 1;
             }
 
             return total;
@@ -78,7 +87,7 @@ class KURpgSubsectorGenerator
                 if (RollDice("1d10") > 5)
                 {
                     var name = GenerateName();
-                    Subsector.PlaceSystem(new KURPGFilledSystem(name, x, y), x, y);
+                    Subsector.PlaceSystem(new KURPGFilledSystem(name, x, y, Subsector), x, y);
                     if (IsPrinting)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -88,7 +97,7 @@ class KURpgSubsectorGenerator
                 }
                 else
                 {
-                    Subsector.PlaceSystem(new KURPGEmptySystem(x, y), x, y);
+                    Subsector.PlaceSystem(new KURPGEmptySystem(x, y, Subsector), x, y);
                     if (IsPrinting)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -120,6 +129,7 @@ class KURpgSubsectorGenerator
         if (!hasSplitNameList)
         {
             _nameList = nameListText.Select(x => x.Split(",")[0]).ToList();
+            _nameList.AddRange(nameListText.Select(x => x.Split(",")[1]));
             hasSplitNameList = true;
         } 
         return _nameList;
@@ -168,7 +178,7 @@ class KURpgSubsectorGenerator
     
     private string GenerateName()
     {
-        var name = GetName(r.Next(0, nameList.Count));
+        var name = GetName(RandomNumberGenerator.Next(0, nameList.Count));
 
         return name;
     }
@@ -180,7 +190,7 @@ class KURpgSubsectorGenerator
         {
             if (realSystem != null)
             {
-                var station = new KURPGPrimaryStation(RollDice());
+                var station = new KURPGPrimaryStation(RollDice(), realSystem);
                 realSystem.AddPoint(station);
                 //if (IsPrinting)
                 //Console.WriteLine(
@@ -242,12 +252,12 @@ class KURpgSubsectorGenerator
 
         KURPGPointsOfInterest poi = typeRoll switch
         {
-            1 => new KURPGPointsOfInterestWorld(subtypeRoll),
-            2 => new KURPGPointsOfInterestStation(subtypeRoll),
-            3 => new KURPGPointsOfInterestWreck(subtypeRoll),
-            4 => new KURPGPointsOfInterestAsteroid(subtypeRoll),
-            5 => new KURPGPointOfInterestAnomaly(subtypeRoll),
-            6 => new KURPGPointsOfInterestOther(subtypeRoll),
+            1 => new KURPGPointsOfInterestWorld(subtypeRoll, system),
+            2 => new KURPGPointsOfInterestStation(subtypeRoll, system),
+            3 => new KURPGPointsOfInterestWreck(subtypeRoll, system),
+            4 => new KURPGPointsOfInterestAsteroid(subtypeRoll, system),
+            5 => new KURPGPointOfInterestAnomaly(subtypeRoll, system),
+            6 => new KURPGPointsOfInterestOther(subtypeRoll, system),
             _ => throw new ArgumentOutOfRangeException()
         };
         

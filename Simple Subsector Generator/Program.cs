@@ -21,7 +21,7 @@ class Tester
         var tester = new KURPGSectorGenerator(name,usingSeed, seed, true);
         
         Console.WriteLine($"Generating {name}");
-        var task = Task.Run(() => tester.Generate());
+        var task = Task.Run(() => tester.GenerateAsync());
         while (!task.IsCompleted)
         {
         }

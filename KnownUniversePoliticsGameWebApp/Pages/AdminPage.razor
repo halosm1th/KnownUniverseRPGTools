@@ -1,0 +1,118 @@
+﻿@page "/AdminPage"
+@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+<style>
+    #AssetsToLookAt {height:200px; width:50%;
+    overflow:hidden; overflow-y:scroll; overflow-x: scroll
+    }
+</style>
+<PageTitle>Admin Page</PageTitle>
+<h3>Admin Console</h3>
+
+@code {
+
+    KUPLocation previousLocation = new KUPLocation(100,100);
+    private void SetupGame()
+    {
+        if (!PoliticsGameService.HasBeenInited)
+        {
+            PoliticsGameService.Init();
+            EventService.Init();
+        }
+    }
+
+    private void RefreshMap()
+    {
+        PoliticsGameService.MapRefresh();
+    }
+
+    private void EndOfTurn()
+    {
+        PoliticsGameService.EndOfTurn();
+    }
+
+}
+<div>
+    @if (!PoliticsGameService.HasBeenInited)
+    {
+        <button @onclick="SetupGame" type="button">Click me to Init the Game!</button>
+    }
+    else
+    {
+        <button @onclick="RefreshMap" type="button">Click me to refresh the map!</button>
+    }
+</div>
+@if (PoliticsGameService.HasBeenInited)
+{
+    <button @onclick="EndOfTurn">End of Turn!</button>
+    <div>
+        <details>
+            <summary>
+                <h4>List of Factions</h4></summary>
+            <ul>
+                @foreach (var faction in PoliticsGameService.PoliticsGame.Factions)
+                {
+                    <li style="white-space: pre-line">@faction</li>
+                }
+            </ul>
+        </details>
+    </div>
+    <div>
+        <details>
+            <summary><h4>Events</h4></summary>
+            <ul>
+                @foreach (var evnt in KUPEventService.EventQueue)
+                {
+                    <li>@evnt</li>
+                }
+            </ul>
+        </details>
+    </div>
+    <div>
+        <details>
+            <summary><h4>List of Map Assets</h4></summary>
+            <ul id="AssetsToLookAt">
+                @foreach (var system in PoliticsGameService.PoliticsGame.Sector.FilledSystems)
+                {
+                    foreach (var asset in system.PointsOfInterest)
+                    {
+                        if (asset.GetType() == typeof(KupPrimaryStation))
+                        {
+
+                            <li>@(((KupPrimaryStation) asset).PrimaryStationAsset)</li>
+                        }
+                        else if (asset.GetType() == typeof(KUPAsteroidAsset))
+                        {
+                            <ul>
+                                <li>@(((KupPointsOfInterestAsteroid) asset).AsteroidAsset)</li>
+                            </ul>
+                        }
+                        else if (asset.GetType() == typeof(KupPointsOfInterestWorld))
+                        {
+
+                            <ul>
+                                <li>@(((KupPointsOfInterestWorld) asset).WorldAsset)</li>
+                            </ul>
+                        }
+                        else if (asset.GetType() == typeof(KupPointsOfInterestStation))
+                        {
+
+                            <ul>
+                                <li>@(((KupPointsOfInterestStation) asset).StationAsset)</li>
+                            </ul>
+                        }
+                        else if (asset.GetType() == typeof(KupPointsOfInterestOther))
+                        {
+
+                            <ul>
+                                <li>@(((KupPointsOfInterestOther) asset).OtherAsset)</li>
+                            </ul>
+                        }
+                    }
+
+                }
+            </ul>
+        </details>
+    </div>
+}

@@ -1,4 +1,4 @@
-﻿class KURPGPointsOfInterestOther: KURPGPointsOfInterest
+﻿public class KURPGPointsOfInterestOther: KURPGPointsOfInterest
 {
     public int TL { get; }
     public int PopulationRangeRoll { get; }
@@ -17,7 +17,7 @@
         var text = base.ToString().Remove(base.ToString().Length-5,5);
         return text + "\n";
     }
-    public KURPGPointsOfInterestOther(int subtypeRoll) : base(KURPGPoiTypes.Other, subtypeRoll)
+    public KURPGPointsOfInterestOther(int subtypeRoll,KURPGFilledSystem system ) : base(KURPGPoiTypes.Other, subtypeRoll, system)
     {
     }
 

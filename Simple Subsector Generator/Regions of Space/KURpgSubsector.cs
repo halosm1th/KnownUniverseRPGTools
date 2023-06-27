@@ -11,6 +11,9 @@ public class KURPGSubsector
     public int XSize { get; }
     public int YSize { get; }
     
+    public int SubsectorX { get; }
+    public int SubsectorY { get; }
+    
     
 
 
@@ -33,13 +36,15 @@ public class KURPGSubsector
         
     }
     
-    public KURPGSubsector(string name, int xSize, int ySize)
+    public KURPGSubsector(string name, int xSize, int ySize, int subX = 1, int subY = 1)
     {
         //Y,X
         Subsector = new Dictionary<(int X, int Y), KURPGStarSystem>();
         Name = name;
         XSize = xSize;
         YSize = ySize;
+        SubsectorX = subX;
+        SubsectorY = subY;
     }
 
     public KURPGFilledSystem? GetFilledSystem(int x, int y)

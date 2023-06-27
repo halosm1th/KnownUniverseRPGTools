@@ -2,7 +2,7 @@
 
 namespace Simple_Subsector_Generator;
 
-class KURPGSectorGenerator
+public class KURPGSectorGenerator
 {
     public string Name { get; }
     public int Seed { get; }
@@ -47,7 +47,36 @@ class KURPGSectorGenerator
         fs.Close();
     }
 
-    public async Task<KURPGSector?> Generate()
+    public KURPGSector Generate()
+    {
+        if (IsPrinting)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"Starting to generate {Name} Sector");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+        Sector = new KURPGSector(Name, Seed);
+
+        for(var x = 0; x < Sector.Subsectors.GetLength(0); x++)
+        {
+            for(var y = 0; y < Sector.Subsectors.GetLength(1); y++)
+            {
+                _Index++;
+                Sector.Subsectors[x,y] = GenerateSectorData(x, y,_Index);
+            }
+        }
+        
+        if (IsPrinting)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"Finished generating {Name} Sector");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        return Sector;
+    }
+    
+    public async Task<KURPGSector?> GenerateAsync()
     {
         if (IsPrinting)
         {
@@ -65,7 +94,7 @@ class KURPGSectorGenerator
             Parallel.For(0, Sector.Subsectors.GetLength(1), y =>
             {
                 _Index++;
-                tasks[x, y] = GenerateSectorData(x, y,_Index);
+                tasks[x, y] = GenerateSectorDataAsync(x, y,_Index);
             });
         });
             
@@ -85,7 +114,34 @@ class KURPGSectorGenerator
 
     public static int _Index = 0;
     
-    private async Task<KURPGSubsector> GenerateSectorData(int x, int y, int index)
+    private KURPGSubsector GenerateSectorData(int x, int y, int index)
+    {
+        if (IsPrinting)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Begining generation of {Name} {x} {y} Subsector");        
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+        }
+
+        var name = Name + $" {x},{y}  "+ KURpgSubsectorGenerator.GetName(Seed);
+        var seed = Seed + index;
+        var generator = new KURpgSubsectorGenerator(name,UsingSeed,seed , IsPrinting);
+        var result = generator.Generate();
+
+        if (Sector != null) Sector.Subsectors[x, y] = result;
+
+        if (IsPrinting)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine($"Finished generation of {Name} {x} {y} Subsector");        
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+        }
+        return result;
+    }
+    
+    private async Task<KURPGSubsector> GenerateSectorDataAsync(int x, int y, int index)
     {
         if (IsPrinting)
         {
@@ -98,7 +154,7 @@ class KURPGSectorGenerator
                 var name = Name + $" {x},{y}  "+ KURpgSubsectorGenerator.GetName(Seed);
                 var seed = Seed + index;
                 var generator = new KURpgSubsectorGenerator(name,UsingSeed,seed , IsPrinting);
-                var result = generator.Generate();
+                var result = generator.GenerateAsync();
 
                 if (Sector != null) Sector.Subsectors[x, y] = await result;
 

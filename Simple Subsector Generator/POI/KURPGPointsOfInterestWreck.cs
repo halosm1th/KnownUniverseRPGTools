@@ -73,7 +73,7 @@
         >=14 => "0%"
     };
     
-    public KURPGPointsOfInterestWreck( int subtypeRoll) : base(KURPGPoiTypes.Wreck, subtypeRoll)
+    public KURPGPointsOfInterestWreck( int subtypeRoll, KURPGFilledSystem system) : base(KURPGPoiTypes.Wreck, subtypeRoll, system)
     {
     }
 

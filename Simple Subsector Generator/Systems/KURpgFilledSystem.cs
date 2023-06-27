@@ -81,7 +81,7 @@ public class KURPGFilledSystem : KURPGStarSystem
     public KURPGPrimaryStation? SystemsPrimaryStation =>
         PointsOfInterest.First(x => x.GetType() == typeof(KURPGPrimaryStation)) as KURPGPrimaryStation;
 
-    public KURPGFilledSystem(string name, int x, int y) : base(x, y)
+    public KURPGFilledSystem(string name, int x, int y, KURPGSubsector subsector) : base(x, y, subsector)
     {
         Name = name;
         PointsOfInterest = new List<KURPGPointsOfInterest>();

@@ -83,7 +83,7 @@ class KURPGSuperSectorGenerator
     {
         //if(IsPrinting) Console.WriteLine($"Beginning generation of {Name} {x} {y} Sector");
         var generator = new KURPGSectorGenerator(Name + $" {x},{y} Sector", UsingSeed, Seed + x + y, IsPrinting);
-        var result = generator.Generate();
+        var result = generator.GenerateAsync();
 
         if (SuperSector != null) SuperSector.Sectors[x, y] = await result;
 

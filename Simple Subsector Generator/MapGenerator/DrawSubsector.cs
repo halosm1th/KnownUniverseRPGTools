@@ -9,7 +9,7 @@ using SixLabors.ImageSharp.Processing;
 
 namespace TravellerMapSystem.Tools
 {
-    internal class DrawSubsector
+    public class DrawSubsector
     {
         //Dotnet Framework stuff
 

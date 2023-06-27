@@ -5,14 +5,16 @@ public abstract class KURPGPointsOfInterest
     public KURPGPoiTypes POIType { get; }
     public abstract bool HasComplexInfo { get; }
     public int SubtypeRoll { get; }
+    public KURPGFilledSystem InSystem { get; }
     
     public abstract string? SubtypeName  { get; }
     public abstract string SubTypeDescription { get; }
 
-    protected KURPGPointsOfInterest(KURPGPoiTypes poiType, int subtypeRoll)
+    protected KURPGPointsOfInterest(KURPGPoiTypes poiType, int subtypeRoll, KURPGFilledSystem inSystem)
     {
         POIType = poiType;
         SubtypeRoll = subtypeRoll;
+        InSystem = inSystem;
     }
 
     public abstract List<KURPGTradeCodes> GetTradeCodes();

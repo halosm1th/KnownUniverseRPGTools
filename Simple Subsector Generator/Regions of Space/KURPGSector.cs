@@ -5,6 +5,28 @@ namespace Simple_Subsector_Generator;
 public class KURPGSector
 {
     public KURPGSubsector[,] Subsectors { get; }
+
+
+    private List<KURPGPointsOfInterest> _PointsOfInterests;
+    public List<KURPGPointsOfInterest> PointsOfInterests
+    {
+        get
+        {
+            
+            var poi = new List<KURPGPointsOfInterest>();
+            foreach (var kurpgSubsector in Subsectors)
+            {
+                var items = kurpgSubsector.GetFilledSystems().Select(x => x?.PointsOfInterest);
+                foreach (var item in items)
+                {
+                    poi.AddRange(item);   
+                }
+            }
+
+            return poi;
+        }
+    }
+
     public string Name { get; }
     public int Seed { get; }
 
