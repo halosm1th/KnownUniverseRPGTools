@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthentication();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddAuthentication();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<KUPEventService>();
 builder.Services.AddSingleton<KnownUniversePoliticsGameService>();
@@ -23,6 +23,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+    app.UseHttpsRedirection();
 }
 
 
@@ -31,7 +32,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
 
-app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
@@ -40,5 +40,5 @@ app.UseAuthentication();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-
+app.MapGet("/", () => "Hello ForwardedHeadersOptions!");
 app.Run();
