@@ -6,9 +6,9 @@ public class KURPGSector
 {
     public KURPGSubsector[,] Subsectors { get; }
     
-    public List<KURPGFilledSystem> FilledSystems {get
+    public List<KUPFilledSystem> FilledSystems {get
     {
-        var systems = new List<KURPGFilledSystem>();
+        var systems = new List<KUPFilledSystem>();
         foreach (var sub in Subsectors)
         {
             systems.AddRange(sub.GetFilledSystems());

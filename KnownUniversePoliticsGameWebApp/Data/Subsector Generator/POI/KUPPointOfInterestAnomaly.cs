@@ -1,6 +1,6 @@
 ﻿class KUPPointOfInterestAnomaly : KUPPointsOfInterest
 {
-    public KUPPointOfInterestAnomaly(int subtypeRoll, KURPGFilledSystem system) 
+    public KUPPointOfInterestAnomaly(int subtypeRoll, KUPFilledSystem system) 
         : base(KUPPoiTypes.Anomaly, subtypeRoll, system)
     {
     }

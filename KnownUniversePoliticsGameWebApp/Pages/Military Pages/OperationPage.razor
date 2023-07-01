@@ -1,0 +1,96 @@
+﻿@page "/OperationPage"
+@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Operations</h3>
+
+@code {
+    KUPOPerationSize OpSize = KUPOPerationSize.Small;
+    KUPOperationType OpType = KUPOperationType.MoneyAttack;
+    public string TargetFaction = "";
+    string OperationMessage = "";
+    int operationCost => PoliticsGameService.PoliticsGame.GetOperationCost(OpSize, OpType);
+    KUPPlayer player;
+    bool LoggedIn = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var loggedIn = await localStorage.GetItemAsync<string>("LoggedIn");
+        if (loggedIn == "True")
+        {
+            var playerName = await localStorage.GetItemAsync<string>("LoggedInAs");
+            player = PoliticsGameService.GetPlayer(playerName);
+            LoggedIn = true;
+        }
+    }
+    
+    
+    private void DoSomething()
+    {
+        var temp = LoggedIn;
+        LoggedIn = temp;
+    }
+    
+    private void LaunchOperation()
+    {
+        EventService.AddEvent(
+            new KUPOperationEvent(player.Faction.SenderID,
+                PoliticsGameService.GetFaction(TargetFaction).ReciverID,
+                OpSize,OpType,OperationMessage));
+    }
+
+}
+@if (LoggedIn)
+{
+    <div>
+        <h4>Operation Damage/Size</h4>
+        <ul>
+            <li>Small - 25 Damage</li>
+            <li>Medium - 75 Damage</li>
+            <li>Large - 125 Damage</li>
+        </ul>
+    </div>
+    <div>
+        <h4>Operation Type</h4>
+        <ul>
+            <li>Influence - Reduce the target factions influence.</li>
+            <li>Money - Reduce the target factions money.</li>
+            <li>Military - cause 1 point of damage to the list damage above / 5 to military assets of the target faction.</li>
+        </ul>
+    </div>
+    <h4>Order an Opeartion</h4>
+    <form>
+        <p>Current Operation: A @OpSize @OpType on @TargetFaction. Will cost you @operationCost.</p>
+        <label for="oppType">Operation Type: </label>
+        <label for="oppSize">Operation Size: </label>
+        <label for="oppTarget">Operation Target: </label>
+        <label for="oppDescription">Description of what you want done:</label>
+        <select id="oppType" @bind="OpType">
+            <option value="@KUPOperationType.InfluenceAttack">Influence Attack</option>
+            <option value="@KUPOperationType.MoneyAttack">Money Attack</option>
+            <option value="@KUPOperationType.MilitaryAttack">Military Attack</option>
+        </select>
+        <select id="oppSize" @bind="OpSize">
+            <option value="@KUPOPerationSize.Small">Small</option>
+            <option value="@KUPOPerationSize.Medium">Medium</option>
+            <option value="@KUPOPerationSize.Large">Large</option>
+        </select>
+        <select id="oppTarget" @bind="TargetFaction">
+            @foreach (var faction in PoliticsGameService.PoliticsGame.Factions)
+            {
+                <option value="@faction.Name">
+                    @faction.Name
+                </option>
+            }
+        </select>
+        <input type="text" id="oppDescription" @bind="OperationMessage"/>
+        <button @onclick="LaunchOperation">Launch Operation</button>
+    </form>
+}
+else
+{
+    <button type="button" @onclick="DoSomething">Click me.</button>
+    <p>If not logged in, will do nothing. To log in, go to the player page and log in.</p>
+}

@@ -63,6 +63,12 @@ public class KUPEventService
         EventQueue.Enqueue(evnt);
         politicsGame.ProcessEvent(evnt);
     }
+    
+    
+    public static void AddEventStatic(IKUPEvent evnt){
+        EventQueue.Enqueue(evnt);
+        politicsGame.ProcessEvent(evnt);
+    }
 
     public List<IKUPEvent> GetEvents(int RecieverID)
     {

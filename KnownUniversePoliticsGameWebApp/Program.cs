@@ -1,3 +1,4 @@
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using KnownUniversePoliticsGameWebApp.Data;
@@ -10,6 +11,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<KUPEventService>();
 builder.Services.AddSingleton<KnownUniversePoliticsGameService>();
+builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 

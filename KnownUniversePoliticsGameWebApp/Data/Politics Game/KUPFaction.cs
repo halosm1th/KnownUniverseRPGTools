@@ -45,6 +45,8 @@ public class KUPFaction : IKUPEventActor
     public int Influence { get; private set; }
     public List<IKUPAsset> Assets { get; }
 
+    public List<KUPCombatAsset> CombatAssets => Assets.OfType<KUPCombatAsset>().ToList();
+
     public KUPFaction(string name = "Empty Faction", int id =-1, FactionType factionType = FactionType.Unclaimed, int money = 0, 
         int influence = 0, List<IKUPAsset> assets = default, KUPPlayer player = default)
     {
@@ -97,6 +99,29 @@ public class KUPFaction : IKUPEventActor
             Money += asset.MoneyTotal;
             Influence += asset.MoneyTotal;
         }
+
+        UpdateFactionBasedOnMoneyAndInfluence();
+    }
+
+    private void UpdateFactionBasedOnMoneyAndInfluence()
+    {
+        if (Money > 0)
+        {
+            Influence = Influence + (Money / 5);
+        }
+        else if (Money < 0)
+        {
+            Influence = Influence - (Money / 2);
+        }
+
+        if (Influence > 0)
+        {
+            Money = Money + (Influence / 2);
+        }
+        else if (Influence < 0)
+        {
+            Money = Money + (Influence / 20);
+        }
     }
 
     public void AddAsset(IKUPAsset asset)
@@ -113,5 +138,38 @@ public class KUPFaction : IKUPEventActor
     public void NewPlayer(KUPPlayer kupPlayer)
     {
         Player = kupPlayer;
+    }
+
+    public List<IKUPLocationAsset> GetFilledSystems()
+    {
+        return Assets.OfType<IKUPLocationAsset>().ToList();
+    }
+
+    public void DamageInfluence(int amountOfDamage)
+    {
+        Influence -= amountOfDamage;
+    }
+
+    public void DamageMoney(int amountOfDamage)
+    {
+        Money -= amountOfDamage;
+    }
+
+    public void DamageMilitary(int amountOfDamage)
+    {
+        var numbToHurt = amountOfDamage / 5;
+        var milAssets = GetMilitaryAssets();
+        var random = new Random(milAssets.Count + numbToHurt);
+        for (int i = 0; i < numbToHurt; i++)
+        {
+            var asset = milAssets[random.Next(0,milAssets.Count)];
+            KUPEventService.AddEventStatic(
+                new KUPShipDamagedEvent(SenderID,asset.ReciverID,1));
+        }
+    }
+
+    public List<KUPCombatAsset> GetMilitaryAssets()
+    {
+        return Assets.OfType<KUPCombatAsset>().ToList();
     }
 }

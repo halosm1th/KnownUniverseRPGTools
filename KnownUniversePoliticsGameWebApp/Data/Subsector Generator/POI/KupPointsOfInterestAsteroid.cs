@@ -10,7 +10,7 @@ public class KupPointsOfInterestAsteroid: KUPPointsOfInterest
     public KUPAsteroidAsset AsteroidAsset { get; }
 
     public override bool HasComplexInfo => true;
-    public KupPointsOfInterestAsteroid(int subtypeRoll, KURPGFilledSystem system, int assetID) 
+    public KupPointsOfInterestAsteroid(int subtypeRoll, KUPFilledSystem system, int assetID) 
         : base(KUPPoiTypes.Asteroid, subtypeRoll, system)
     {
         AsteroidAsset = new KUPAsteroidAsset(this,assetID);

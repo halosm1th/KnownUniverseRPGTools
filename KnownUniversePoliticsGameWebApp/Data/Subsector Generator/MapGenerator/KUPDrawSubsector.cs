@@ -74,7 +74,7 @@ namespace TravellerMapSystem.Tools
         }
 
         private void DrawSystemName(int row, int col, int fontSize, int height, float width, Font font, Image graphics,
-            SolidBrush brush, KURPGFilledSystem? world)
+            SolidBrush brush, KUPFilledSystem? world)
         {
             var text = world.Name ?? "";
 
@@ -125,7 +125,7 @@ namespace TravellerMapSystem.Tools
 
         private static void DrawUniversalWorldProfile(int height, int row, int col, float width, Font Font,
             Image graphics,
-            SolidBrush brush, KURPGFilledSystem? travellerWorld)
+            SolidBrush brush, KUPFilledSystem? travellerWorld)
         {
             //Get Text Coords
             var y = (height / 2 + row * height) + SPACER;
@@ -201,9 +201,9 @@ namespace TravellerMapSystem.Tools
                         grid.Mutate(x => x.FillPolygon(Color.Transparent, points));
                     }
                     
-                    if (system is KURPGFilledSystem)
+                    if (system is KUPFilledSystem)
                     {
-                        var controllingFaction = ((KURPGFilledSystem) system).SystemsPrimaryStation?.PrimaryStationAsset.Controller?.FactionType ?? FactionType.Unclaimed;
+                        var controllingFaction = ((KUPFilledSystem) system).SystemsPrimaryStation?.PrimaryStationAsset.Controller?.FactionType ?? FactionType.Unclaimed;
 
                         if (  controllingFaction == FactionType.Unclaimed)
                         {

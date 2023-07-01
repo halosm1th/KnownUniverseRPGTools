@@ -1,0 +1,39 @@
+﻿To be Done 
+Making treaties:
+1) War Declaration
+2) Peace Declration
+3) Defensive Allinace
+4) Trade Deal
+5) Military Alliance
+6) Open Boarders
+
+A way to build military assets: Ships (of various sizes) and stations
+    -> Maybe they can only be built on military locations
+
+A Send Item page: WHere you pick a faction to send to, and any Points of Interest, 
+    or Military assets you have can the be transfered
+
+A way to buy items from the store & A screen for ninno to see what items have been bought
+
+A random event button on the admin page & sending the event to people
+
+A way on hte admin page to control which player is assigned  to which faction.
+
+All Black market/etc stuff is for the pirate faction, who can only build ships at those locations or smthing.
+
+-------
+Done
+A way to withdraw moeny fromt he bank & a screen for oyu to see who has withdrawn moeny 
+A way for people to deposit money to the bank and it be credited to their player account. 
+
+A system viewer
+
+Doing Operations: 1) Small 2) Medium 3) large
+    targetting: 1) Someones Money 2) Someones Influence 3) Someones Military
+    and has some text component to it
+
+The Ship orders page: Let you order a ship from one place to another
+    A way to take over new systems/points of interest within a system
+    Handling updating a new round, costing upkeep of ships & stations both in moral and money
+        On update, for every 2 dollars in the negative you are, suffer -1 influence. For every -20 influence you have, 
+        suffer -1 money.

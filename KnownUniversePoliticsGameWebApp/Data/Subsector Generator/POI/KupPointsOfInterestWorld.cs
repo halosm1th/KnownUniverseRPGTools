@@ -275,7 +275,8 @@ public class KupPointsOfInterestWorld : KUPPointsOfInterest
         
     };
     
-    public KupPointsOfInterestWorld(int subtypeRoll, KURPGFilledSystem system, int assetID) : base(KUPPoiTypes.Planet, subtypeRoll, system)
+    public KupPointsOfInterestWorld(int subtypeRoll, KUPFilledSystem system, int assetID) 
+        : base(KUPPoiTypes.Planet, subtypeRoll, system)
     {
         WorldAsset = new KUPWorldAsset(this, assetID);
     }

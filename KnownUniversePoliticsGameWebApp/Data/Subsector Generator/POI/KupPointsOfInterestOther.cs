@@ -38,7 +38,7 @@ public class KupPointsOfInterestOther: KUPPointsOfInterest
         var text = base.ToString().Remove(base.ToString().Length-5,5);
         return text + "\n";
     }
-    public KupPointsOfInterestOther(int subtypeRoll,KURPGFilledSystem system, int assetId ) : base(KUPPoiTypes.Other, subtypeRoll, system)
+    public KupPointsOfInterestOther(int subtypeRoll,KUPFilledSystem system, int assetId ) : base(KUPPoiTypes.Other, subtypeRoll, system)
     {
         OtherAsset = new KUPOtherAsset(this, assetId);
         

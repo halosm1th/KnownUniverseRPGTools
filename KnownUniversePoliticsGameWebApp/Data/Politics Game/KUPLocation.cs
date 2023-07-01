@@ -25,6 +25,6 @@ public class KUPLocation
     
     public override string ToString()
     {
-        return $"X: {SystemX} Y: {SystemY}";
+        return $"{SystemX} {SystemY}";
     }
 }

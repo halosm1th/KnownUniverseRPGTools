@@ -5,12 +5,12 @@ public abstract class KUPPointsOfInterest
     public KUPPoiTypes POIType { get; }
     public abstract bool HasComplexInfo { get; }
     public int SubtypeRoll { get; }
-    public KURPGFilledSystem InSystem { get; }
+    public KUPFilledSystem InSystem { get; }
     
     public abstract string? SubtypeName  { get; }
     public abstract string SubTypeDescription { get; }
 
-    protected KUPPointsOfInterest(KUPPoiTypes poiType, int subtypeRoll, KURPGFilledSystem inSystem)
+    protected KUPPointsOfInterest(KUPPoiTypes poiType, int subtypeRoll, KUPFilledSystem inSystem)
     {
         POIType = poiType;
         SubtypeRoll = subtypeRoll;

@@ -1,6 +1,6 @@
 ﻿@using KnownUniversePoliticsGameWebApp.Data
 @inject KUPEventService EventService;
-<h3>@Faction.Name - @Faction.Player</h3>
+<h3>@Faction.Name - @Faction.Player.Name</h3>
 
 @code {
    [Parameter]
@@ -24,11 +24,24 @@
    <summary>Military Assets</summary>
    <ul>
       
+      @foreach (var asset in Faction.Assets.Where(x => x.GetType() == typeof(KUPCombatAsset)))
+      {
+         <option>
+            <li>@asset</li>
+         </option>
+      }
    </ul>
 </details>
 <details>
    <summary>Location Assets</summary>
    <ul>
-      
+      @foreach (var locations in Faction.GetFilledSystems())
+      {
+         <option>
+            <li>
+               <a href="/SystemViewer/@locations.Location.SystemX/@locations.Location.SystemX"> @locations</a>
+            </li>
+         </option>
+      }
    </ul>
 </details>

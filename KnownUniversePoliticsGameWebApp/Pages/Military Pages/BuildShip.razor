@@ -1,0 +1,94 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@using KnownUniversePoliticsGameWebApp.Data
+@using System.Diagnostics.Eventing.Reader
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>BuildShip</h3>
+
+@code {
+    public int BuildLocationID { get; set; }
+    [Parameter] public KUPFaction Faction { get; set; }
+    bool buildOrderSubmitted = false;
+
+    CombatAssetSize Size { get; set; } = CombatAssetSize.Small;
+
+    public int GetCost()
+    {
+        return Size switch
+        {
+            CombatAssetSize.Large => 250,
+            CombatAssetSize.Medium => 125,
+            CombatAssetSize.Small => 75,
+            CombatAssetSize.Station => 175
+      };
+    }
+
+    public List<IKUPLocationAsset> GetBuildLocations()
+    {
+        var locations = new List<IKUPLocationAsset>();
+        foreach (var location in Faction.Assets.OfType<IKUPLocationAsset>())
+        {
+            var tradeCodes = location.POI.GetTradeCodes();
+            if (tradeCodes.Contains(KURPGTradeCodes.Ms)
+                || tradeCodes.Contains(KURPGTradeCodes.Mb)
+                || tradeCodes.Contains(KURPGTradeCodes.Ht)
+                || tradeCodes.Contains(KURPGTradeCodes.Rs))
+            {
+                locations.Add(location);
+            }
+        }
+        return locations;
+    }
+
+    public void AnotherBuildOrder()
+    {
+        buildOrderSubmitted = false;
+        StateHasChanged();
+    }
+
+    private void SubmitBuildOrder()
+    {
+        EventService.AddEvent(
+            new KUPBuildShipEvent(Faction.SenderID,Size,BuildLocationID));
+        buildOrderSubmitted = true;
+        StateHasChanged();
+    }
+
+}
+@if (buildOrderSubmitted)
+{
+    <p>The build order has been submitted.</p>
+    <button @onclick="AnotherBuildOrder">Click me to do another</button>
+}
+<div>
+    <h4>Build a Ship</h4>
+    <form>
+        <label for="location"> Build Location</label>
+        @if (GetBuildLocations().Count <= 0)
+        {
+            <p>Sorry: you need a Military station of some kind (Either a Defense Station, a Miltiary Outpost, research station, or High Tech) to build a ship.</p>
+        }
+        else
+        {
+            <select id="location" @bind="BuildLocationID">
+                @foreach (var loc in GetBuildLocations())
+                {
+                    <option value="@loc.assetID">
+                        @loc.Name (@loc.Location)
+                    </option>
+                }
+            </select>
+            <label for="shipType">Ship Type</label>
+            <select id="shipType" @bind="Size">
+                <option value="@CombatAssetSize.Small">Small Ship</option>
+                <option value="@CombatAssetSize.Medium">Medium Ship</option>
+                <option value="@CombatAssetSize.Large">Large Ship</option>
+                <option value="@CombatAssetSize.Station">Station</option>
+            </select>
+            <p>Total Cost: @GetCost()</p>
+            <button @onclick="SubmitBuildOrder" type="button">Submit Build Order</button>
+        }
+    </form>
+</div>

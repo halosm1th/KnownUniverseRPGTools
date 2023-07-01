@@ -22,6 +22,9 @@ public class IKUPMoneyTransferEvent : IKUPEvent
 
     public override string ToString()
     {
-        return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Money Event] F:{SenderID} T:{TargetAccountID} ${AmountOfMoney}";
+        return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Transfer Event] " +
+               $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"${AmountOfMoney}";
     }
 }

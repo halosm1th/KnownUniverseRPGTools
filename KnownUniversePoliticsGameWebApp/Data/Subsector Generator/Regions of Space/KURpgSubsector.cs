@@ -47,10 +47,10 @@ public class KURPGSubsector
         SubsectorY = subY;
     }
 
-    public KURPGFilledSystem? GetFilledSystem(int x, int y)
+    public KUPFilledSystem? GetFilledSystem(int x, int y)
     {
         if (IsFilledSystem(x, y))
-            return Subsector[(x, y)] as KURPGFilledSystem;
+            return Subsector[(x, y)] as KUPFilledSystem;
         return null;
     }
     
@@ -59,10 +59,10 @@ public class KURPGSubsector
         return Subsector[(x, y)];
     }
 
-    public List<KURPGFilledSystem?> GetFilledSystems()
+    public List<KUPFilledSystem?> GetFilledSystems()
     {
-        return Subsector.Where(x => x.Value.GetType() == typeof(KURPGFilledSystem))
-            .Select(x => x.Value as KURPGFilledSystem).ToList();
+        return Subsector.Where(x => x.Value.GetType() == typeof(KUPFilledSystem))
+            .Select(x => x.Value as KUPFilledSystem).ToList();
     }
     
     public void PlaceSystem(KURPGStarSystem system, int x, int y)

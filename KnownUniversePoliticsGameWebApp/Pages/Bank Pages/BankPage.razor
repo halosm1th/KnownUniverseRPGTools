@@ -1,0 +1,138 @@
+﻿@page "/BankPage"
+@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>BankPage</h3>
+
+@code {
+    
+    int TransferAmount = 0;
+    int withdrawAmount = 0;
+    KUPPlayer? player;
+    int targetFactionID;
+    private bool LoggedIn = false;
+    bool hasBeenLoaded = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var loggedIn = await localStorage.GetItemAsync<string>("LoggedIn");
+        if (loggedIn == "True")
+        {
+            var playerName = await localStorage.GetItemAsync<string>("LoggedInAs");
+            player = PoliticsGameService.GetPlayer(playerName);
+            LoggedIn = true;
+        }
+    }
+
+
+    private void PlayerWithdrawFRomBank()
+    {
+        //Refer to PoliticsGame.cs for info on why this is the bank ID
+        var bankID = PoliticsGameService.GetFaction("Bank").ReciverID;
+        EventService.AddEvent(
+            new KUPMoneyWithdrawEvent(player.SenderID,bankID,withdrawAmount));
+    }
+    
+    private void FactionTransferMoneyToFacion()
+    {
+        if (TransferAmount > 0)
+        {
+            EventService.AddEvent(
+                new IKUPMoneyTransferEvent(player.Faction.FactionID, targetFactionID, TransferAmount));
+            NavigationManager.NavigateTo($"/TransferComplete/{TransferAmount}/{PoliticsGameService.PoliticsGame.Factions.First(x => x.ReciverID == targetFactionID).Name}", false);
+        }
+    }
+    
+    private void FactionTransferMoneyToPlayer()
+    {
+        if (TransferAmount > 0)
+        {
+            EventService.AddEvent(
+                new IKUPMoneyTransferEvent(player.Faction.FactionID, player.ReciverID, TransferAmount));
+        }
+    }
+
+    private void PlayerTransferMoneyToFaction()
+    {
+        if (TransferAmount > 0)
+        {
+            EventService.AddEvent(
+                new IKUPMoneyTransferEvent(player.ReciverID, player.Faction.FactionID, TransferAmount));
+        }
+    }
+
+    private void ResetTransfer()
+    {
+        TransferAmount = 0;
+    }
+
+    private void ResetWithdraw()
+    {
+        withdrawAmount = 0;
+    }
+
+    private void DoSomething()
+    {
+        var temp = LoggedIn;
+        LoggedIn = temp;
+    }
+
+}
+@if(player != null){
+        <h5>Your Personal Funds: @player.PersonalFunds</h5>
+        <h5>Your Factions Funds: @player.Faction.Money</h5>
+        <div>
+<form>
+            <p>Transfer Money from Faction To Personal</p>
+            <label for="AmountToTransfer">Amount to Transfer:</label>
+            <input class="form-control" id="AmountToTransfer" type="text" @bind="TransferAmount"/>
+            @if (TransferAmount <= player.Faction.Money)
+            {
+                <button class="btn btn-primary" @onclick="FactionTransferMoneyToPlayer">Transfer From Faction</button>
+            }
+            @if (TransferAmount <= player.PersonalFunds)
+            {
+                <button class="btn btn-primary" @onclick="PlayerTransferMoneyToFaction">Transfer From Player</button>
+            }
+            <button  class="btn btn-primary"  @onclick="ResetTransfer">Reset Trasnfer Amount</button>
+
+    </form>
+        </div>
+<div>
+    <form>
+        <h3>Withdraw Money from Personnal Account</h3>
+        <label for="withdrawAmount">Amount to Withdraw:</label>
+        <input type="number" id="withdrawAmount" @bind="withdrawAmount" />
+                <button class="btn btn-primary" @onclick="PlayerWithdrawFRomBank">Withdraw from Bank</button>
+            <button  class="btn btn-primary"  @onclick="ResetWithdraw">Reset Withdraw Amount</button>
+    </form>
+</div>
+    <div>
+        <form>
+            <h3>Transfer Money to Another Faction</h3>
+            <label for="facTransAmount">Amount to Transfer:</label>
+            <input type="number" id="facTransAmount" @bind="TransferAmount" />
+        
+            <label for="facSendTo">Faction to Send To:</label>
+            <select id="facSendTo" @bind="targetFactionID">
+                @foreach (var fact in PoliticsGameService.PoliticsGame.Factions)
+                {
+                    <option value="@fact.ReciverID">@fact.Name</option>
+                }
+            </select>
+            <button class="btn btn-primary" @onclick="FactionTransferMoneyToFacion">Transfer To Faction</button>
+            <button  class="btn btn-primary"  @onclick="ResetTransfer">Reset Trasnfer Amount</button>
+        </form>
+    </div>
+}
+else
+{
+    <button type="button" @onclick="DoSomething">Click me.</button>
+    <p>If not logged in, will do nothing. To log in, go to the player page and log in.</p>
+}

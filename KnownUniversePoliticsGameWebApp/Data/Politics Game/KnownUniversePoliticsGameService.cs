@@ -90,4 +90,30 @@ public class KnownUniversePoliticsGameService
     {
         PoliticsGame.EndOfTurn();
     }
+
+    public KUPFaction? GetFaction(string name)
+    {
+        return PoliticsGame.GetFaction(name);
+    }
+
+    public KUPFilledSystem? FindSystem(int xloc, int yloc)
+    {
+        return PoliticsGame.Sector.FilledSystems.First(x => x.DisplayY == yloc && x.DisplayX == xloc);
+    }
+
+    public IKUPAsset GetAsset(int assetId)
+    {
+        return PoliticsGame.AssetsInPlay.First(x => x.assetID == assetId);
+    }
+
+    public bool CouldCaptureSystem(KUPFilledSystem system)
+    {
+        return PoliticsGame.CouldCaptureSystem(system);
+    }
+
+    public KUPCombatAsset GetShip(int shipAssetId)
+    {
+        var ships = PoliticsGame.AssetsInPlay.First(x => x.assetID == shipAssetId);
+        return ships as KUPCombatAsset;
+    }
 }

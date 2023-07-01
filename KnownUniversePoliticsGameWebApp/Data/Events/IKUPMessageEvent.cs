@@ -19,6 +19,9 @@ public class IKUPMessageEvent : IKUPEvent
 
     public override string ToString()
     {
-        return $"#{eventID} ({CreationTime.ToLocalTime()}) [Message] F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} M: {Message}";
+        return $"#{eventID} ({CreationTime.ToLocalTime()}) [Message] " +
+               $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"M: {Message}";
     }
 }

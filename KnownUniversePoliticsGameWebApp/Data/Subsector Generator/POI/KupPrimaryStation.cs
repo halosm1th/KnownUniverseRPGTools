@@ -46,7 +46,7 @@ public class KupPrimaryStation: KUPPointsOfInterest
         }
         return tags;
     }
-    public KupPrimaryStation(int subtypeRoll, KURPGFilledSystem system, int assetId) 
+    public KupPrimaryStation(int subtypeRoll, KUPFilledSystem system, int assetId) 
         : base(KUPPoiTypes.Primary_Station, subtypeRoll, system)
     {
         PrimaryStationAsset = new KUPSystemAsset(this, assetId);

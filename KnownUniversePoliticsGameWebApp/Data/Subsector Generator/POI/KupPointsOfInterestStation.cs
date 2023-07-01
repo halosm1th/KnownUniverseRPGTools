@@ -10,7 +10,7 @@ public class KupPointsOfInterestStation: KUPPointsOfInterest
     public KUPStationAsset StationAsset { get; }
 
     public override bool HasComplexInfo => true;
-    public KupPointsOfInterestStation( int subtypeRoll, KURPGFilledSystem system, int assetID)
+    public KupPointsOfInterestStation( int subtypeRoll, KUPFilledSystem system, int assetID)
         : base(KUPPoiTypes.Station, subtypeRoll, system)
     {
         StationAsset = new KUPStationAsset(this, assetID);

@@ -1,0 +1,38 @@
+﻿@page "/DisplaySystem/"
+@using KnownUniversePoliticsGameWebApp.Data
+<h3>DisplaySystem</h3>
+
+@code {
+    [Parameter] public KUPFilledSystem System { get; set; }
+}
+
+<h4>@System.Name (@System.DisplayX, @System.DisplayY)</h4>
+<ul>
+@foreach (var poi in System.PointsOfInterest)
+{
+    if (poi.GetType() == typeof(KupPrimaryStation))
+    {
+                        
+        <li>@(((KupPrimaryStation) poi).PrimaryStationAsset)</li>
+    }
+    else if (poi.GetType() == typeof(KupPointsOfInterestAsteroid))
+    {
+            <li>@(((KupPointsOfInterestAsteroid) poi).AsteroidAsset)</li>
+    }else if (poi.GetType() == typeof(KupPointsOfInterestWorld))
+    {
+                
+            <li>@(((KupPointsOfInterestWorld) poi).WorldAsset)</li>
+    }else if (poi.GetType() == typeof(KupPointsOfInterestStation))
+    {
+                        
+            <li>@(((KupPointsOfInterestStation) poi).StationAsset)</li>
+    }else if (poi.GetType() == typeof(KupPointsOfInterestOther))
+    {
+                        
+            <li>@(((KupPointsOfInterestOther) poi).OtherAsset)</li>
+    }else{
+        <li>@poi</li>
+            
+    }
+}
+</ul>

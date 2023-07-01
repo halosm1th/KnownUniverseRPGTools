@@ -1,0 +1,93 @@
+﻿@page "/SystemViewer/{systemX:int}/{systemY:int}"
+@page "/SystemViewer/"
+@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>SystemViewer</h3>
+
+@code {
+    [Parameter] public int systemX { get; set; }= 0;
+    [Parameter] public int systemY { get; set; }= 0;
+    KUPFilledSystem system;
+    string systemLoc = "";
+    bool hasSearched = false;
+    bool foundSystem = false;
+
+    protected override void OnInitialized()
+    {
+        if (systemX != 0 && systemY != 0)
+        {
+            FindTypedSystem();
+        }
+    }
+
+    private void FindSystem()
+    {
+        var locs = systemLoc.Split(' ');
+        var xloc = 0;
+        var yloc = 0;
+        try
+        {
+            if (Int32.TryParse(locs[0], out xloc))
+            {
+                if (Int32.TryParse(locs[1], out yloc))
+                {
+                    system = PoliticsGameService.FindSystem(xloc, yloc);
+                    hasSearched = true;
+                    foundSystem = true;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            hasSearched = true;
+            foundSystem = false;
+        }
+    }
+
+    private void FindTypedSystem()
+    {
+        try
+        {
+                    system = PoliticsGameService.FindSystem(systemX, systemY);
+            hasSearched = true;
+            foundSystem = true;
+        }
+        catch (Exception e)
+        {
+            hasSearched = true;
+            foundSystem = false;
+        }
+    }
+
+}
+
+<p>Input the x and y and hit the button to search for a specific system. Otherwise the drop down lists all of them</p>
+
+@if (hasSearched && !foundSystem)
+{
+    <p style="color: red">Error! We could not find a system at the coordinates: @systemX @systemY</p>
+}
+
+<form>
+    <label for="sysX">System X:</label>
+    <label for="sysY">System Y:</label>
+    <input type="number" id="sysX" @bind="systemX"/>
+    <input type="number" id="sysY" @bind="systemY"/>
+    <button type="button" @onclick="FindTypedSystem">Search for System</button>
+</form>
+
+
+<select @bind="systemLoc">
+    @foreach (var sys in PoliticsGameService.PoliticsGame.Sector.FilledSystems)
+    {
+        <option value="@sys.DisplayX @sys.DisplayY">@sys.Name</option>
+    }
+</select>
+    <button type="button" @onclick="FindSystem">Find System</button>
+@if (system != null)
+{
+    <DisplaySystem System="system"></DisplaySystem>
+}

@@ -90,7 +90,7 @@ class KUPSubsectorGenerator
                 if (RollDice("1d10") > 5)
                 {
                     var name = GenerateName();
-                    Subsector.PlaceSystem(new KURPGFilledSystem(name, x, y, Subsector, ref DispalyX, ref DisplayY), x, y);
+                    Subsector.PlaceSystem(new KUPFilledSystem(name, x, y, Subsector, ref DispalyX, ref DisplayY), x, y);
                     if (IsPrinting)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -222,7 +222,7 @@ class KUPSubsectorGenerator
         }
     }
 
-    private int PointOfInterestCount(KURPGFilledSystem system)
+    private int PointOfInterestCount(KUPFilledSystem system)
     {
             var roll = RollDice();
             var poi = system.PointsOfInterest
@@ -253,7 +253,7 @@ class KUPSubsectorGenerator
             return result;
     }
 
-    private KUPPointsOfInterest PointOfInterestTypeAndSubtype(KURPGFilledSystem system)
+    private KUPPointsOfInterest PointOfInterestTypeAndSubtype(KUPFilledSystem system)
     {
         var typeRoll = RollDice("1d6");
         var subtypeRoll = RollDice("1d8");
@@ -276,7 +276,7 @@ class KUPSubsectorGenerator
         return poi;
     }
 
-    private void FleshOutPointsOfInterest(KURPGFilledSystem system, KUPPointsOfInterest poi)
+    private void FleshOutPointsOfInterest(KUPFilledSystem system, KUPPointsOfInterest poi)
     {
         if (poi.POIType is KUPPoiTypes.Planet)
         {
@@ -309,7 +309,7 @@ class KUPSubsectorGenerator
         }
     }
 
-    private void GenerateStation(KURPGFilledSystem system, KupPointsOfInterestStation? poi)
+    private void GenerateStation(KUPFilledSystem system, KupPointsOfInterestStation? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -323,7 +323,7 @@ class KUPSubsectorGenerator
        //                                  $"Size: {poi.SizeMeaning}");
     }
 
-    private void GenerateWreck(KURPGFilledSystem system, KupPointsOfInterestWreck? poi)
+    private void GenerateWreck(KUPFilledSystem system, KupPointsOfInterestWreck? poi)
     {
         poi.SizeRoll = GetMainStationModifiedResult(system);
         poi.AliensInsideRoll  = GetMainStationModifiedResult(system);
@@ -334,7 +334,7 @@ class KUPSubsectorGenerator
         } */
     }
 
-    private void GenerateAsteorid(KURPGFilledSystem system, KupPointsOfInterestAsteroid? poi)
+    private void GenerateAsteorid(KUPFilledSystem system, KupPointsOfInterestAsteroid? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -348,7 +348,7 @@ class KUPSubsectorGenerator
        //                                  $"Size: {poi.SizeMeaning}");
     }
 
-    private void GeneratePlanetPOI(KURPGFilledSystem system, KupPointsOfInterestWorld? poi)
+    private void GeneratePlanetPOI(KUPFilledSystem system, KupPointsOfInterestWorld? poi)
     {
         poi.TLRoll = GetMainStationModifiedResult(system);
         poi.PopulationRangeRoll = RollDice() + poi.GetTLModifier;
@@ -366,7 +366,7 @@ class KUPSubsectorGenerator
         //                                 $"Grav: {poi.GravityMeaning}");
     }
 
-    private int GetMainStationModifiedResult(KURPGFilledSystem system)
+    private int GetMainStationModifiedResult(KUPFilledSystem system)
     {
         var roll = RollDice();
         var mainStation = system.PointsOfInterest
@@ -378,7 +378,7 @@ class KUPSubsectorGenerator
 
     
     
-    private void FleshOutPrimaryStation(KURPGFilledSystem system)
+    private void FleshOutPrimaryStation(KUPFilledSystem system)
     {
         if (system.SystemsPrimaryStation != null)
         {
@@ -402,7 +402,7 @@ class KUPSubsectorGenerator
         //                                 $"{station.LawLevelMeaning}, {station.SizeMeaning}");
     }
 
-    private int GetHighGovMod(KURPGFilledSystem system)
+    private int GetHighGovMod(KUPFilledSystem system)
     {
         var complexPOI = system.PointsOfInterest.Where(x =>
             x.HasComplexInfo
@@ -440,7 +440,7 @@ class KUPSubsectorGenerator
 
         return result;
     }
-    private int GetLowGovMod(KURPGFilledSystem system)
+    private int GetLowGovMod(KUPFilledSystem system)
     {
         var complexPOI = system.PointsOfInterest.Where(x =>
             x.HasComplexInfo
@@ -478,7 +478,7 @@ class KUPSubsectorGenerator
 
         return result;
     }
-    private int GetHighTechModifier(KURPGFilledSystem system)
+    private int GetHighTechModifier(KUPFilledSystem system)
     {
         var complexPOI =  system.PointsOfInterest.Where(x =>
             x.HasComplexInfo 
@@ -522,7 +522,7 @@ class KUPSubsectorGenerator
             >=5 => 3
         };
     }
-    private int determineLawModifers(KURPGFilledSystem system)
+    private int determineLawModifers(KUPFilledSystem system)
     {
         var IlleaglPOICount = system.PointsOfInterest
             .Count(x => x.SubtypeName.Contains("Illegal")
@@ -559,7 +559,7 @@ class KUPSubsectorGenerator
     }
     
 
-    private int GetLowPopMod(KURPGFilledSystem system)
+    private int GetLowPopMod(KUPFilledSystem system)
     {
         var complexPOI =  system.PointsOfInterest.Where(x =>
             x.HasComplexInfo 
@@ -604,7 +604,7 @@ class KUPSubsectorGenerator
         };
     }
 
-    private int GetHighPopMod(KURPGFilledSystem system)
+    private int GetHighPopMod(KUPFilledSystem system)
     {
         var complexPOI =  system.PointsOfInterest.Where(x =>
             x.HasComplexInfo 
@@ -640,7 +640,7 @@ class KUPSubsectorGenerator
         };
     }
 
-    private int GetLowTechModifier(KURPGFilledSystem system)
+    private int GetLowTechModifier(KUPFilledSystem system)
     {
         var complexPOI =  system.PointsOfInterest.Where(x =>
             x.HasComplexInfo 
