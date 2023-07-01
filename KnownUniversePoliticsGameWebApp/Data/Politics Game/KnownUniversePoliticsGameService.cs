@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using Simple_Subsector_Generator;
+using SixLabors.ImageSharp;
 
 namespace KnownUniversePoliticsGameWebApp.Data;
 
@@ -13,7 +14,7 @@ public class KnownUniversePoliticsGameService
     public static string Base64Image = "";
     private DateTime ImageCreated = DateTime.UnixEpoch;
     private bool RefereshMap = false;
-    public void Init()
+    public async Task  Init()
     {
         if (!HasBeenInited)
         {
@@ -30,13 +31,13 @@ public class KnownUniversePoliticsGameService
         return PoliticsGame;
     }
 
-    public void MapRefresh()
+    public async Task MapRefresh()
     {
         RefereshMap = true;
-        GetFullMapBase64();
+        await GetFullMapBase64();
     }
     
-    public string GetFullMapBase64()
+    public async Task<string> GetFullMapBase64()
     {
         //Referesh the map every 2 minutes, saves on processing power.
         if (DateTime.Now >= ImageCreated.AddMinutes(5) || RefereshMap)
@@ -51,9 +52,9 @@ public class KnownUniversePoliticsGameService
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    img.SaveAsPng(ms);
+                    await img.SaveAsPngAsync(ms);
                     byte[] imgBytes = ms.ToArray();
-                    Base64Image = Convert.ToBase64String(imgBytes);
+                    Base64Image =  Convert.ToBase64String(imgBytes);
                     ImageCreated = DateTime.Now;
                 }
             }
@@ -96,9 +97,22 @@ public class KnownUniversePoliticsGameService
         return PoliticsGame.GetFaction(name);
     }
 
+    public KUPStarSystem GetSystem(int xloc, int yloc)
+    {
+        
+        return PoliticsGame.Sector.GetSystems().First(x => x.DisplayY == yloc && x.DisplayX == xloc);
+    }
+    
     public KUPFilledSystem? FindSystem(int xloc, int yloc)
     {
-        return PoliticsGame.Sector.FilledSystems.First(x => x.DisplayY == yloc && x.DisplayX == xloc);
+        try
+        {
+            return PoliticsGame.Sector.FilledSystems?.First(x => x.DisplayY == yloc && x.DisplayX == xloc);
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
 
     public IKUPAsset GetAsset(int assetId)

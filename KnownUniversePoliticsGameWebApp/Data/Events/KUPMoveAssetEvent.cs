@@ -6,7 +6,7 @@ public class KUPMoveAssetEvent : IKUPEvent
     public int SenderID { get; }
     public int TargetID { get; }
     public DateTime CreationTime { get; }
-    private KUPLocation Destination { get; }
+    public KUPLocation Destination { get; }
 
     public KUPMoveAssetEvent(int senderId, int targetID, KUPLocation destination)
     {

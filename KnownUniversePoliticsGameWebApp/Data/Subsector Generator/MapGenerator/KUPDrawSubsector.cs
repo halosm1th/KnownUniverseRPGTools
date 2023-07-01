@@ -25,10 +25,12 @@ namespace TravellerMapSystem.Tools
         private static readonly SolidBrush WorldTextBrush = new SolidBrush(Color.Black);
         
         private readonly KURPGSubsector _knownUniverseSubsectorToDraw;
+        private KnownUniversePoliticsGame PoliticsGame;
 
-        public KUPDrawSubsector(KURPGSubsector knownUniverseSubsectorToDraw)
+        public KUPDrawSubsector(KURPGSubsector knownUniverseSubsectorToDraw, KnownUniversePoliticsGame politicsGame)
         {
             _knownUniverseSubsectorToDraw = knownUniverseSubsectorToDraw;
+            PoliticsGame = politicsGame;
         }
 
         public Image GenerateImage(bool printSubImages = false, string path = "", bool whiteBackground = false)
@@ -68,9 +70,130 @@ namespace TravellerMapSystem.Tools
                         _knownUniverseSubsectorToDraw.GetFilledSystem(row, col);
                     DrawSystemName(col, row, fontSize, HEIGHT, WIDTH, fontWorld, subsector, WorldTextBrush, world);
                     DrawUniversalWorldProfile(HEIGHT, col, row, WIDTH, systemFont, subsector, WorldTextBrush, world);
-
+                    DrawShips(HEIGHT, col, row, WIDTH, subsector, WorldTextBrush, world);
                     //DrawSystemStation(subsector, row, col, fontSize, world, fontRest, brush);
                 }
+        }
+
+        private void DrawShips(int height, int col, int row, float width,
+            Image subsector, SolidBrush worldTextBrush, KUPFilledSystem world)
+        {
+
+            int shipCount = 0;
+            int xMod = 0;
+            foreach (var ship in PoliticsGame.AssetsInPlay
+                         .Where(x => x.Location == world?.SystemsPrimaryStation?.PrimaryStationAsset?.Location)
+                         .OfType<KUPCombatAsset>())
+            {
+                var y = (fontSize * 2 + row * height) + (SPACER*2);
+                if (col % 2 == 1) y += height / 2;
+                xMod = 23 * shipCount;
+                
+                var x = (col * (width * 0.75f));
+                x += width / 2; //* Font.Size / 4.5f;
+                x += xMod;
+
+                var shipPoints = new PointF[]
+                {
+                    new(x, y),
+                    new(x + 20, y + 10),
+                    new(x+20,y),
+                    new(x+20,y+10),
+                    new(x - 20, y + 10),
+                    new(x-20,y+10),
+                    new(x-20,y+10),
+                };
+
+                subsector.Mutate(x =>
+                    x.DrawPolygon(Color.Black, 5, shipPoints));
+                subsector.Mutate(x =>
+                    x.FillPolygon(GetFactionColour(ship.Controller.FactionType), shipPoints));
+                shipCount++;
+            }
+        }
+
+        private Color GetFactionColour(FactionType controllingFaction)
+        {
+
+            if (controllingFaction == FactionType.Imperial1)
+            {
+                return Color.Red;
+            }
+            else if (controllingFaction == FactionType.Imperial2)
+            {
+                return Color.DarkRed;
+            }
+            else if (controllingFaction == FactionType.Imperial3)
+            {
+                return Color.IndianRed;
+            }
+
+            else if (controllingFaction == FactionType.Vers1)
+            {
+                return Color.Gold;
+            }
+            else if (controllingFaction == FactionType.Vers2)
+            {
+                return Color.DarkGoldenrod;
+            }
+            else if (controllingFaction == FactionType.Vers3)
+            {
+                return Color.PaleGoldenrod;
+            }
+
+            else if (controllingFaction == FactionType.UFE1)
+            {
+                return Color.LightBlue;
+            }
+            else if (controllingFaction == FactionType.UFE2)
+            {
+                return Color.CornflowerBlue;
+            }
+            else if (controllingFaction == FactionType.UFE3)
+            {
+                return Color.AliceBlue;
+            }
+
+            else if (controllingFaction == FactionType.XiaoMing1)
+            {
+                return Color.Purple;
+            }
+            else if (controllingFaction == FactionType.XiaoMing1)
+            {
+                return Color.RebeccaPurple;
+            }
+            else if (controllingFaction == FactionType.XiaoMing1)
+            {
+                return Color.MediumPurple;
+            }
+
+            else if (controllingFaction == FactionType.Deutchria1)
+            {
+                return Color.LightGrey;
+            }
+            else if (controllingFaction == FactionType.Deutchri2)
+            {
+                return Color.DarkGray;
+            }
+            else if (controllingFaction == FactionType.Deutchria3)
+            {
+                return Color.SlateGray;
+            }
+
+            else if (controllingFaction == FactionType.Bank)
+            {
+                return Color.ForestGreen;
+            }
+            else if (controllingFaction == FactionType.GM)
+            {
+                return Color.LightGreen;
+            }
+            else if (controllingFaction == FactionType.Food)
+            {
+                return Color.SeaGreen;
+            }
+
+            return Color.White;
         }
 
         private void DrawSystemName(int row, int col, int fontSize, int height, float width, Font font, Image graphics,
@@ -196,7 +319,7 @@ namespace TravellerMapSystem.Tools
                 {
                     var points = HexToPoints(HEIGHT, row, col);
                     var system = subsector.Subsector[(col, row)];
-                    if (!whiteBackground && system is KURPGEmptySystem)
+                    if (!whiteBackground && system is KupEmptySystem)
                     {
                         grid.Mutate(x => x.FillPolygon(Color.Transparent, points));
                     }

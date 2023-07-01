@@ -100,7 +100,7 @@ class KUPSubsectorGenerator
                 }
                 else
                 {
-                    Subsector.PlaceSystem(new KURPGEmptySystem(x, y, Subsector, ref DispalyX, ref DisplayY), x, y);
+                    Subsector.PlaceSystem(new KupEmptySystem(x, y, Subsector, ref DispalyX, ref DisplayY), x, y);
                     if (IsPrinting)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkGreen;

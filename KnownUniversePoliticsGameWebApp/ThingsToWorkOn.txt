@@ -7,8 +7,6 @@ Making treaties:
 5) Military Alliance
 6) Open Boarders
 
-A way to build military assets: Ships (of various sizes) and stations
-    -> Maybe they can only be built on military locations
 
 A Send Item page: WHere you pick a faction to send to, and any Points of Interest, 
     or Military assets you have can the be transfered
@@ -37,3 +35,6 @@ The Ship orders page: Let you order a ship from one place to another
     Handling updating a new round, costing upkeep of ships & stations both in moral and money
         On update, for every 2 dollars in the negative you are, suffer -1 influence. For every -20 influence you have, 
         suffer -1 money.
+        
+A way to build military assets: Ships (of various sizes) and stations
+    -> Maybe they can only be built on military locations

@@ -2,12 +2,14 @@ using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using KnownUniversePoliticsGameWebApp.Data;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddAuthentication();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<KUPEventService>();
 builder.Services.AddSingleton<KnownUniversePoliticsGameService>();
@@ -23,11 +25,18 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

@@ -100,6 +100,11 @@ public class KUPFaction : IKUPEventActor
             Influence += asset.MoneyTotal;
         }
 
+        foreach (var combat in Assets.OfType<KUPCombatAsset>())
+        {
+            combat.HasMoved = false;
+        }
+        
         UpdateFactionBasedOnMoneyAndInfluence();
     }
 

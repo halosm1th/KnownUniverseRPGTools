@@ -17,7 +17,7 @@ public class KUPEventService
     {
     }
 
-    public void Init()
+    public async Task Init()
     {
         KnownUniversePoliticsGame.EventService = this;
         hasBeenInit = true;

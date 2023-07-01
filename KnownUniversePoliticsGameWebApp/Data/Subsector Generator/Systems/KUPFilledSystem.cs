@@ -4,7 +4,7 @@ using System.Text;
 using KnownUniversePoliticsGameWebApp.Data;
 using Simple_Subsector_Generator;
 
-public class KUPFilledSystem : KURPGStarSystem
+public class KUPFilledSystem : KUPStarSystem
 {
     public List<KUPPointsOfInterest> PointsOfInterest { get; }
     public List<KUPPointsOfInterest> GetComplexPOI()
@@ -32,14 +32,16 @@ public class KUPFilledSystem : KURPGStarSystem
         {
             if (poi.GetType() == typeof(KupPointsOfInterestAsteroid))
             {
-                if ((poi as KupPointsOfInterestAsteroid).AsteroidAsset.Controller.FactionType == FactionType.Unclaimed)
+                if ((poi as KupPointsOfInterestAsteroid).AsteroidAsset.Controller == null
+                    || (poi as KupPointsOfInterestAsteroid).AsteroidAsset.Controller?.FactionType == FactionType.Unclaimed)
                 {
                     unclaimed.Add(poi);
                 }
             }else if (poi.GetType() == typeof(KupPrimaryStation))
             {
                 
-                if ((poi as KupPrimaryStation).PrimaryStationAsset.Controller.FactionType == FactionType.Unclaimed)
+                if ((poi as KupPrimaryStation).PrimaryStationAsset.Controller == null
+                    || (poi as KupPrimaryStation).PrimaryStationAsset.Controller.FactionType == FactionType.Unclaimed)
                 {
                     unclaimed.Add(poi);
                 }
@@ -47,20 +49,23 @@ public class KUPFilledSystem : KURPGStarSystem
             else if (poi.GetType() == typeof(KupPointsOfInterestWorld))
             {
                 
-                if ((poi as KupPointsOfInterestWorld).WorldAsset.Controller.FactionType == FactionType.Unclaimed)
+                if ((poi as KupPointsOfInterestWorld).WorldAsset.Controller == null
+                        ||(poi as KupPointsOfInterestWorld).WorldAsset.Controller.FactionType == FactionType.Unclaimed)
                 {
                     unclaimed.Add(poi);
                 }
             }else if (poi.GetType() == typeof(KupPointsOfInterestOther))
             {
                 
-                if ((poi as KupPointsOfInterestOther).OtherAsset.Controller.FactionType == FactionType.Unclaimed)
+                if ((poi as KupPointsOfInterestOther).OtherAsset.Controller == null
+                    || (poi as KupPointsOfInterestOther).OtherAsset.Controller.FactionType == FactionType.Unclaimed)
                 {
                     unclaimed.Add(poi);
                 }
             }else if (poi.GetType() == typeof(KupPointsOfInterestStation))
             {
-                if ((poi as KupPointsOfInterestStation).StationAsset.Controller.FactionType == FactionType.Unclaimed)
+                if ((poi as KupPointsOfInterestStation).StationAsset.Controller == null
+                     || (poi as KupPointsOfInterestStation).StationAsset.Controller.FactionType == FactionType.Unclaimed)
                 {
                     unclaimed.Add(poi);
                 }
