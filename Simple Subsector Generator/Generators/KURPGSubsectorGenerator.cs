@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using Dice;
@@ -36,11 +37,42 @@ class KURpgSubsectorGenerator
         return Subsector;
     }
     
+    
+    private void DetermineSpacePortQuality()
+    {
+        foreach(var realSystem in Subsector.GetFilledSystems())
+        {
+            if (realSystem != null)
+            {
+                var station = new KURPGPrimaryStation(RollDice(), realSystem);
+                realSystem.AddPoint(station);
+                //if (IsPrinting)
+                //Console.WriteLine(
+                //  $"System at {realSystem.SystemX},{realSystem.SystemY} has a class {station.SubtypeName}, which means it is: {station.SubTypeDescription}");
+            }
+        }
+    }
+
+    private void GeneratePointsOfInterest()
+    {
+        foreach (var system in Subsector.GetFilledSystems())
+        {
+            var poiCount = PointOfInterestCount(system);
+            
+            for(int i =0; i < poiCount; i++){
+                var poi = PointOfInterestTypeAndSubtype(system);
+                
+                FleshOutPrimaryStation(system);
+                FleshOutPointsOfInterest(system, poi);
+            }
+        }
+    }
+    
     public Task<KURPGSubsector> GenerateAsync()
     {
         PlaceSystems();
-        DetermineSpacePortQuality();
-        GeneratePointsOfInterest();
+        DetermineSpacePortQualityAsync();
+        GeneratePointsOfInterestAsync();
 
         return Task.FromResult(Subsector);
     }
@@ -112,7 +144,7 @@ class KURpgSubsectorGenerator
     private static string[]? _nameListText { get; set; } = null;
 
     private static string[]? nameListText {get {
-        if (_nameList == null)
+        if (_nameList == null || _nameList.Count <= 0)
         {
             _nameListText = File.ReadAllLines(Directory.GetCurrentDirectory() + "/namelist.csv");
         }
@@ -125,31 +157,60 @@ class KURpgSubsectorGenerator
     private static bool hasSplitNameList = false;
     private static List<string>? _nameList = null;
 
-    private static List<string>? nameList {get {
+    private static List<string>? nameList {get
+    {
         if (!hasSplitNameList)
         {
-            _nameList = nameListText.Select(x => x.Split(",")[0]).ToList();
-            _nameList.AddRange(nameListText.Select(x => x.Split(",")[1]));
+            _nameList = new List<string>();
+            _nameList.AddRange(ProvinceNameList);
+            _nameList.AddRange(CountryNameList);
+            _nameList.AddRange(CityNameList);
             hasSplitNameList = true;
         } 
         return _nameList;
     }}
     
+    private static List<string>? CityNameList {get {
+            var _nameList = nameListText.Select(x => x.Split(",")[0])
+                .Aggregate(new List<string> (), (h, t) =>
+                {
+                    if (h.Contains(t))
+                    {
+                        return h;
+                    }
+                    h.Add(t);
+                    return h;
+                });
+        return _nameList;
+    }}
+
+    
     private static List<string>? CountryNameList {get {
-        if (!hasSplitNameList)
-        {
-            _nameList = nameListText.Select(x => x.Split(",")[1]).ToList();
-            hasSplitNameList = true;
-        } 
+
+            var _nameList = nameListText.Select(x => x.Split(",")[1])
+                .Aggregate(new List<string> (), (h, t) =>
+                {
+                    if (h.Contains(t))
+                    {
+                        return h;
+                    }
+                        h.Add(t);
+                        return h;
+                });
         return _nameList;
     }}
     
     private static List<string>? ProvinceNameList { get {
-        if (!hasSplitNameList)
-        {
-            _nameList = nameListText.Select(x => x.Split(",")[2]).ToList();
-            hasSplitNameList = true;
-        } 
+            var _nameList = nameListText.Select(x => x.Split(",")[2])
+                .Aggregate(new List<string> (), (h, t) =>
+                {
+                    if (h.Contains(t))
+                    {
+                        return h;
+                    }
+                    h.Add(t);
+                    return h;
+                });
         return _nameList;
     }}
     
@@ -173,7 +234,8 @@ class KURpgSubsectorGenerator
     {
         Random r = new Random(numb);
 
-        return nameList[r.Next(0,nameList.Count)];
+        var result = r.Next(0, nameList.Count - 1);
+        return nameList[result];
     }
     
     private string GenerateName()
@@ -184,7 +246,7 @@ class KURpgSubsectorGenerator
     }
 
 
-    private void DetermineSpacePortQuality()
+    private void DetermineSpacePortQualityAsync()
     {
         Parallel.ForEach(Subsector.GetFilledSystems(), realSystem =>
         {
@@ -199,7 +261,7 @@ class KURpgSubsectorGenerator
         });
     }
 
-    private void GeneratePointsOfInterest()
+    private void GeneratePointsOfInterestAsync()
     {
         Parallel.ForEach (Subsector.GetFilledSystems(), system =>
         {

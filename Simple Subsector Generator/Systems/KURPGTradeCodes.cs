@@ -1,5 +1,6 @@
 ﻿public enum KURPGTradeCodes
 {
+    Ah,
     Hp,
     Lp,
     Ht,
@@ -9,13 +10,15 @@
     Ha,
     Ag,
     Ma,
+    Me,
+    Mh,
     Ec,
     Re,
-    Ga,
     Gw,
     Rl,
     Is,
     Rs,
+    Rh,
     Th,
     Sp,
     Rf,

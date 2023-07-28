@@ -175,7 +175,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
             var y0 = currentLocation.SystemY - 1;
             var y1 = currentLocation.SystemY;
             var y2 = currentLocation.SystemY + 1;
-            if (x0 >1 && y0 > 1 && !movable.Contains(new KUPLocation(x0,y0)))
+            if (x0 >1 && y0 > 1 && !movable.Any(x => x.SystemX == x0 && x.SystemY == y0))
             {
                 var newLocs = new KUPLocation(x0, y0);
                 var newDepth = depth - 1;
@@ -183,7 +183,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                 GetMoveLocations(newLocs,movable,newDepth);
             }
 
-            if (x1 >= xMIN && y0 >= yMIN && !movable.Contains(new KUPLocation(x1,y0)))
+            if (x1 >= xMIN && y0 >= yMIN && !movable.Any(x => x.SystemX == x1 && x.SystemY == y0))
             {
                 
                 var newLocs = new KUPLocation(x1, y0);
@@ -191,7 +191,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                 movable.Add(newLocs);
                 GetMoveLocations(newLocs,movable,newDepth);
             }
-            if (x2 < XMAX && y0 > yMIN && !movable.Contains(new KUPLocation(x2,y0)))
+            if (x2 < XMAX && y0 > yMIN && !movable.Any(x => x.SystemX == x2 && x.SystemY == y0))
             {
                 
                 var newLocs = new KUPLocation(x2, y0);
@@ -200,7 +200,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                 GetMoveLocations(newLocs,movable,newDepth);
             }
 
-            if (x0 >= xMIN && y1 < yMAX && !movable.Contains(new KUPLocation(x0,y1)))
+            if (x0 >= xMIN && y1 < yMAX && !movable.Any(x => x.SystemX == x0 && x.SystemY == y1))
             {
                 
                 var newLocs = new KUPLocation(x0, y1);
@@ -208,7 +208,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                 movable.Add(newLocs);
                 GetMoveLocations(newLocs,movable,newDepth);
             }
-            if (x1 > xMIN && y2 < yMAX && !movable.Contains(new KUPLocation(x1,y2)))
+            if (x1 > xMIN && y2 < yMAX && !movable.Any(x => x.SystemX == x1 && x.SystemY == y2))
             {
                 
                 var newLocs = new KUPLocation(x1, y2);
@@ -217,7 +217,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                 GetMoveLocations(newLocs,movable,newDepth);
             }
 
-            if (x2 < XMAX && y1 < yMAX && !movable.Contains(new KUPLocation(x2,y1)))
+            if (x2 < XMAX && y1 < yMAX && !movable.Any(x => x.SystemX == x2 && x.SystemY == y1))
             {
                 
                 var newLocs = new KUPLocation(x2, y1);
@@ -266,6 +266,8 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         GetMoveLocations(this.Location,locs,MoveSpeed());
         
         //for()
+
+        locs = locs.OrderBy(x => x.SystemX).ToList();
         
         return locs;
     }

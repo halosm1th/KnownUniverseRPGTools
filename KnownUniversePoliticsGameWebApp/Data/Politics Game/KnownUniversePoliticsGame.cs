@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using KnownUniversePoliticsGameWebApp.Pages.Military_Pages;
+using Microsoft.AspNetCore.Mvc;
 using Simple_Subsector_Generator;
 using SixLabors.ImageSharp;
 using TravellerMapSystem.Tools;
@@ -224,12 +225,59 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         }else if (evnt.GetType() == typeof(KUPCaptureSystemEvent))
         {
             CaptureSystem(evnt as KUPCaptureSystemEvent);
+        }else if (evnt.GetType() == typeof(KUPBuyStoreEvent))
+        {
+            StoreBuy(evnt as KUPBuyStoreEvent);
+        }else if (evnt.GetType() == typeof(KUPAssetTransferEvent))
+        {
+            TransferAsset(evnt as KUPAssetTransferEvent);
         }
+    }
+
+    private void TransferAsset(KUPAssetTransferEvent evnt)
+    {
+        var sender = Factions.First(x => x.SenderID == evnt.SenderID);
+        var reciver = Factions.First(x => evnt.TargetFactionReciverID == x.ReciverID);
+        var targetAssetIDs = evnt.AssetsToTransfer;
+        foreach (var asset in sender.Assets)
+        {
+            if (targetAssetIDs.Contains(asset.assetID))
+            {
+                sender.DestroyAsset(asset);
+                reciver.AddAsset(asset);
+            }
+        }
+        
+        EventService.AddEvent(new IKUPMessageEvent(evnt.SenderID,evnt.TargetFactionReciverID,$"{sender.Name} " +
+            $"has given you the following assets w/ IDs: {targetAssetIDs.Aggregate("", (h,t) => h + ", " + t)}"));
+        
+        EventService.AddEvent(new IKUPMessageEvent(evnt.TargetFactionReciverID,evnt.SenderID,$"{reciver.Name} " +
+            $"has received the assets you gave them  w/ the following IDs: {targetAssetIDs.Aggregate("", (h,t) => h + ", " + t)}"));
+
+    }
+
+    private void StoreBuy(KUPBuyStoreEvent evnt)
+    {
+        var sender = Players.First(x => x.SenderID == evnt.SenderID);
+        sender.PersonalFunds= sender.PersonalFunds - evnt.Cost;
+        EventService.AddEvent(
+            new KUPStoreSomeoneBought(sender.SenderID,
+                GetFaction("Food").ReciverID,sender.Name,
+                evnt.ItemToBuy,evnt.Amount));
     }
 
     private void CaptureSystem(KUPCaptureSystemEvent evnt)
     {
-        throw new NotImplementedException();
+        var taker = EventService.GetActorBySenderID(evnt.SenderID);
+        var targetStation = AssetsInPlay.First(x => x.assetID == evnt.SystemStationID);
+        var previousHolder = targetStation.Controller;
+        previousHolder.DestroyAsset(targetStation);
+        
+        var takeFact = Factions.First(x => x == taker);
+        takeFact.AddAsset(targetStation);
+        
+        EventService.AddEvent(new IKUPMessageEvent(
+            taker.SenderID,previousHolder.ReciverID,$"You have lost control of {targetStation.Location} to {taker.Name}"));
     }
 
     private void TakeSystem(KUPTakeSystemEvent evnt)

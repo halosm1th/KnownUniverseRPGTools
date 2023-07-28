@@ -31,6 +31,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmFuayBQYWdlc1xCYW5rUGFnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/thoma/RiderProjects/KnownUniverseRPGTools/KnownUniversePoliticsGameWebApp/Pages/Bank Pages/StoreDisplay.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmFuayBQYWdlc1xTdG9yZURpc3BsYXkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/thoma/RiderProjects/KnownUniverseRPGTools/KnownUniversePoliticsGameWebApp/Pages/Bank Pages/StorePage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmFuayBQYWdlc1xTdG9yZVBhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/thoma/RiderProjects/KnownUniverseRPGTools/KnownUniversePoliticsGameWebApp/Pages/Bank Pages/Trade.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmFuayBQYWdlc1xUcmFkZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

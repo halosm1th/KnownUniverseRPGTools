@@ -14,7 +14,11 @@
 </head>
 <body>
 <div>
-    <img src="data:image/png;base64, @PoliticsGameService.GetFullMapBase64().Result"  />
+    @if (PoliticsGameService.PoliticsGame != null
+        && PoliticsGameService.HasBeenInited)
+    {
+        <img src="data:image/png;base64, @PoliticsGameService.GetFullMapBase64().Result"/>
+    }
 </div>
 </body>
 </html>

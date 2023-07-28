@@ -7,15 +7,17 @@ Making treaties:
 5) Military Alliance
 6) Open Boarders
 
-
 A Send Item page: WHere you pick a faction to send to, and any Points of Interest, 
     or Military assets you have can the be transfered
-
-A way to buy items from the store & A screen for ninno to see what items have been bought
-
+    
 A random event button on the admin page & sending the event to people
 
 A way on hte admin page to control which player is assigned  to which faction.
+    Add a way to create new factions on the fly
+    A way to assign player who lose control of their factions to new factions or to an agitator role of some kind
+    
+A way to transfer assets to a faction from the admin page
+    A way to move assets rfom one page to another on the admin page.
 
 All Black market/etc stuff is for the pirate faction, who can only build ships at those locations or smthing.
 
@@ -38,3 +40,5 @@ The Ship orders page: Let you order a ship from one place to another
         
 A way to build military assets: Ships (of various sizes) and stations
     -> Maybe they can only be built on military locations
+    
+A way to buy items from the store & A screen for ninno to see what items have been bought

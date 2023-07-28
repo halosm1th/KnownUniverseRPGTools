@@ -66,7 +66,7 @@
 
         }else if (SubtypeRoll == 6)
         {
-            tags.Add(KURPGTradeCodes.Ga);
+            tags.Add(KURPGTradeCodes.Me);
 
         }else if (SubtypeRoll == 7)
         {
@@ -282,7 +282,7 @@
         3 => "Manufacturing World",
         4 => "Economic World",
         5 => "Resource World",
-        6 => "Gas Giant",
+        6 => "Medical World",
         7 => "Government World",
         8 => "Religious World",
         _ => throw new ArgumentOutOfRangeException()

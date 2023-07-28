@@ -97,11 +97,7 @@ namespace TravellerMapSystem.Tools
                 {
                     new(x, y),
                     new(x + 20, y + 10),
-                    new(x+20,y),
-                    new(x+20,y+10),
                     new(x - 20, y + 10),
-                    new(x-20,y+10),
-                    new(x-20,y+10),
                 };
 
                 subsector.Mutate(x =>
@@ -222,7 +218,7 @@ namespace TravellerMapSystem.Tools
         private static void DrawLocationText(int row, int col, int fontSize, int height, float width, Font Font,
             Image graphics, SolidBrush brush, int drawX, int drawY)
         {
-            var text = $"{drawY} {drawX}";
+            var text = $"{drawX} {drawY}";
 
             var y = (fontSize + row * height)+(SPACER);
             if (col % 2 == 1) y += height / 2;
@@ -401,8 +397,8 @@ namespace TravellerMapSystem.Tools
                         
                         grid.Mutate(x => x.DrawPolygon(Color.Black, 2, points));
                         DrawLocationText(row, col, fontSize, HEIGHT, WIDTH, font, grid,
-                            WorldTextBrush,_knownUniverseSubsectorToDraw.GetSystem(col,row).DisplayX
-                            , _knownUniverseSubsectorToDraw.GetSystem(col,row).DisplayY);
+                            WorldTextBrush,_knownUniverseSubsectorToDraw.GetSystem(col,row).DisplayY
+                            , _knownUniverseSubsectorToDraw.GetSystem(col,row).DisplayX);
                     }
                 }
 

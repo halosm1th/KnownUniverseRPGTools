@@ -41,8 +41,36 @@
         {
             tags.Add(KURPGTradeCodes.Ll);
         }
+
+
+        IsManufacturingHub(tags);
+        
         return tags;
     }
+
+    private void IsManufacturingHub(List<KURPGTradeCodes> tags)
+    {
+        if (InSystem.PointsOfInterest.Any(x
+                => x.GetType() != typeof(KURPGPrimaryStation)
+                   && x.GetTradeCodes().Contains(KURPGTradeCodes.Hp))
+            || tags.Contains(KURPGTradeCodes.Hp))
+        {
+            if (InSystem.PointsOfInterest.Any(x
+                    => x.GetType() != typeof(KURPGPrimaryStation)
+                       && x.GetTradeCodes().Contains(KURPGTradeCodes.Th))
+                || tags.Contains(KURPGTradeCodes.Th))
+            {
+                if (InSystem.PointsOfInterest.Any(x
+                        => x.GetType() != typeof(KURPGPrimaryStation)
+                           && x.GetTradeCodes().Contains(KURPGTradeCodes.Ma))
+                    || tags.Contains(KURPGTradeCodes.Ma))
+                {
+                    tags.Add(KURPGTradeCodes.Mh);
+                }
+            }
+        }
+    }
+
     public KURPGPrimaryStation(int subtypeRoll, KURPGFilledSystem system) 
         : base(KURPGPoiTypes.Primary_Station, subtypeRoll, system)
     {

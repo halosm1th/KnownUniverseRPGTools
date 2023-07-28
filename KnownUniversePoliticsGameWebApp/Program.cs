@@ -37,8 +37,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
-
+    
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-app.MapGet("/", () => "Hello ForwardedHeadersOptions!");
 app.Run();

@@ -1,6 +1,91 @@
 ﻿@page "/Trade"
-<h3>Trade</h3>
+@using KnownUniversePoliticsGameWebApp.Data
+@using System.Diagnostics.Eventing.Reader
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Trade Assets</h3>
 
 @code {
     
+    KUPPlayer? player;
+    int targetFactionID;
+    private bool LoggedIn = false;
+    bool hasBeenLoaded = false;
+    bool AssetTransfered = false;
+    int AssetID = -1;
+    List<int> AssetsToTrade = new List<int>();
+    int AssetToTrade = -1;
+    int FactionToGiveTo = -1;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var loggedIn = await localStorage.GetItemAsync<string>("LoggedIn");
+        if (loggedIn == "True")
+        {
+            var playerName = await localStorage.GetItemAsync<string>("LoggedInAs");
+            player = PoliticsGameService.GetPlayer(playerName);
+            LoggedIn = true;
+        }
+    }
+
+    private void TransferAsset()
+    {
+        EventService.AddEvent(
+            new KUPAssetTransferEvent(player.Faction.SenderID,targetFactionID,AssetsToTrade));
+        AssetTransfered = true;
+    }
+
+    private void AddAsset()
+    {
+        if (player.Faction.Assets.Any(x => x.assetID == AssetToTrade))
+        {
+            AssetsToTrade.Add(AssetToTrade);
+            AssetToTrade = -1;
+        }
+    }
+
+    private void DoSomething()
+    {
+        var temp = LoggedIn;
+        LoggedIn = temp;
+    }
+
+    private void AnotherTransfer()
+    {
+        hasBeenLoaded = false;
+    }
+
+}
+
+@if (LoggedIn)
+{
+    @if (AssetTransfered)
+    {
+        <p>Transfer complete.</p>
+        <button @onclick="AnotherTransfer">Click me to do another</button>
+    }
+    else
+    {
+        <form>
+            <label for="target">Transfer Asset To</label>
+            <label for="asset">Asset to Transfer</label>
+            <button @onclick="AddAsset">Add Asset to Transfer List</button>
+            <label for="assetsToTrade">Assets to Trade</label>
+            <ul id="assetsToTrade">
+                @foreach (var asset in AssetsToTrade)
+                {
+                    <li>@PoliticsGameService.GetAsset(asset)</li>
+                }
+            </ul>
+            <button @onclick="TransferAsset">Transfer Asset</button>
+        </form>
+    }
+}
+else
+{
+    
+    <button type="button" @onclick="DoSomething">Click me.</button>
+    <p>If not logged in, will do nothing. To log in, go to the player page and log in.</p>
 }
