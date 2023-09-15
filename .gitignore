@@ -3,10 +3,10 @@
 !.*/
 !/.gitignore
 
-# Ignore built fields
+# Ignore build fields
 */bin/
 */obj/
 
-# why?
+# Ignore gigasized images
 .png
 *.png
