@@ -4,8 +4,8 @@
 !/.gitignore
 
 # Ignore build fields
-bin/
-obj/
+**/bin/
+**/obj/
 
 # Ignore gigasized images
 .png
