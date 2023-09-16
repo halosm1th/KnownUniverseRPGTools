@@ -1,2 +1,12 @@
+# Ignore all files that start with .
+.*
+!.*\
+!\.gitignore
+
+# Ignore build fields
+\obj
+\bin
+
+# Ignore gigasized images
 .png
 *.png
