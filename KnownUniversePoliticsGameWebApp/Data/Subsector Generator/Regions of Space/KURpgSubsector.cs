@@ -5,7 +5,7 @@ namespace Simple_Subsector_Generator;
 
 public class KURPGSubsector
 {
-    public Dictionary<(int X, int Y),KURPGStarSystem> Subsector { get; private set; }
+    public Dictionary<(int X, int Y),KUPStarSystem> Subsector { get; private set; }
 
     public string Name { get; }
     public int XSize { get; }
@@ -39,7 +39,7 @@ public class KURPGSubsector
     public KURPGSubsector(string name, int xSize, int ySize, int subX, int subY)
     {
         //Y,X
-        Subsector = new Dictionary<(int X, int Y), KURPGStarSystem>();
+        Subsector = new Dictionary<(int X, int Y), KUPStarSystem>();
         Name = name;
         XSize = xSize;
         YSize = ySize;
@@ -54,7 +54,13 @@ public class KURPGSubsector
         return null;
     }
     
-    public KURPGStarSystem GetSystem(int x, int y)
+    
+    public List<KUPStarSystem> Systems()
+    {
+        return Subsector.Select(x => x.Value).ToList();
+    }
+    
+    public KUPStarSystem GetSystem(int x, int y)
     {
         return Subsector[(x, y)];
     }
@@ -65,7 +71,7 @@ public class KURPGSubsector
             .Select(x => x.Value as KUPFilledSystem).ToList();
     }
     
-    public void PlaceSystem(KURPGStarSystem system, int x, int y)
+    public void PlaceSystem(KUPStarSystem system, int x, int y)
     {
         Subsector[(x, y)] = system;
     }
@@ -77,6 +83,7 @@ public class KURPGSubsector
 
     public bool IsEmptySystem(int x, int y)
     {
-        return Subsector[(x, y)].GetType() == typeof(KURPGEmptySystem);
+        return Subsector[(x, y)].GetType() == typeof(KupEmptySystem);
     }
+
 }

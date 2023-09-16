@@ -196,7 +196,7 @@
             <button type="button" @onclick="SetFilter"> submit</button>
         </form>
         <ul id="AssetsToLookAt">
-            @foreach (var system in PoliticsGameService.PoliticsGame.Sector.FilledSystems)
+            @foreach (var system in PoliticsGameService.PoliticsGame.Sector.FilledSystems.OrderBy(x => (x.DisplayX, x.DisplayY)))
             {
                 foreach (var asset in system.PointsOfInterest
                     .Where(x => DisplayPOI(x)))

@@ -5,6 +5,7 @@ namespace KnownUniversePoliticsGameWebApp.Data;
 public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 {
     public int HP { get; set; }
+    public bool HasMoved { get; set; } = false;
     public int assetID { get; }
     public string Name { get; set; }
     public int SenderID { get; }
@@ -14,7 +15,27 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         KUPEventService.AddActor(this);
     }
 
-    public KUPLocation Location { get; }
+    public KUPCombatAsset(KUPLocation location, KUPFaction controller, CombatAssetSize size, int id, int evntHandlingID)
+    {
+        Location = location;
+        Controller = controller;
+        Size = size;
+        assetID = id;
+        SenderID = evntHandlingID;
+        ReciverID = evntHandlingID;
+        Name = "Spaceship [" + Size + "] (" + Controller.Name + ") @ " + location;
+        HP = Size switch
+        {
+            CombatAssetSize.Small => 1,
+            CombatAssetSize.Medium => 2,
+            CombatAssetSize.Large => 3,
+            CombatAssetSize.Station => 4,
+        };
+        
+        AddToEventService();
+    }
+
+    public KUPLocation Location { get; private set; }
     public KUPFaction Controller { get; set; }
     CombatAssetSize Size { get; }
 
@@ -154,53 +175,53 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
             var y0 = currentLocation.SystemY - 1;
             var y1 = currentLocation.SystemY;
             var y2 = currentLocation.SystemY + 1;
-            if (x0 >1 && y0 > 1)
+            if (x0 >1 && y0 > 1 && !movable.Any(x => x.SystemX == x0 && x.SystemY == y0))
             {
                 var newLocs = new KUPLocation(x0, y0);
-                var newDepth = depth--;
+                var newDepth = depth - 1;
                 movable.Add(newLocs);
                 GetMoveLocations(newLocs,movable,newDepth);
             }
 
-            if (x1 >= xMIN && y0 >= yMIN)
+            if (x1 >= xMIN && y0 >= yMIN && !movable.Any(x => x.SystemX == x1 && x.SystemY == y0))
             {
                 
                 var newLocs = new KUPLocation(x1, y0);
-                var newDepth = depth--;
+                var newDepth = depth - 1;
                 movable.Add(newLocs);
                 GetMoveLocations(newLocs,movable,newDepth);
             }
-            if (x2 < XMAX && y0 > yMIN)
+            if (x2 < XMAX && y0 > yMIN && !movable.Any(x => x.SystemX == x2 && x.SystemY == y0))
             {
                 
                 var newLocs = new KUPLocation(x2, y0);
-                var newDepth = depth--;
+                var newDepth = depth - 1;
                 movable.Add(newLocs);
                 GetMoveLocations(newLocs,movable,newDepth);
             }
 
-            if (x0 >= xMIN && y1 < yMAX)
+            if (x0 >= xMIN && y1 < yMAX && !movable.Any(x => x.SystemX == x0 && x.SystemY == y1))
             {
                 
                 var newLocs = new KUPLocation(x0, y1);
-                var newDepth = depth--;
+                var newDepth = depth - 1;
                 movable.Add(newLocs);
                 GetMoveLocations(newLocs,movable,newDepth);
             }
-            if (x1 > xMIN && y2 < yMAX)
+            if (x1 > xMIN && y2 < yMAX && !movable.Any(x => x.SystemX == x1 && x.SystemY == y2))
             {
                 
                 var newLocs = new KUPLocation(x1, y2);
-                var newDepth = depth--;
+                var newDepth = depth - 1;
                 movable.Add(newLocs);
                 GetMoveLocations(newLocs,movable,newDepth);
             }
 
-            if (x2 < XMAX && y1 < yMAX)
+            if (x2 < XMAX && y1 < yMAX && !movable.Any(x => x.SystemX == x2 && x.SystemY == y1))
             {
                 
                 var newLocs = new KUPLocation(x2, y1);
-                var newDepth = depth--;
+                var newDepth = depth - 1;
                 movable.Add(newLocs);
                 GetMoveLocations(newLocs,movable,newDepth);
             }
@@ -217,6 +238,25 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
             CombatAssetSize.Station => 1
         };
 
+    public bool ChangeLocationTo(KUPLocation location)
+    {
+        if (!HasMoved)
+        {
+            var moveLocs = new List<KUPLocation>();
+            GetMoveLocations(Location,
+                moveLocs, MoveSpeed());
+            if (moveLocs.Any(x => x == location))
+            {
+                Location = location;
+                Name = Controller.Name + " [" + Size + "] @ " + location;
+                HasMoved = true;
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     public List<KUPLocation> MoveLocations()
     {
         int maxX = 8 * 4;
@@ -226,7 +266,24 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         GetMoveLocations(this.Location,locs,MoveSpeed());
         
         //for()
+
+        locs = locs.OrderBy(x => x.SystemX).ToList();
         
         return locs;
+    }
+
+    public static int GetCosts(CombatAssetSize size)
+    {        return size switch
+        {
+            CombatAssetSize.Large => 250,
+            CombatAssetSize.Medium => 125,
+            CombatAssetSize.Small => 75,
+            CombatAssetSize.Station => 175
+        };
+    }
+
+    public override string ToString()
+    {
+        return $"{Name} HP: {HP} ${MoneyTotal} 😊{InfluenceTotal}";
     }
 }

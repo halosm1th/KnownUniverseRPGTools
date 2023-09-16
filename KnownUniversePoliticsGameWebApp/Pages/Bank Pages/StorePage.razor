@@ -1,0 +1,85 @@
+﻿@page "/StorePage"
+@using KnownUniversePoliticsGameWebApp.Data
+@using System.Diagnostics.Eventing.Reader
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Store Page</h3>
+
+@code {
+    
+    StoreItems ItemToBuy = StoreItems.Chips;
+    int buyAmount = 1;
+    KUPPlayer? player;
+    int targetFactionID;
+    private bool LoggedIn = false;
+    bool hasBeenLoaded = false;
+    int cost => KUPBuyStoreEvent.GetCost(ItemToBuy) * buyAmount;
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    public List<(StoreItems, int)> YouBought { get; set; } = new List<(StoreItems, int)>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var loggedIn = await localStorage.GetItemAsync<string>("LoggedIn");
+        if (loggedIn == "True")
+        {
+            var playerName = await localStorage.GetItemAsync<string>("LoggedInAs");
+            player = PoliticsGameService.GetPlayer(playerName);
+            LoggedIn = true;
+        }
+    }
+
+    private void BuyGood()
+    {
+        YouBought.Add((ItemToBuy,buyAmount));
+        EventService.AddEvent(new KUPBuyStoreEvent(player.SenderID,ItemToBuy,buyAmount));
+    }
+    
+    private void DoSomething()
+    {
+        var temp = LoggedIn;
+        LoggedIn = temp;
+    }
+    
+}
+
+@if (LoggedIn)
+{
+    <div>
+        <p>You've bought:</p>
+        <ul>
+            @foreach (var item in YouBought)
+            {
+                <li>@item.Item1 * @item.Item2</li>
+            }
+        </ul>
+    </div>
+
+    <p>You have: $@player.PersonalFunds to spend on food.</p>
+    <p>Cost: @cost</p>
+    <form>
+        <label for="itemToBuy">What do you want to buy?</label>
+        <select id="itemToBuy" @bind="ItemToBuy">
+            @foreach (var v in Enum.GetNames(typeof(StoreItems)))
+            {
+                <option value="@v">@v</option>
+            }
+        </select>
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" @bind="buyAmount"/>
+        @if (cost <= player.PersonalFunds)
+        {
+            <button @onclick="BuyGood">Buy</button>
+        }
+    </form>
+}
+else
+{
+    <button type="button" @onclick="DoSomething">Click me.</button>
+    <p>If not logged in, will do nothing. To log in, go to the player page and log in.</p>
+}

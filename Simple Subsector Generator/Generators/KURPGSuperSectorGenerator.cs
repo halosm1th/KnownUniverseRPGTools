@@ -44,7 +44,40 @@ class KURPGSuperSectorGenerator
         fs.Close();
     }
 
-    public async Task<KURPGSuperSector?> Generate()
+    public KURPGSuperSector Generate()
+    {
+        if (IsPrinting)
+        {
+            
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Starting to generate {Name} SuperSector");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+        SuperSector = new KURPGSuperSector(Name,Seed);
+        
+        var tasks = new KURPGSector[SuperSector.Sectors.GetLength(0),
+            SuperSector.Sectors.GetLength(1)];
+
+       for(var x =0; x < SuperSector.Sectors.GetLength(0); x++)
+       {
+           for(var y = 0; y< SuperSector.Sectors.GetLength(1); y++)
+            {
+                tasks[x,y] = GenerateSuperSectorData(x, y);
+            }
+        }
+
+        if (IsPrinting)
+        {
+            
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"Finished generating {Name} SuperSector");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        return SuperSector;
+    }
+    
+    public async Task<KURPGSuperSector?> GenerateAsync()
     {
         if (IsPrinting)
         {
@@ -62,7 +95,7 @@ class KURPGSuperSectorGenerator
         {
             Parallel.For(0, SuperSector.Sectors.GetLength(1), y =>
             {
-                tasks[x,y] = GenerateSuperSectorData(x, y);
+                tasks[x,y] = GenerateSuperSectorDataAsync(x, y);
             });
         });
 
@@ -79,7 +112,17 @@ class KURPGSuperSectorGenerator
         return SuperSector;
     }
     
-    private async Task<KURPGSector?> GenerateSuperSectorData(int x, int y)
+    private KURPGSector GenerateSuperSectorData(int x, int y)
+    {
+        var generator = new KURPGSectorGenerator(Name + $" {x},{y} Sector", UsingSeed, Seed + x + y, IsPrinting);
+        var result = generator.Generate();
+
+        if (SuperSector != null) SuperSector.Sectors[x, y] = result;
+
+        return result;
+    }
+    
+    private async Task<KURPGSector?> GenerateSuperSectorDataAsync(int x, int y)
     {
         //if(IsPrinting) Console.WriteLine($"Beginning generation of {Name} {x} {y} Sector");
         var generator = new KURPGSectorGenerator(Name + $" {x},{y} Sector", UsingSeed, Seed + x + y, IsPrinting);

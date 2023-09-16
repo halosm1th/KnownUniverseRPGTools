@@ -19,9 +19,16 @@ namespace TravellerMapSystem.Tools
         private static readonly float WIDTH = HexWidth(HEIGHT);
         //private static readonly Image? GRID = CreateGrid();
 
+        public bool PRINTER_FRIENDLY = true;
+
         private static readonly SolidBrush Brush = new SolidBrush(Color.Black);
         
         private readonly KURPGSubsector _knownUniverseSubsectorToDraw;
+        
+        
+        private static readonly int fontSize = 18;
+        private static readonly Font systemFont = SystemFonts.CreateFont("Segoe UI Emoji", fontSize);
+        private FontCollection fonts = new FontCollection();
 
         public DrawSubsector(KURPGSubsector knownUniverseSubsectorToDraw)
         {
@@ -42,9 +49,6 @@ namespace TravellerMapSystem.Tools
             return subsector;
         }
 
-        private static readonly int fontSize = 18;
-        private static readonly Font systemFont = SystemFonts.CreateFont("Segoe UI Emoji", fontSize);
-        private FontCollection fonts = new FontCollection();
 
         private void DrawWorlds(Image subsector, bool highVersian = false)
         {
@@ -197,8 +201,6 @@ namespace TravellerMapSystem.Tools
         {
             return (float)(4 * (height / 2 / Math.Sqrt(3)));
         }
-
-        public bool PRINTER_FRIENDLY = true;
         
         private Image? CreateGrid(KURPGSubsector subsector)
         {

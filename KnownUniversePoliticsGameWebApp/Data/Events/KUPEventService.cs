@@ -17,7 +17,7 @@ public class KUPEventService
     {
     }
 
-    public void Init()
+    public async Task Init()
     {
         KnownUniversePoliticsGame.EventService = this;
         hasBeenInit = true;
@@ -56,7 +56,22 @@ public class KUPEventService
 
     public static void AddActor(IKUPEventActor actor)
     {
-        ActorList.Add(actor);
+        if(!ActorList.Any(x => x.SenderID == actor.SenderID))
+        {
+            ActorList.Add(actor);   
+        }else
+        {
+            if (actor.GetType() == typeof(KUPFaction))
+            {
+                ((KUPFaction) actor).FactionExists();
+            }
+            else
+            {
+                Console.WriteLine($"Error adding {actor} to ActorList. Actor ID {actor.ReciverID} Already exists in list as " +
+                                  $"{ActorList.First(x => x.ReciverID == actor.ReciverID).Name} played by" +
+                                  $" {ActorList.OfType<KUPFaction>().First(x => x.ReciverID == actor.ReciverID)?.Player?.Name ?? "No Player"}");
+            }
+        }
     }
 
     public void AddEvent(IKUPEvent evnt){

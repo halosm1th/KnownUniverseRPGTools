@@ -16,13 +16,7 @@
 
     public int GetCost()
     {
-        return Size switch
-        {
-            CombatAssetSize.Large => 250,
-            CombatAssetSize.Medium => 125,
-            CombatAssetSize.Small => 75,
-            CombatAssetSize.Station => 175
-      };
+        return KUPCombatAsset.GetCosts(Size);
     }
 
     public List<IKUPLocationAsset> GetBuildLocations()
@@ -75,20 +69,23 @@
             <select id="location" @bind="BuildLocationID">
                 @foreach (var loc in GetBuildLocations())
                 {
-                    <option value="@loc.assetID">
+                    <option selected value="@loc.assetID">
                         @loc.Name (@loc.Location)
                     </option>
                 }
             </select>
             <label for="shipType">Ship Type</label>
             <select id="shipType" @bind="Size">
-                <option value="@CombatAssetSize.Small">Small Ship</option>
+                <option selected value="@CombatAssetSize.Small">Small Ship</option>
                 <option value="@CombatAssetSize.Medium">Medium Ship</option>
                 <option value="@CombatAssetSize.Large">Large Ship</option>
                 <option value="@CombatAssetSize.Station">Station</option>
             </select>
             <p>Total Cost: @GetCost()</p>
-            <button @onclick="SubmitBuildOrder" type="button">Submit Build Order</button>
+                                     @if (Faction.Money >= GetCost())
+                                     {
+                                         <button @onclick="SubmitBuildOrder" type="button">Submit Build Order</button>
+                                     }
         }
     </form>
 </div>

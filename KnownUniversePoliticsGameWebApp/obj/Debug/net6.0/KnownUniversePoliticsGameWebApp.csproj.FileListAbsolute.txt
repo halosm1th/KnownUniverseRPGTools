@@ -1,3 +1,6 @@
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.deps.json
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.runtimeconfig.json
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.exe
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\appsettings.json
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\KnownUniversePoliticsGameWebApp.staticwebassets.runtime.json
@@ -7,6 +10,14 @@ C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebA
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\KnownUniversePoliticsGameWebApp.dll
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\ref\KnownUniversePoliticsGameWebApp.dll
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\KnownUniversePoliticsGameWebApp.pdb
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Antlr4.Runtime.Standard.dll
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Blazored.LocalStorage.dll
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Dice.dll
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\SixLabors.Fonts.dll
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\SixLabors.ImageSharp.dll
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\SixLabors.ImageSharp.Drawing.dll
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.dll
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.pdb
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\KnownUniversePoliticsGameWebApp.csproj.AssemblyReference.cache
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\KnownUniversePoliticsGameWebApp.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\KnownUniversePoliticsGameWebApp.AssemblyInfoInputs.cache
@@ -21,19 +32,8 @@ C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebA
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\scopedcss\bundle\KnownUniversePoliticsGameWebApp.styles.css
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\scopedcss\projectbundle\KnownUniversePoliticsGameWebApp.bundle.scp.css
+C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\KnownUniversePoliticsGameWebApp.csproj.CopyComplete
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\KnownUniversePoliticsGameWebApp.dll
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\ref\KnownUniversePoliticsGameWebApp.dll
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\KnownUniversePoliticsGameWebApp.pdb
 C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\KnownUniversePoliticsGameWebApp.genruntimeconfig.cache
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.deps.json
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.runtimeconfig.json
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.exe
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Antlr4.Runtime.Standard.dll
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Dice.dll
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\SixLabors.Fonts.dll
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\SixLabors.ImageSharp.dll
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\SixLabors.ImageSharp.Drawing.dll
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.dll
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Simple Subsector Generator.pdb
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\obj\Debug\net6.0\KnownUniversePoliticsGameWebApp.csproj.CopyComplete
-C:\Users\thoma\RiderProjects\KnownUniverseRPGTools\KnownUniversePoliticsGameWebApp\bin\Debug\net6.0\Blazored.LocalStorage.dll

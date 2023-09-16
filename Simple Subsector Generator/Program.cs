@@ -11,20 +11,17 @@ class Tester
 {
     public static void Main()
     {
-        var name = "Wednesday Test Map";
-        var seed = 01091999;
+        var name = "Malands";
+        var seed = 01122000;
         var usingSeed = true;
         var printSubImages = true;
 
         if(usingSeed) Console.WriteLine($"Creating {name} with seed: {seed}");
         else Console.WriteLine($"Creating {name}");
-        var tester = new KURPGSectorGenerator(name,usingSeed, seed, true);
+        var tester = new KURpgSubsectorGenerator(name,usingSeed, seed, false);
         
         Console.WriteLine($"Generating {name}");
-        var task = Task.Run(() => tester.GenerateAsync());
-        while (!task.IsCompleted)
-        {
-        }
+        tester.Generate();
 
         Console.WriteLine("Finished Generation");
 
@@ -32,7 +29,7 @@ class Tester
             tester.WriteToFile(name, Directory.GetCurrentDirectory() + "/Generated Data/");
 
             Console.WriteLine($"Generating Image for {name}");
-            var imageCreator = new DrawSector(tester.Sector);
+            var imageCreator = new DrawSubsector(tester.Subsector);
             var image = imageCreator.GenerateImage(printSubImages, Directory.GetCurrentDirectory() + "/Generated Data/" );
 
             Console.WriteLine($"Writing image of {name} to {Directory.GetCurrentDirectory() + "/Generated Data/" + name}.png");

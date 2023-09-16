@@ -13,12 +13,12 @@
 @code {
 
     KUPLocation previousLocation = new KUPLocation(100,100);
-    private void SetupGame()
+    private async Task SetupGame()
     {
         if (!PoliticsGameService.HasBeenInited)
         {
-            PoliticsGameService.Init();
-            EventService.Init();
+           await PoliticsGameService.Init();
+            await EventService.Init();
         }
     }
 
@@ -62,7 +62,7 @@
         <details>
             <summary><h4>Events</h4></summary>
             <ul>
-                @foreach (var evnt in KUPEventService.EventQueue)
+                @foreach (var evnt in KUPEventService.EventQueue.Reverse())
                 {
                     <li>@evnt</li>
                 }

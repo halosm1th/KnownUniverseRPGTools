@@ -25,11 +25,12 @@
         {
             codes.Add(KURPGTradeCodes.Mb);
 
-        }else if (SubtypeRoll == 4)
-        {
-            codes.Add(KURPGTradeCodes.Vg);
+        }//else if (SubtypeRoll == 4)
+        //{
+          //  codes.Add(KURPGTradeCodes.Vg);
 
-        }else if (SubtypeRoll == 8)
+    //    }
+        else if (SubtypeRoll == 8)
         {
             codes.Add(KURPGTradeCodes.Wh);
 

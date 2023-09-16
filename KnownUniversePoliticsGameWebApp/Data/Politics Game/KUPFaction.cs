@@ -37,7 +37,7 @@ public class KUPFaction : IKUPEventActor
         KUPEventService.AddActor(this);
     }
 
-    public int FactionID { get; }
+    public int FactionID { get; private set; }
     public string Name { get; }
     public FactionType FactionType { get; }
     public KUPPlayer? Player { get; private set; }
@@ -47,7 +47,7 @@ public class KUPFaction : IKUPEventActor
 
     public List<KUPCombatAsset> CombatAssets => Assets.OfType<KUPCombatAsset>().ToList();
 
-    public KUPFaction(string name = "Empty Faction", int id =-1, FactionType factionType = FactionType.Unclaimed, int money = 0, 
+    public KUPFaction(string name = "Empty Faction", int id =-10000, FactionType factionType = FactionType.Unclaimed, int money = 0, 
         int influence = 0, List<IKUPAsset> assets = default, KUPPlayer player = default)
     {
         Name = name;
@@ -57,7 +57,7 @@ public class KUPFaction : IKUPEventActor
 
         FactionID = id;
         Player = player;
-        if (Player?.Faction == null || player?.Faction == default)
+        if (player != null && (Player?.Faction == null || player?.Faction == default))
         {
             Player.Faction = this;
         }
@@ -100,6 +100,11 @@ public class KUPFaction : IKUPEventActor
             Influence += asset.MoneyTotal;
         }
 
+        foreach (var combat in Assets.OfType<KUPCombatAsset>())
+        {
+            combat.HasMoved = false;
+        }
+        
         UpdateFactionBasedOnMoneyAndInfluence();
     }
 
@@ -133,6 +138,7 @@ public class KUPFaction : IKUPEventActor
     public void DestroyAsset(IKUPAsset asset)
     {
         Assets.Remove(asset);
+        asset.Controller = new KUPFaction();
     }
 
     public void NewPlayer(KUPPlayer kupPlayer)
@@ -171,5 +177,14 @@ public class KUPFaction : IKUPEventActor
     public List<KUPCombatAsset> GetMilitaryAssets()
     {
         return Assets.OfType<KUPCombatAsset>().ToList();
+    }
+
+    public void FactionExists()
+    {
+        if (Name == "Empty Faction")
+        {
+            FactionID = FactionID--;
+            AddToEventService();
+        }
     }
 }

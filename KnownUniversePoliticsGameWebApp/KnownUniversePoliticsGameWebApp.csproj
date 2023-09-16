@@ -18,4 +18,11 @@
       <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="namelist.csv" />
+      <Resource Include="namelist.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
+
 </Project>

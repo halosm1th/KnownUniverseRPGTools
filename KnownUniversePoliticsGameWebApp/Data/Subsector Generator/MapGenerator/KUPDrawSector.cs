@@ -20,11 +20,13 @@ namespace TravellerMapSystem.Tools
 
         private readonly KURPGSector? _knownUniverseSectorToDraw;
         private readonly List<KUPFaction>? _factions;
+        private KnownUniversePoliticsGame PoliticsGame;
 
-        public KUPDrawSector(KURPGSector? knownUniverseSectorToDraw, List<KUPFaction>? factions)
+        public KUPDrawSector(KURPGSector? knownUniverseSectorToDraw, List<KUPFaction>? factions, KnownUniversePoliticsGame politicsGame)
         {
             _knownUniverseSectorToDraw = knownUniverseSectorToDraw;
             _factions = factions;
+            PoliticsGame = politicsGame;
         }
 
         public Image GenerateImage(bool printSubImages = false, string path = "", bool highVersian = false)
@@ -35,7 +37,7 @@ namespace TravellerMapSystem.Tools
             {
                 for (int y = 0; y < _knownUniverseSectorToDraw.Subsectors.GetLength(1); y++)
                 {
-                    var imageToAdd = new KUPDrawSubsector(_knownUniverseSectorToDraw.Subsectors[x,y]);
+                    var imageToAdd = new KUPDrawSubsector(_knownUniverseSectorToDraw.Subsectors[x,y], PoliticsGame);
                     var image = imageToAdd.GenerateImage(printSubImages,path);
                     var placeX = ((xSize/4) * x) - (x==0? 0 : KUPDrawSubsector.SPACER*(3*x));
                     var placeY = ((ySize/4) * y)- (y==0? 0 : KUPDrawSubsector.SPACER*(5*y));

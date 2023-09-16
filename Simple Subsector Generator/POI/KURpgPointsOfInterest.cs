@@ -27,6 +27,16 @@ public abstract class KURPGPointsOfInterest
         {
             switch (tradecode)
             {
+                case KURPGTradeCodes.Ah:
+                    sb.Append("⚙, ");
+                    break;
+                case KURPGTradeCodes.Mh:
+                    sb.Append("🍎, ");
+                    break;
+                case KURPGTradeCodes.Rh:
+                    sb.Append("💎, ");
+                    break;
+                
                 case KURPGTradeCodes.Hp:
                     sb.Append("👨‍👩‍👧‍👦, ");
                     break;
@@ -60,8 +70,8 @@ public abstract class KURPGPointsOfInterest
                 case KURPGTradeCodes.Re:
                     sb.Append("⚒, ");
                     break;
-                case KURPGTradeCodes.Ga:
-                    sb.Append("🪐, ");
+                case KURPGTradeCodes.Me:
+                    sb.Append("🏥, ");
                     break;
                 case KURPGTradeCodes.Gw:
                     sb.Append("🗃, ");
@@ -90,9 +100,9 @@ public abstract class KURPGPointsOfInterest
                 case KURPGTradeCodes.Mb:
                     sb.Append("💂‍♂️, ");
                     break;
-                case KURPGTradeCodes.Vg:
-                    sb.Append("⭕, ");
-                    break;
+                //case KURPGTradeCodes.Vg:
+                  //  sb.Append("⭕, ");
+                  //  break;
                 case KURPGTradeCodes.Bh:
                     sb.Append("🎩, ");
                     break;
@@ -120,6 +130,16 @@ public abstract class KURPGPointsOfInterest
         foreach(var tradecode in GetTradeCodes()){
             switch (tradecode)
             {
+                case KURPGTradeCodes.Ah:
+                    sb.Append("Agriculture Hub, ");
+                    break;
+                case KURPGTradeCodes.Mh:
+                    sb.Append("Manufacturing Hub, ");
+                    break;
+                case KURPGTradeCodes.Rh:
+                    sb.Append("Resource Hub, ");
+                    break;
+                
                 case KURPGTradeCodes.Hp:
                     sb.Append("High Pop, ");
                     break;
@@ -153,8 +173,8 @@ public abstract class KURPGPointsOfInterest
                 case KURPGTradeCodes.Re:
                     sb.Append("Resource World, ");
                     break;
-                case KURPGTradeCodes.Ga:
-                    sb.Append("Gas Giant, ");
+                case KURPGTradeCodes.Me:
+                    sb.Append("Medical World, ");
                     break;
                 case KURPGTradeCodes.Gw:
                     sb.Append("Government World, ");

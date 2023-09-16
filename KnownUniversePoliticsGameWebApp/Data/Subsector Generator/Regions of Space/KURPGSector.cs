@@ -5,32 +5,36 @@ namespace Simple_Subsector_Generator;
 public class KURPGSector
 {
     public KURPGSubsector[,] Subsectors { get; }
-    
-    public List<KUPFilledSystem> FilledSystems {get
-    {
-        var systems = new List<KUPFilledSystem>();
-        foreach (var sub in Subsectors)
-        {
-            systems.AddRange(sub.GetFilledSystems());
-        }
 
-        return systems;
-    }}
+    public List<KUPFilledSystem> FilledSystems
+    {
+        get
+        {
+            var systems = new List<KUPFilledSystem>();
+            foreach (var sub in Subsectors)
+            {
+                systems.AddRange(sub.GetFilledSystems());
+            }
+
+            return systems;
+        }
+    }
 
 
     private List<KUPPointsOfInterest> _PointsOfInterests;
+
     public List<KUPPointsOfInterest> PointsOfInterests
     {
         get
         {
-            
+
             var poi = new List<KUPPointsOfInterest>();
             foreach (var kurpgSubsector in Subsectors)
             {
                 var items = kurpgSubsector.GetFilledSystems().Select(x => x?.PointsOfInterest);
                 foreach (var item in items)
                 {
-                    poi.AddRange(item);   
+                    poi.AddRange(item);
                 }
             }
 
@@ -40,6 +44,18 @@ public class KURPGSector
 
     public string Name { get; }
     public int Seed { get; }
+
+    public List<KUPStarSystem> GetSystems()
+    {
+        var results = new List<KUPStarSystem>();
+
+        foreach (var sub in Subsectors)
+        {
+            results.AddRange(sub.Systems());
+        }
+        
+        return results;
+    }
 
     public KURPGSector(string name, int seed)
     {
