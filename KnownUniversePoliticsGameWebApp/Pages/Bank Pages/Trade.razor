@@ -10,11 +10,10 @@
 @code {
     
     KUPPlayer? player;
-    int targetFactionID;
+    int targetFactionID = -1;
     private bool LoggedIn = false;
     bool hasBeenLoaded = false;
     bool AssetTransfered = false;
-    int AssetID = -1;
     List<int> AssetsToTrade = new List<int>();
     int AssetToTrade = -1;
     int FactionToGiveTo = -1;
@@ -57,6 +56,17 @@
         hasBeenLoaded = false;
     }
 
+    private void SetFaction()
+    {
+        targetFactionID = FactionToGiveTo;
+    }
+
+    private void ResetFaction()
+    {
+        targetFactionID = -1;
+        FactionToGiveTo = -1;
+    }
+
 }
 
 @if (LoggedIn)
@@ -70,8 +80,36 @@
     {
         <form>
             <label for="target">Transfer Asset To</label>
+            
+            @if (targetFactionID == -1)
+            {
+
+                <select @bind="FactionToGiveTo" id="target">
+                    @foreach (var faction in PoliticsGameService.PoliticsGame.Factions)
+                    {
+                        <option value="@faction.ReciverID">
+                            @faction.Name
+                        </option>
+                    }
+                </select>
+                <button type="button" @onclick="SetFaction">Click me to Set Target Faction</button>
+            }
+            else
+            {
+                <h4>Target Faction: @PoliticsGameService.GetFaction(targetFactionID) </h4>
+                <button type="button" @onclick="ResetFaction">Reset Target Faction</button>
+            }
             <label for="asset">Asset to Transfer</label>
-            <button @onclick="AddAsset">Add Asset to Transfer List</button>
+            <select id="asset" @bind=AssetToTrade>
+                         @foreach (var asset in player.Faction.Assets)
+                            {
+                                <option value="@asset.assetID">
+                                    @asset
+                                </option>
+                            }
+            </select>
+            
+            <button @onclick="AddAsset" type="button">Add Asset to Transfer List</button>
             <label for="assetsToTrade">Assets to Trade</label>
             <ul id="assetsToTrade">
                 @foreach (var asset in AssetsToTrade)
@@ -79,7 +117,10 @@
                     <li>@PoliticsGameService.GetAsset(asset)</li>
                 }
             </ul>
-            <button @onclick="TransferAsset">Transfer Asset</button>
+            @if (targetFactionID != -1 && AssetsToTrade.Count > 0)
+            {
+                <button @onclick="TransferAsset">Transfer Asset</button>
+            }
         </form>
     }
 }

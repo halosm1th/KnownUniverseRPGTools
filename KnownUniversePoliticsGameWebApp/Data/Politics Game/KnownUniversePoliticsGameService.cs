@@ -84,7 +84,12 @@ public class KnownUniversePoliticsGameService
 
     public KUPPlayer? GetPlayer(string username)
     {
-        return PoliticsGame.Players.Find(x => x.Name == username);
+        if (PoliticsGame != null)
+        {
+            return PoliticsGame.Players.Find(x => x.Name == username);
+        }
+
+        return null;
     }
 
     public void EndOfTurn()
@@ -97,6 +102,12 @@ public class KnownUniversePoliticsGameService
         return PoliticsGame.GetFaction(name);
     }
 
+    
+    public KUPFaction? GetFaction(int factionID)
+    {
+        return PoliticsGame.GetFaction(factionID);
+    }
+    
     public KUPStarSystem GetSystem(int xloc, int yloc)
     {
         

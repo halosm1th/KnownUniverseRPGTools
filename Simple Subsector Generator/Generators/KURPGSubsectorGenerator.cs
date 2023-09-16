@@ -219,7 +219,7 @@ class KURpgSubsectorGenerator
     {
         Random r = new Random(numb);
 
-        return ProvinceNameList[r.Next(0,nameList.Count)];
+        return ProvinceNameList[r.Next(0,ProvinceNameList.Count-1)];
     }
     
     
@@ -227,7 +227,7 @@ class KURpgSubsectorGenerator
     {
         Random r = new Random(numb);
 
-        return CountryNameList[r.Next(0,nameList.Count)];
+        return CountryNameList[r.Next(0,CountryNameList.Count-1)];
     }
 
     public static string GetName(int numb)

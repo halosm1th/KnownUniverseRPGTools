@@ -44,8 +44,56 @@
 
 
         IsManufacturingHub(tags);
-        
+        IsAgriHub(tags);
+        IsResourceHub(tags);
+
         return tags;
+    }
+    
+    private void IsAgriHub(List<KURPGTradeCodes> tags)
+    {
+        if (InSystem.PointsOfInterest.Any(x
+                => x.GetType() != typeof(KURPGPrimaryStation)
+                   && x.GetTradeCodes().Contains(KURPGTradeCodes.Hp))
+            || tags.Contains(KURPGTradeCodes.Hp))
+        {
+            if (InSystem.PointsOfInterest.Any(x
+                    => x.GetType() != typeof(KURPGPrimaryStation)
+                       && x.GetTradeCodes().Contains(KURPGTradeCodes.Th))
+                || tags.Contains(KURPGTradeCodes.Th))
+            {
+                if (InSystem.PointsOfInterest.Any(x
+                        => x.GetType() != typeof(KURPGPrimaryStation)
+                           && x.GetTradeCodes().Contains(KURPGTradeCodes.Ag))
+                    || tags.Contains(KURPGTradeCodes.Ag))
+                {
+                     tags.Add(KURPGTradeCodes.Ah);
+                }
+            }
+        }
+    }
+    
+    private void IsResourceHub(List<KURPGTradeCodes> tags)
+    {
+        if (InSystem.PointsOfInterest.Any(x
+                => x.GetType() != typeof(KURPGPrimaryStation)
+                   && x.GetTradeCodes().Contains(KURPGTradeCodes.Hp))
+            || tags.Contains(KURPGTradeCodes.Hp))
+        {
+            if (InSystem.PointsOfInterest.Any(x
+                    => x.GetType() != typeof(KURPGPrimaryStation)
+                       && x.GetTradeCodes().Contains(KURPGTradeCodes.Th))
+                || tags.Contains(KURPGTradeCodes.Th))
+            {
+                if (InSystem.PointsOfInterest.Any(x
+                        => x.GetType() != typeof(KURPGPrimaryStation)
+                           && x.GetTradeCodes().Contains(KURPGTradeCodes.Re))
+                    || tags.Contains(KURPGTradeCodes.Re))
+                {
+                    tags.Add(KURPGTradeCodes.Rh);
+                }
+            }
+        }
     }
 
     private void IsManufacturingHub(List<KURPGTradeCodes> tags)

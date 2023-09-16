@@ -23,7 +23,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         assetID = id;
         SenderID = evntHandlingID;
         ReciverID = evntHandlingID;
-        Name = Controller.Name + " [" + size + "] @ " + location;
+        Name = "Spaceship [" + Size + "] (" + Controller.Name + ") @ " + location;
         HP = Size switch
         {
             CombatAssetSize.Small => 1,

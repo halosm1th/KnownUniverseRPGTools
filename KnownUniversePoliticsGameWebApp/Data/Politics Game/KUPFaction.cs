@@ -57,7 +57,7 @@ public class KUPFaction : IKUPEventActor
 
         FactionID = id;
         Player = player;
-        if (Player?.Faction == null || player?.Faction == default)
+        if (player != null && (Player?.Faction == null || player?.Faction == default))
         {
             Player.Faction = this;
         }

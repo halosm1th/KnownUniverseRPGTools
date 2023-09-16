@@ -239,15 +239,22 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         var sender = Factions.First(x => x.SenderID == evnt.SenderID);
         var reciver = Factions.First(x => evnt.TargetFactionReciverID == x.ReciverID);
         var targetAssetIDs = evnt.AssetsToTransfer;
+        var assetsToTransfer = new List<IKUPAsset>();
+        
         foreach (var asset in sender.Assets)
         {
             if (targetAssetIDs.Contains(asset.assetID))
             {
-                sender.DestroyAsset(asset);
-                reciver.AddAsset(asset);
+                assetsToTransfer.Add(asset);
             }
         }
         
+        foreach (var asset in assetsToTransfer)
+        {
+            sender.DestroyAsset(asset);
+            reciver.AddAsset(asset);
+        }
+
         EventService.AddEvent(new IKUPMessageEvent(evnt.SenderID,evnt.TargetFactionReciverID,$"{sender.Name} " +
             $"has given you the following assets w/ IDs: {targetAssetIDs.Aggregate("", (h,t) => h + ", " + t)}"));
         
@@ -481,6 +488,12 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     {
         return Factions.First(x => x.Name == name);
     }
+    
+    public KUPFaction? GetFaction(int ID)
+    {
+        return Factions.First(x => x.FactionID == ID);
+    }
+
 
     public bool CouldCaptureSystem(KUPFilledSystem system)
     {
