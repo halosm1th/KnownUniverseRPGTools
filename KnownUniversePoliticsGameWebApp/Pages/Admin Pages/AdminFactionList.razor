@@ -1,0 +1,20 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+<h3>AdminFactionList</h3>
+@inject KnownUniversePoliticsGameService _politicsGameService
+@code {
+    
+}
+
+
+<div>
+    <details>
+        <summary>
+            <h4>List of Factions</h4></summary>
+        <ul>
+            @foreach (var faction in _politicsGameService.PoliticsGame.Factions)
+            {
+                <li style="white-space: pre-line">@faction</li>
+            }
+        </ul>
+    </details>
+</div>

@@ -18,6 +18,10 @@ public class KupPointsOfInterestOther: KUPPointsOfInterest
             return new List<KURPGTradeCodes>() {KURPGTradeCodes.Bh};
         }
         
+        if (SubtypeRoll == 7)
+        {
+            return new List<KURPGTradeCodes>() {KURPGTradeCodes.Bh};
+        }
         
         if (SubtypeRoll == 1)
         {

@@ -57,11 +57,18 @@
 
     private void SendMessage()
     {
-        var factionID = PoliticsGameService.PoliticsGame.Factions.First(x => x.Name == targetFactionName).ReceiverID;
-        
-        EventService.AddEvent(new IKUPMessageEvent(player.Faction.SenderID,factionID,message));
-        targetFactionName = "";
-        message = "";
+        try
+        {
+            var factionID = PoliticsGameService.PoliticsGame.Factions.First(x => x.Name == targetFactionName).ReceiverID;
+
+            EventService.AddEvent(new IKUPMessageEvent(player.Faction.SenderID, factionID, message));
+            targetFactionName = "";
+            message = "";
+        }
+        catch (Exception e)
+        {
+            
+        }
     }
 
     private void Loggout()

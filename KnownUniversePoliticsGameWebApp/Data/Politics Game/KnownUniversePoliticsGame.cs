@@ -65,7 +65,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         var food = new KUPPlayer("FOOD", "Federation", 10, 10007, 10007);
         Players = new List<KUPPlayer?>()
         {
-            thomas, imp1, vrs1, ufe1
+            thomas, imp1, vrs1, ufe1,pirate,bank,food
         };
 
         //Setup the subsector
@@ -95,9 +95,19 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                 GetAssetsFromIDS(new()
                 {
                 }), food),
-            new("Pirates", 3, FactionType.Pirates, 1000000, 10000000,
+            new("Pirates", 3, FactionType.Pirates, 0, 0,
                 GetAssetsFromIDS(new()
                 {
+                    38, 40, 44, 498, 499, 965, 968, 52, 502,504,979,74,78,
+                    525, 996, 1509, 528, 1006,1008, 1012,94,26,1026,97,109,110,567,1037,
+                    1040,1553, 166,172, 1095, 1611, 178, 1622,1110, 1114,1624,202, 1117,
+                    1629, 642, 1124, 1125,1637,215,224,226 ,227,656,1143,1653,1658 ,232,
+                    659, 661,1666 ,1667, 238,667,1164,1166,1169, 1674, 1212,1213,1737,735,
+                    1742, 1750,304,751,750,1756,1761,312,1767, 316, 762,1243,771,773,1248,1774,
+                    1781,1782,332,787,1256,1258, 1259, 1262,1265,788,789,1268,1269,1273,343,807,
+                    1281, 1288, 1805, 1809, 391,395,396,858,1854,399,866,409,871,413,878,1872,1375,
+                    1879, 1887, 423,1380, 1888,893,899,1893,1391,1902, 915,1397,1404,1905,924,929,
+                    1409,1913,1915, 1917 
                 }), pirate),
             new KUPFaction("Test Imperials 3", 4, FactionType.Imperial3, 0, 0,
                 GetAssetsFromIDS(new()
@@ -699,5 +709,21 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         var ships = AssetsInPlay.Where(x => x.Location.SystemX == locX && x.Location.SystemY == locY);
         return ships.Any(x => x.Controller == system.SystemsPrimaryStation.PrimaryStationAsset.Controller);
 
+    }
+
+    public void AdminTranferAssets(KUPFaction targetFaction, List<IKUPAsset> assetsToTransfer)
+    {
+        //First transfer all the selects assets to the GM from their respective owners.
+        foreach (var asset in assetsToTransfer)
+        {
+            EventService.AddEvent(new KUPAssetTransferEvent(asset.Controller.SenderID,
+                GameMaster.ReceiverID,new List<int>(){asset.assetID}));
+        }
+        
+        //Then transfer the assets from the GM to the target player.
+            EventService.AddEvent(
+                new KUPAssetTransferEvent(GameMaster.SenderID,targetFaction.FactionID,
+                    assetsToTransfer.Select(x => x.assetID).ToList()));
+        
     }
 }

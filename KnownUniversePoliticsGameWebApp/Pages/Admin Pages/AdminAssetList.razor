@@ -1,73 +1,12 @@
-﻿@page "/AdminPage"
-@using KnownUniversePoliticsGameWebApp.Data
-@inject KnownUniversePoliticsGameService _politicsGameService
+﻿@using KnownUniversePoliticsGameWebApp.Data
+<h3>AdminEventsView</h3>
 @inject KUPEventService _eventService;
-<style>
-    #AssetsToLookAt {height:200px; width:50%;
-    overflow:hidden; overflow-y:scroll; overflow-x: scroll
-    }
-</style>
-<PageTitle>Admin Page</PageTitle>
-<h3>Admin Console</h3>
+@inject KnownUniversePoliticsGameService _politicsGameService
 
 @code {
-
-    private async Task SetupGame()
-    {
-        if (!_politicsGameService.HasBeenInited)
-        {
-           await _politicsGameService.Init();
-            await _eventService.Init();
-        }
-    }
-
-    private void RefreshMap()
-    {
-        _politicsGameService.MapRefresh();
-    }
-
-    private void EndOfTurn()
-    {
-        _politicsGameService.EndOfTurn();
-    }
-
+    
 }
-<div>
-    @if (!_politicsGameService.HasBeenInited)
-    {
-        <button @onclick="SetupGame" type="button">Click me to Init the Game!</button>
-    }
-    else
-    {
-        <button @onclick="RefreshMap" type="button">Click me to refresh the map!</button>
-    }
-</div>
-@if (_politicsGameService.HasBeenInited)
-{
-    <button @onclick="EndOfTurn">End of Turn!</button>
-    <div>
-        <details>
-            <summary>
-                <h4>List of Factions</h4></summary>
-            <ul>
-                @foreach (var faction in _politicsGameService.PoliticsGame.Factions)
-                {
-                    <li style="white-space: pre-line">@faction</li>
-                }
-            </ul>
-        </details>
-    </div>
-    <div>
-        <details>
-            <summary><h4>Events</h4></summary>
-            <ul>
-                @foreach (var evnt in KUPEventService.EventQueue.Reverse())
-                {
-                    <li>@evnt</li>
-                }
-            </ul>
-        </details>
-    </div>
+
     <div>
         <details>
             <summary><h4>List of Map Assets</h4></summary>
@@ -114,4 +53,3 @@
             </ul>
         </details>
     </div>
-}

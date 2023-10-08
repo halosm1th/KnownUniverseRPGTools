@@ -141,8 +141,20 @@ public class KUPFaction : IKUPEventActor
     {
         foreach (var asset in Assets)
         {
-            Money += asset.MoneyTotal;
-            Influence += asset.MoneyTotal;
+            if (Player.Faction.FactionType == FactionType.Pirates)
+            {
+                if (asset is not KUPCombatAsset)
+                {
+                    Money +=  (-1 * asset.MoneyTotal);
+                    Influence += (-1 * asset.MoneyTotal);
+                }
+            }
+
+            else
+            {
+                Money += asset.MoneyTotal;
+                Influence += asset.MoneyTotal;
+            }
         }
 
         foreach (var combat in Assets.OfType<KUPCombatAsset>())

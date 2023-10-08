@@ -154,4 +154,9 @@ public class KnownUniversePoliticsGameService
         var ships = PoliticsGame.AssetsInPlay.First(x => x.assetID == shipAssetId);
         return ships as KUPCombatAsset;
     }
+
+    public void AdminTransferAssets(KUPFaction targetFaction, List<IKUPAsset> assetsToTransfer)
+    {
+        PoliticsGame.AdminTranferAssets(targetFaction, assetsToTransfer);
+    }
 }
