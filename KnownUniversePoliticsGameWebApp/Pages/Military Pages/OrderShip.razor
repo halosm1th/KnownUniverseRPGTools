@@ -1,6 +1,7 @@
 ﻿@using KnownUniversePoliticsGameWebApp.Data
 @using KnownUniversePoliticsGameWebApp.Data
 @using System.Diagnostics.Eventing.Reader
+@using SixLabors.ImageSharp.Formats.Jpeg
 @inject KnownUniversePoliticsGameService PoliticsGameService
 @inject KUPEventService EventService;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -38,52 +39,63 @@
 
     private void PerformMilitaryAction()
     {
-        if (ShipAssetID != -1)
+        try
         {
-            UsedShip = true;
-            if (_militaryAction == MilitaryAction.TakeSystem)
-            {
-                var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
-                var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
-                var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
-                EventService.AddEvent(new
-                    KUPTakeSystemEvent(Faction.SenderID, locID, ShipAssetID));
-            } else if (_militaryAction == MilitaryAction.AttackSystem)
+            if (ShipAssetID != -1)
             {
                 UsedShip = true;
-                var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
-                EventService.AddEvent(new
-                    KUPAttackSystemEvent(Faction.SenderID, ShipAssetID,loc));
+                if (_militaryAction == MilitaryAction.TakeSystem)
+                {
+                    var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                    var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
+                    var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
+                    EventService.AddEvent(new
+                        KUPTakeSystemEvent(Faction.SenderID, locID, ShipAssetID));
+                }
+                else if (_militaryAction == MilitaryAction.AttackSystem)
+                {
+                    UsedShip = true;
+                    var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                    EventService.AddEvent(new
+                        KUPAttackSystemEvent(Faction.SenderID, ShipAssetID, loc));
+                }
+                else if (_militaryAction == MilitaryAction.CaptureSystem)
+                {
+                    UsedShip = true;
+                    var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                    var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
+                    var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
+                    EventService.AddEvent(new
+                        KUPCaptureSystemEvent(Faction.SenderID, locID, ShipAssetID));
+                }
+                else if (_militaryAction == MilitaryAction.TakeAsset && (targetAssetID != -1 || targetAssetID != 0))
+                {
+                    UsedShip = true;
+                    var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                    var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
+                    if (system.POIAssets().Any(x => x.assetID == targetAssetID))
+                    {
+                        var locID = system.POIAssets().First(x => x.assetID == targetAssetID);
+                        EventService.AddEvent(new
+                            KUPTakeAssetEvent(Faction.SenderID, locID.assetID, ShipAssetID));
+                    }
+                }
+                else if (_militaryAction == MilitaryAction.MoveShip && shipLoc != "none" && shipLoc != "")
+                {
+                    UsedShip = true;
+                    var loc = shipLoc.Split(" ");
+                    var x = Convert.ToInt32(loc[0]);
+                    var y = Convert.ToInt32(loc[1]);
+                    var dest = new KUPLocation(x, y);
+                    var ID = PoliticsGameService.GetShip(ShipAssetID).ReceiverID;
+                    EventService.AddEvent(new
+                        KUPMoveAssetEvent(Faction.SenderID, ID, dest));
+                }
             }
-            else if (_militaryAction == MilitaryAction.CaptureSystem)
-            {
-                UsedShip = true;
-                var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
-                var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
-                var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
-                EventService.AddEvent(new
-                    KUPCaptureSystemEvent(Faction.SenderID, locID, ShipAssetID));
-            }
-            else if (_militaryAction == MilitaryAction.TakeAsset && targetAssetID != -1)
-            {
-                UsedShip = true;
-                var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
-                var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
-                var locID = system.POIAssets().First(x => x.assetID == targetAssetID);
-                EventService.AddEvent(new
-                    KUPTakeAssetEvent(Faction.SenderID, locID.assetID, ShipAssetID));
-            }
-            else if (_militaryAction == MilitaryAction.MoveShip && shipLoc != "none" && shipLoc != "")
-            {
-                UsedShip = true;
-                var loc = shipLoc.Split(" ");
-                var x = Convert.ToInt32(loc[0]);
-                var y = Convert.ToInt32(loc[1]);
-                var dest = new KUPLocation(x, y);
-                var ID = PoliticsGameService.GetShip(ShipAssetID).ReceiverID;
-                EventService.AddEvent(new
-                    KUPMoveAssetEvent(Faction.SenderID, ID, dest));
-            }
+        }
+        catch (Exception)
+        {
+            
         }
     }
 
@@ -108,9 +120,13 @@
             <select @bind="ShipAssetID" id="SelectShip">
                 <option selected value="-1">None</option>
                 @foreach (var asset in Faction.GetMilitaryAssets())
-                {
-                    @if (_militaryAction == MilitaryAction.MoveShip && asset.HasMoved)
+                { 
+                    if ((_militaryAction is MilitaryAction.MoveShip && asset.HasMoved) 
+                        || (_militaryAction is MilitaryAction.AttackSystem 
+                            or MilitaryAction.CaptureSystem or MilitaryAction.TakeAsset or 
+                            MilitaryAction.TakeSystem && asset.HasActed))
                     {
+                        
                     }
                     else
                     {

@@ -8,7 +8,7 @@ public class KUPDefenseEvent : IKUPEvent
     public int TargetID { get; }
     public DateTime CreationTime { get; }
 
-    public KUPDefenseEvent(int senderId, int targetId, int against)
+    public KUPDefenseEvent(int senderId, int targetId)
     {
         SenderID = senderId;
         TargetID = targetId;

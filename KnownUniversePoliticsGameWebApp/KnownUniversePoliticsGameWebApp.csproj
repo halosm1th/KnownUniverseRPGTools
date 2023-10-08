@@ -6,6 +6,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <UseRazorSourceGenerator>false</UseRazorSourceGenerator>
+    </PropertyGroup>
+    
     <ItemGroup>
       <ProjectReference Include="..\Simple Subsector Generator\Simple Subsector Generator.csproj" />
     </ItemGroup>

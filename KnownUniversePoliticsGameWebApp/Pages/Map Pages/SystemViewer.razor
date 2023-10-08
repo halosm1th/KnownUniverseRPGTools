@@ -52,8 +52,16 @@
         try
         {
                     system = PoliticsGameService.FindSystem(systemX, systemY);
-            hasSearched = true;
-            foundSystem = true;
+            if (system != null)
+            {
+                hasSearched = true;
+                foundSystem = true;
+            }
+            else
+            {
+                hasSearched = true;
+                foundSystem = false;
+            }
         }
         catch (Exception e)
         {
@@ -86,7 +94,7 @@
         <option value="@sys.DisplayX @sys.DisplayY">@sys.Name</option>
     }
 </select>
-    <button type="button" @onclick="FindSystem">Find System</button>
+    <button @onclick="FindSystem">Find System</button>
 @if (system != null)
 {
     <DisplaySystem System="system"></DisplaySystem>

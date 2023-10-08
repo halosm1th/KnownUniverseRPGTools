@@ -68,6 +68,7 @@ public class KUPFaction : IKUPEventActor
 
         FactionID = id;
         Player = player;
+        
         if (player != null && (Player?.Faction == null || player?.Faction == default))
         {
             Player.Faction = this;
@@ -84,6 +85,7 @@ public class KUPFaction : IKUPEventActor
         }
 
         AddToEventService();
+        FactionRelationships = new Dictionary<KUPFaction, FactionRelationshipOptions>();
     }
 
     public void AtWar(KUPFaction atWarWith)

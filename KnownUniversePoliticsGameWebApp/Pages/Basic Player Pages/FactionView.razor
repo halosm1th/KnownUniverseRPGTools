@@ -5,6 +5,12 @@
 @code {
    [Parameter]
    public KUPFaction Faction { get; set; }
+
+   private string locationPath(KUPLocation location)
+   {
+      return $"{location.SystemX}/{location.SystemY}";
+   }
+
 }
 
 <p>Money: $@Faction.Money</p>
@@ -39,7 +45,7 @@
       {
          <option>
             <li>
-               <a href="/SystemViewer/@locations.Location.SystemX/@locations.Location.SystemX"> @locations</a>
+               <a href="/SystemViewer/@locationPath(locations.Location)"> @locations</a>
             </li>
          </option>
       }

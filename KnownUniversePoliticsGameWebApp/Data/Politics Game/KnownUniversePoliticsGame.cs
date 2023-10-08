@@ -31,7 +31,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     private static int CurrentAssetId = 0;
 
     private int CurrentRound = 1;
-    public List<IKUPAsset> AssetsInPlay { get; }
+    public List<IKUPAsset> AssetsInPlay { get; } = new List<IKUPAsset>();
     private List<KUPCombatAsset> AssetsToFight { get; set; }
 
     private readonly KUPDrawSector KupDrawSector;
@@ -51,6 +51,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
     public KnownUniversePoliticsGame()
     {
+        AddToEventService();
         //Setup assets
         AssetsInPlay = new List<IKUPAsset>();
 
@@ -129,11 +130,12 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             _shipIDs++, 80081222), Factions.First(x => x.FactionID == 4));
         KupDrawSector = new KUPDrawSector(Sector, Factions, this);
 
-        AddToEventService();
 
         var totalIncome = AssetsInPlay.Aggregate(0, (h, t) => h + t.MoneyTotal);
         var totalInfluence = AssetsInPlay.Aggregate(0, (h, t) => h + t.InfluenceTotal);
         Console.WriteLine($"Total income: {totalIncome}. Total influence: {totalInfluence}");
+
+        AssetsToFight = new List<KUPCombatAsset>();
     }
 
     private void SetupBaseRelationships()
@@ -230,6 +232,8 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                     new KUPShipDamagedEvent(asset.SenderID, targetShip.ReceiverID,asset.AttackPower));
             }
         }
+        
+        AssetsToFight = new List<KUPCombatAsset>();
     }
 
     private void RemoveDestroyedAssets()
@@ -445,7 +449,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
     private void CaptureSystem(KUPCaptureSystemEvent evnt)
     {
-        var ship = (EventService.GetActorBySenderID(evnt.AssetWhichTookID) as KUPCombatAsset);
+        var ship = (GetAssetFromID(evnt.AssetWhichTookID) as KUPCombatAsset);
         if (!ship.AssetHasActed())
         {
             var taker = EventService.GetActorBySenderID(evnt.SenderID);
@@ -465,7 +469,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
     private void TakeSystem(KUPTakeSystemEvent evnt)
     {
-        var ship = (EventService.GetActorBySenderID(evnt.AssetWhichTookID) as KUPCombatAsset);
+        var ship = (GetAssetFromID(evnt.AssetWhichTookID) as KUPCombatAsset);
         if (!ship.AssetHasActed())
         {
             var taker = EventService.GetActorBySenderID(evnt.SenderID);
@@ -477,7 +481,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
     private void TakeAsset(KUPTakeAssetEvent evnt)
     {
-        var ship = (EventService.GetActorBySenderID(evnt.AssetWhichTookID) as KUPCombatAsset);
+        var ship = (GetAssetFromID(evnt.AssetWhichTookID) as KUPCombatAsset);
         if (!ship.AssetHasActed())
         {
             var taker = EventService.GetActorBySenderID(evnt.SenderID);

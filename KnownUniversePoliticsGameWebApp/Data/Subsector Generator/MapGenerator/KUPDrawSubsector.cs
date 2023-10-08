@@ -71,7 +71,7 @@ namespace TravellerMapSystem.Tools
                         _knownUniverseSubsectorToDraw.GetFilledSystem(row, col);
                     DrawSystemName(col, row, fontSize, HEIGHT, WIDTH, fontWorld, subsector, WorldTextBrush, world);
                     DrawUniversalWorldProfile(HEIGHT, col, row, WIDTH, systemFont, subsector, WorldTextBrush, world);
-                    DrawShips(HEIGHT, col, row, WIDTH, subsector, WorldTextBrush, world);
+                    DrawShips(HEIGHT, row, col, WIDTH, subsector, WorldTextBrush, world);
                     //DrawSystemStation(subsector, row, col, fontSize, world, fontRest, brush);
                 }
         }

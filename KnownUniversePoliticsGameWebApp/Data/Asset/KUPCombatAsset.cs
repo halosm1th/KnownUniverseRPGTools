@@ -9,7 +9,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
     public bool HasMoved { get; set; } = false;
     public bool HasActed { get; set; } = false;
     public int assetID { get; }
-    public string Name { get; set; }
+    public string Name => "Spaceship [" + Size + "] (" + Controller.Name + ") @ " + Location;
     public int SenderID { get; }
     public int ReceiverID { get; }
     public void AddToEventService()
@@ -25,7 +25,6 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         assetID = id;
         SenderID = evntHandlingID;
         ReceiverID = evntHandlingID;
-        Name = "Spaceship [" + Size + "] (" + Controller.Name + ") @ " + location;
         HP = Size switch
         {
             CombatAssetSize.Small => 1,
@@ -254,7 +253,6 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
             if (moveLocs.Any(x => x == location))
             {
                 Location = location;
-                Name = Controller.Name + " [" + Size + "] @ " + location;
                 HasMoved = true;
                 return true;
             }
