@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using KnownUniversePoliticsGameWebApp.Data;
+using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 using Simple_Subsector_Generator;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
@@ -218,7 +219,7 @@ namespace TravellerMapSystem.Tools
         private static void DrawLocationText(int row, int col, int fontSize, int height, float width, Font Font,
             Image graphics, SolidBrush brush, int drawX, int drawY)
         {
-            var text = $"{drawX} {drawY}";
+            var text = $"{drawY} {drawX}";
 
             var y = (fontSize + row * height)+(SPACER);
             if (col % 2 == 1) y += height / 2;

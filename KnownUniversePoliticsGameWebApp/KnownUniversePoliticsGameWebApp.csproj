@@ -25,4 +25,18 @@
       </Resource>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\Store Pages\StoreDisplay.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\Store Pages\StorePage.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\Trade\DidTrade.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\Trade\FailedToTrade.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\Trade\Trade.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\Store Pages\StoreDisplay.razor" />
+      <AdditionalFiles Include="Pages\Store Pages\StorePage.razor" />
+      <AdditionalFiles Include="Pages\Trade\Trade.razor" />
+    </ItemGroup>
+
 </Project>

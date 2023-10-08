@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 
 namespace KnownUniversePoliticsGameWebApp.Data;
 
@@ -31,7 +32,7 @@ public class KUPFaction : IKUPEventActor
 {
 
     public int SenderID => FactionID;
-    public int ReciverID => FactionID;
+    public int ReceiverID => FactionID;
     public void AddToEventService()
     {
         KUPEventService.AddActor(this);
@@ -48,7 +49,7 @@ public class KUPFaction : IKUPEventActor
     public List<KUPCombatAsset> CombatAssets => Assets.OfType<KUPCombatAsset>().ToList();
 
     public KUPFaction(string name = "Empty Faction", int id =-10000, FactionType factionType = FactionType.Unclaimed, int money = 0, 
-        int influence = 0, List<IKUPAsset> assets = default, KUPPlayer player = default)
+        int influence = 0, List<IKUPAsset?> assets = default, KUPPlayer player = default)
     {
         Name = name;
         FactionType = factionType;
@@ -131,14 +132,20 @@ public class KUPFaction : IKUPEventActor
 
     public void AddAsset(IKUPAsset asset)
     {
-        Assets.Add(asset);
-        asset.Controller = this;
+        if (!Assets.Contains(asset))
+        {
+            Assets.Add(asset);
+            asset.Controller = this;
+        }
     }
 
     public void DestroyAsset(IKUPAsset asset)
     {
-        Assets.Remove(asset);
-        asset.Controller = new KUPFaction();
+        if (Assets.Contains(asset))
+        {
+            Assets.Remove(asset);
+            asset.Controller = KnownUniversePoliticsGame.GameMaster;
+        }
     }
 
     public void NewPlayer(KUPPlayer kupPlayer)
@@ -170,7 +177,7 @@ public class KUPFaction : IKUPEventActor
         {
             var asset = milAssets[random.Next(0,milAssets.Count)];
             KUPEventService.AddEventStatic(
-                new KUPShipDamagedEvent(SenderID,asset.ReciverID,1));
+                new KUPShipDamagedEvent(SenderID,asset.ReceiverID,1));
         }
     }
 

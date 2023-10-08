@@ -1,7 +1,11 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class KUPLocation
 {
+    public static KnownUniversePoliticsGame politicsGame;
+    
     public int SystemX { get; set; }
     public int SystemY { get; set; }
 
@@ -25,6 +29,14 @@ public class KUPLocation
     
     public override string ToString()
     {
-        return $"{SystemX} {SystemY}";
+        if (politicsGame != null)
+        {
+
+            return $"{politicsGame.GetLocationName(SystemX, SystemY)}  ({SystemX} {SystemY})";
+        }
+        else
+        {
+            return $"{SystemX} {SystemY}";
+        }
     }
 }

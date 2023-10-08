@@ -1,0 +1,168 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@using KnownUniversePoliticsGameWebApp.Data
+@using System.Diagnostics.Eventing.Reader
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Order Ship</h3>
+
+@code {
+
+    enum MilitaryAction
+    {
+        MoveShip,
+        TakeSystem,
+        TakeAsset,
+        CaptureSystem,
+    }
+
+    [Parameter]
+    public KUPFaction Faction { get; set; }
+
+    bool UsedShip = false;
+    int ShipAssetID = -1;
+    MilitaryAction _militaryAction = MilitaryAction.MoveShip;
+    KUPFilledSystem system;
+    string shipLoc = "";
+    int targetAssetID = -1;
+    int shipX = -1;
+    int shipY = -1;
+    string OperationMessage = "";
+
+    private void AnotherShipAction()
+    {
+        UsedShip = false;
+    }
+
+    private void PerformMilitaryAction()
+    {
+        if (ShipAssetID != -1)
+        {
+            UsedShip = true;
+            if (_militaryAction == MilitaryAction.TakeSystem)
+            {
+                var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
+                var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
+                EventService.AddEvent(new
+                    KUPTakeSystemEvent(Faction.SenderID, locID, ShipAssetID));
+            }
+            else if (_militaryAction == MilitaryAction.CaptureSystem)
+            {
+                UsedShip = true;
+                var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
+                var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
+                EventService.AddEvent(new
+                    KUPCaptureSystemEvent(Faction.SenderID, locID, ShipAssetID));
+            }
+            else if (_militaryAction == MilitaryAction.TakeAsset && targetAssetID != -1)
+            {
+                UsedShip = true;
+                var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
+                var locID = system.POIAssets().First(x => x.assetID == targetAssetID);
+                EventService.AddEvent(new
+                    KUPTakeAssetEvent(Faction.SenderID, locID.assetID, ShipAssetID));
+            }
+            else if (_militaryAction == MilitaryAction.MoveShip && shipLoc != "none" && shipLoc != "")
+            {
+                UsedShip = true;
+                var loc = shipLoc.Split(" ");
+                var x = Convert.ToInt32(loc[0]);
+                var y = Convert.ToInt32(loc[1]);
+                var dest = new KUPLocation(x, y);
+                var ID = PoliticsGameService.GetShip(ShipAssetID).ReceiverID;
+                EventService.AddEvent(new
+                    KUPMoveAssetEvent(Faction.SenderID, ID, dest));
+            }
+        }
+    }
+
+}
+
+<div>
+    @if (!UsedShip)
+    {
+        <h4>Use A ship</h4>
+        <label for="SelectShip">Select a Ship</label>
+        <select @bind="ShipAssetID" id="SelectShip">
+            <option selected value="-1">None</option>
+            @foreach (var asset in Faction.GetMilitaryAssets())
+            {
+                @if (_militaryAction == MilitaryAction.MoveShip && asset.HasMoved)
+                {
+                }
+                else
+                {
+                    <option value="@asset.assetID">@asset.Name (@asset.Location)</option>
+                }
+            }
+        </select>
+        <label for="SelectAction">Select an Action</label>
+        <select @bind="_militaryAction" id="SelectAction">
+            @if (ShipAssetID != -1)
+            {
+                <option selected value="@MilitaryAction.MoveShip">Move Ship</option>
+                {
+                    var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                    system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
+                    if (system != null && system.GetType() == typeof(KUPFilledSystem))
+                    {
+                        if (system.SystemsPrimaryStation.PrimaryStationAsset.Controller == null
+                            ||
+                            system.SystemsPrimaryStation.PrimaryStationAsset.Controller.FactionType == FactionType.Unclaimed)
+                        {
+                            <option value="@MilitaryAction.TakeSystem">Take System</option>
+                        }
+                        else if (system.GetUnclaimedPOI().Count > 0)
+                        {
+                            <option value="@MilitaryAction.TakeAsset">Take Asset</option>
+                        }
+                        else if (PoliticsGameService.CouldCaptureSystem(system, Faction))
+                        {
+                            <option value="@MilitaryAction.CaptureSystem">Capture System</option>
+                        }
+                    }
+                }
+            }
+        </select>
+
+        <label style="">Extra Information</label>
+        @if (_militaryAction == MilitaryAction.MoveShip)
+        {
+            <select @bind="shipLoc">
+                <option selected value="none">None</option>
+                @if (Faction.CombatAssets.Any(x => x.assetID == ShipAssetID))
+                {
+                    @foreach (var shipLoc in (
+                        Faction.CombatAssets
+                            .First(x => x.assetID == ShipAssetID))
+                        .MoveLocations())
+                    {
+                        <option value="@shipLoc.SystemX @shipLoc.SystemY">
+                            @shipLoc;
+                        </option>
+                    }
+                }
+            </select>
+        }
+        else if (_militaryAction == MilitaryAction.TakeAsset)
+        {
+            <select @bind="targetAssetID">
+                <option selected value="-1">None</option>
+                @foreach (var asset in system?.POIAssets() ?? new List<IKUPAsset>())
+                {
+                    <option selected value="@asset.assetID">@asset.Name</option>
+                }
+            </select>
+        }
+        <button @onclick="PerformMilitaryAction">Execute!</button>
+    }
+    else
+    {
+        <p>Ship action submitted!</p>
+        <button @onclick="AnotherShipAction">Hit me to do another ship action</button>
+    }
+</div>

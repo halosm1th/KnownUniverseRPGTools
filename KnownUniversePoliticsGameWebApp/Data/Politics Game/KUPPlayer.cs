@@ -9,7 +9,7 @@ public class KUPPlayer : IKUPEventActor
     public KUPFaction Faction { get; set; }
     public int PersonalFunds { get; set; }
     public int SenderID { get; }
-    public int ReciverID { get; }
+    public int ReceiverID { get; }
     public void AddToEventService()
     {
         KUPEventService.AddActor(this);
@@ -21,7 +21,7 @@ public class KUPPlayer : IKUPEventActor
         Password = password;
         PersonalFunds = personalFunds;
         SenderID = senderId;
-        ReciverID = reciverId;
+        ReceiverID = reciverId;
         AddToEventService();
     }
 

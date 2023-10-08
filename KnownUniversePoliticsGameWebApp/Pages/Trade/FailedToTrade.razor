@@ -1,0 +1,20 @@
+﻿@page "/failedToTrade"
+@using KnownUniversePoliticsGameWebApp.Data
+@using System.Diagnostics.Eventing.Reader
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Trade Failed</h3>
+
+@code {
+    private void AnotherTransfer()
+    {
+        NavigationManager.NavigateTo("Trade");
+    }
+
+
+}
+<p>Transfer failed to complete.</p>
+<button @onclick="AnotherTransfer">Click me to try again</button>
+   

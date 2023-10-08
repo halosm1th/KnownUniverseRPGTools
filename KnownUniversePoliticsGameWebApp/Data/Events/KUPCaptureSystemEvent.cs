@@ -4,16 +4,18 @@ public class KUPCaptureSystemEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
+    public int AssetWhichTookID { get; }
     public int TargetID => 1919991701;
     public int SystemStationID { get; }
     public DateTime CreationTime { get; }
 
-    public KUPCaptureSystemEvent(int senderId, int systemStationID)
+    public KUPCaptureSystemEvent(int senderId, int systemStationID, int takingAssetID)
     {
         SenderID = senderId;
         SystemStationID = systemStationID;
         eventID = KUPEventService.GetEventID();
         CreationTime = DateTime.Now;
+        AssetWhichTookID = takingAssetID;
         ;
     }
 

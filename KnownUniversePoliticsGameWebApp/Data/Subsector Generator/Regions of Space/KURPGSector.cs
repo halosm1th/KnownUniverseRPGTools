@@ -45,6 +45,17 @@ public class KURPGSector
     public string Name { get; }
     public int Seed { get; }
 
+    public string GetSystemName(int locX, int locY)
+    {
+        var sys = GetSystems().First(x => x.DisplayX == locX && x.DisplayY == locY);
+        if (sys.GetType() == typeof(KUPFilledSystem))
+        {
+            return ((KUPFilledSystem) sys).Name;
+        }
+        
+        return "Empty Space";
+    }
+
     public List<KUPStarSystem> GetSystems()
     {
         var results = new List<KUPStarSystem>();

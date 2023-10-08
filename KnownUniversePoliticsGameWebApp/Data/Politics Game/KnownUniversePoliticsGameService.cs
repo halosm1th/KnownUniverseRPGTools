@@ -1,4 +1,5 @@
-﻿using Simple_Subsector_Generator;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+using Simple_Subsector_Generator;
 using SixLabors.ImageSharp;
 
 namespace KnownUniversePoliticsGameWebApp.Data;
@@ -102,6 +103,18 @@ public class KnownUniversePoliticsGameService
         return PoliticsGame.GetFaction(name);
     }
 
+    public bool CanTrasnferAsset(int factionID, List<int> assetsToTrade)
+    {
+        var fac = PoliticsGame.GetFaction(factionID);
+        foreach (var asset in assetsToTrade)
+        {
+            if (!fac.Assets.Any(x => x.assetID == asset))
+                return false;
+        }
+        
+        return true;
+    }
+
     
     public KUPFaction? GetFaction(int factionID)
     {
@@ -131,9 +144,9 @@ public class KnownUniversePoliticsGameService
         return PoliticsGame.AssetsInPlay.First(x => x.assetID == assetId);
     }
 
-    public bool CouldCaptureSystem(KUPFilledSystem system)
+    public bool CouldCaptureSystem(KUPFilledSystem system, KUPFaction who)
     {
-        return PoliticsGame.CouldCaptureSystem(system);
+        return PoliticsGame.CouldCaptureSystem(system, who);
     }
 
     public KUPCombatAsset GetShip(int shipAssetId)

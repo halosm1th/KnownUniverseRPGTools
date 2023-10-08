@@ -44,12 +44,7 @@
                 <span class="oi oi-magnifying-glass" aria-hidden="true"></span> System Viewer
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="OperationPage">
-                <span class="oi oi-bolt" aria-hidden="true"></span> Launch Opertion
-            </NavLink>
-        </div>
-        
+
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="MilitaryPage">
                 <span class="oi oi-target" aria-hidden="true"></span> Military Stuff
@@ -69,13 +64,13 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool _collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private string? NavMenuCssClass => _collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()
     {
-        collapseNavMenu = !collapseNavMenu;
+        _collapseNavMenu = !_collapseNavMenu;
     }
 
 }

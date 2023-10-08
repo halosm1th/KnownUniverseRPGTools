@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 
 namespace KnownUniversePoliticsGameWebApp.Data;
 
@@ -33,7 +34,7 @@ public class KUPEventService
     
     public IKUPEventActor GetActorByReciverID(int recieverID)
     {
-        return ActorList.First(x => x.ReciverID == recieverID);
+        return ActorList.First(x => x.ReceiverID == recieverID);
     }
     
     
@@ -45,7 +46,7 @@ public class KUPEventService
     public static IKUPEventActor GetActorByReciverIDStatic(int recieverID)
     {
         
-        return ActorList.First(x => x.ReciverID == recieverID);
+        return ActorList.First(x => x.ReceiverID == recieverID);
     }
     
     
@@ -67,9 +68,9 @@ public class KUPEventService
             }
             else
             {
-                Console.WriteLine($"Error adding {actor} to ActorList. Actor ID {actor.ReciverID} Already exists in list as " +
-                                  $"{ActorList.First(x => x.ReciverID == actor.ReciverID).Name} played by" +
-                                  $" {ActorList.OfType<KUPFaction>().First(x => x.ReciverID == actor.ReciverID)?.Player?.Name ?? "No Player"}");
+                Console.WriteLine($"Error adding {actor} to ActorList. Actor ID {actor.ReceiverID} Already exists in list as " +
+                                  $"{ActorList.First(x => x.ReceiverID == actor.ReceiverID).Name} played by" +
+                                  $" {ActorList.OfType<KUPFaction>().First(x => x.ReceiverID == actor.ReceiverID)?.Player?.Name ?? "No Player"}");
             }
         }
     }
@@ -95,7 +96,7 @@ public interface IKUPEventActor
 {
     string Name { get; }
     int SenderID { get; }
-    int ReciverID { get; }
+    int ReceiverID { get; }
 
     void AddToEventService();
 }
@@ -104,7 +105,7 @@ public class OmniEvent : IKUPEventActor
 {
     public string Name => "Everyone";
     public int SenderID { get; }= -1;
-    public int ReciverID { get; }= -1;
+    public int ReceiverID { get; }= -1;
 
     public OmniEvent()
     {

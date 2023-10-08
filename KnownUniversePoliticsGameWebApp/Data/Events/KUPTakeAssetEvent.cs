@@ -6,14 +6,16 @@ public class KUPTakeAssetEvent : IKUPEvent
     public int SenderID { get; }
     public int TargetID => 1919991701;
     public int AssetID { get; }
+    public int AssetWhichTookID { get; }
     public DateTime CreationTime { get; }
 
-    public KUPTakeAssetEvent(int senderId, int assetID)
+    public KUPTakeAssetEvent(int senderId, int assetID, int takingAssetID)
     {
         SenderID = senderId;
         AssetID = assetID;
         eventID = KUPEventService.GetEventID();
         CreationTime = DateTime.Now;
+        AssetWhichTookID = takingAssetID;
         ;
     }
 

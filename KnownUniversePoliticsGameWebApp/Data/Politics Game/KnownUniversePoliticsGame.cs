@@ -1,52 +1,58 @@
-﻿using System.Runtime.CompilerServices;
-using KnownUniversePoliticsGameWebApp.Pages.Military_Pages;
-using Microsoft.AspNetCore.Mvc;
-using Simple_Subsector_Generator;
+﻿using Simple_Subsector_Generator;
 using SixLabors.ImageSharp;
 using TravellerMapSystem.Tools;
-using HostingEnvironmentExtensions = Microsoft.AspNetCore.Hosting.HostingEnvironmentExtensions;
 
-namespace KnownUniversePoliticsGameWebApp.Data;
+namespace KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 
 public class KnownUniversePoliticsGame : IKUPEventActor
 {
     #region Variables
+
     public string Name => "The Game";
     public static KUPEventService EventService;
+    public static KUPFaction GameMaster;
+
     public int SenderID => 1919991701;
-    public int ReciverID => 1919991701;
-    private int ShipIDs = 600000;
+    public int ReceiverID => 1919991701;
+    private int _shipIDs = 600000;
+
     public void AddToEventService()
     {
         KUPEventService.AddActor(this);
     }
-    public KURPGSector Sector { get; } 
-    
+
+    public KURPGSector? Sector { get; }
+
     public bool GameRunning { get; protected set; }
     public List<KUPFaction> Factions { get; }
     public List<KUPPlayer?> Players { get; }
-    public int seed = 20001201;
-    public static int CurrentAssetID = 0;
+    private int seed = 20001201;
+    private static int CurrentAssetId = 0;
 
-    public int CurrentRound = 1;
+    private int CurrentRound = 1;
     public List<IKUPAsset> AssetsInPlay { get; }
 
-    public KUPDrawSector KupDrawSector;
-    public static Image _SectorImage = null;
+    private readonly KUPDrawSector KupDrawSector;
 
     public Image SectorImage
     {
         get
         {
-                return KupDrawSector.GenerateImage(false, Directory.GetCurrentDirectory() + "/Subsectors/KUPMap.png", false);
+            return KupDrawSector.GenerateImage(false, Directory.GetCurrentDirectory() + "/Subsectors/KUPMap.png",
+                false);
         }
     }
+
     #endregion
+
     #region Constructor
 
     public KnownUniversePoliticsGame()
     {
+        //Setup assets
         AssetsInPlay = new List<IKUPAsset>();
+
+        //Setup Playesr
         var thomas = new KUPPlayer("Thomas", "password", 100, 10001, 10001);
         var imp1 = new KUPPlayer("IMP1", "Empire", 10, 10002, 10002);
         var vrs1 = new KUPPlayer("VRS1", "Empire", 10, 10003, 10003);
@@ -58,60 +64,67 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         {
             thomas, imp1, vrs1, ufe1
         };
-        var generater = new KUPSectorGenerator("KUP Sector",true,seed,this,false);
-        generater.Generate();
-        Sector = generater.Sector;
 
+        //Setup the subsector
+        var generator = new KUPSectorGenerator("KUP Sector", true, seed, this, false);
+        generator.Generate();
+        Sector = generator.Sector;
+        //Set the politics game for location so it can do name lookups.
+        KUPLocation.politicsGame = this;
 
+        //the special faction used for handling a lot of game stuff is the game master faction
+        GameMaster = new("Game Master", 0, FactionType.GM, 1000000, 10000000,
+            GetAssetsFromIDS(new()
+            {
+                1597
+            }), thomas);
+
+        //Generate the factions for the players.
         Factions = new List<KUPFaction>()
         {
-            new ("Game Master", 0, FactionType.GM, 1000000,10000000,
-                GetAssetsFromIDS(new ()
-                {
-                    1597
-                }), thomas),
-            new ("Bank",1,FactionType.Bank, 1000000,10000000,
-                GetAssetsFromIDS(new ()
+            GameMaster,
+            new("Bank", 1, FactionType.Bank, 1000000, 10000000,
+                GetAssetsFromIDS(new()
                 {
                     1597
                 }), bank),
-            new ("Food",2,FactionType.Food, 1000000,10000000,
-                GetAssetsFromIDS(new ()
+            new("Food", 2, FactionType.Food, 1000000, 10000000,
+                GetAssetsFromIDS(new()
                 {
                 }), food),
-            new ("Pirates",3,FactionType.Pirates, 1000000,10000000,
-                GetAssetsFromIDS(new ()
+            new("Pirates", 3, FactionType.Pirates, 1000000, 10000000,
+                GetAssetsFromIDS(new()
                 {
                 }), pirate),
-            new KUPFaction("Test Imperials 3",4,FactionType.Imperial3,0,0,
+            new KUPFaction("Test Imperials 3", 4, FactionType.Imperial3, 0, 0,
                 GetAssetsFromIDS(new()
                 {
                     0, 1, 5, 7, 8, 9, 10, 12, 13, 16,
                     51, 54, 55, 56, 57, 58, 75, 2, 41, 43, 3, 45,
                     4, 48, 50
                 }), imp1),
-            new ("Test Versians",7, FactionType.Vers1,0,0,
-                GetAssetsFromIDS(new ()
+            new("Test Versians", 7, FactionType.Vers1, 0, 0,
+                GetAssetsFromIDS(new()
                 {
                     1418, 1419, 1420, 1421, 1422, 1423, 1424, 1426, 1427, 1428, 1429, 1430,
-                    1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439 ,1440, 1441, 1442, 1443, 1444, 1445,
-                    1448, 1450, 1447,954, 953, 959, 938, 939, 941, 940, 943,944, 945, 946, 947,
+                    1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443, 1444, 1445,
+                    1448, 1450, 1447, 954, 953, 959, 938, 939, 941, 940, 943, 944, 945, 946, 947,
                     948, 949, 950, 951
                 }), vrs1),
-            new ("Test Fedeation", 10, FactionType.UFE1, 0,0,
-                GetAssetsFromIDS(new ()
+            new("Test Fedeation", 10, FactionType.UFE1, 0, 0,
+                GetAssetsFromIDS(new()
                 {
-                    1312,1315,1314,1316,1317,1319,1320, 1321, 1322,1323,1324,1325,1327,1328, 1326, 1329, 1330,
-                    1840,1842, 1843, 1844, 1845
+                    1312, 1315, 1314, 1316, 1317, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1327, 1328, 1326, 1329,
+                    1330,
+                    1840, 1842, 1843, 1844, 1845
                 }), ufe1)
-            
         };
-        
-        
+
+
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(3,3),Factions.First(x => x.FactionID == 4),CombatAssetSize.Large,
-            ShipIDs++,80081222), Factions.First(x => x.FactionID == 4));
-        KupDrawSector = new KUPDrawSector(Sector,Factions, this);
+            new KUPLocation(3, 3), Factions.First(x => x.FactionID == 4), CombatAssetSize.Large,
+            _shipIDs++, 80081222), Factions.First(x => x.FactionID == 4));
+        KupDrawSector = new KUPDrawSector(Sector, Factions, this);
 
         AddToEventService();
 
@@ -119,8 +132,16 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         var totalInfluence = AssetsInPlay.Aggregate(0, (h, t) => h + t.InfluenceTotal);
         Console.WriteLine($"Total income: {totalIncome}. Total influence: {totalInfluence}");
     }
-#endregion
+
+    public string GetLocationName(int x, int y)
+    {
+        return Sector.GetSystemName(x, y);
+    }
+
+    #endregion
+
     #region Assets
+
     public List<IKUPAsset?> GetAssetsFromIDS(List<int> assetIDs)
     {
         var assets = new List<IKUPAsset?>();
@@ -129,47 +150,57 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         {
             assets.Add(AssetsInPlay.Find(x => x.assetID == assetID));
         }
-        
+
         return assets;
     }
 
     public int GetNewAssetID()
     {
-        return CurrentAssetID++;
+        return CurrentAssetId++;
     }
 
-    
+
     public void NewAsset(IKUPAsset asset)
     {
-        if(asset.Controller != null) NewAsset(asset,asset.Controller);
+        if (asset.Controller != null) NewAsset(asset, asset.Controller);
         else AssetsInPlay.Add(asset);
-
     }
+
     public void NewAsset(IKUPAsset asset, KUPFaction faction)
     {
         AssetsInPlay.Add(asset);
         asset.Controller = faction;
         faction.AddAsset(asset);
     }
-    
+
     public void DestroyAsset(IKUPAsset asset, KUPFaction faction)
     {
         AssetsInPlay.Remove(asset);
         faction.DestroyAsset(asset);
     }
+
     #endregion
 
     public void EndOfTurn()
     {
-        EventService.AddEvent(new IKUPMessageEvent(SenderID,-1,$"Round {CurrentRound} has ended. Come to the dining room."));
+        EventService.AddEvent(new IKUPMessageEvent(SenderID, -1,
+            $"Round {CurrentRound} has ended. Come to the dining room."));
         foreach (var faction in Factions)
         {
             faction.Update();
         }
-        
+
+        HandleCombats();
+
         RemoveDestroyedAssets();
-        
+
         CurrentRound++;
+    }
+
+    private List<KUPCombatAsset> CombatAssets => AssetsInPlay.OfType<KUPCombatAsset>().ToList();
+    
+    private void HandleCombats()
+    {
     }
 
     private void RemoveDestroyedAssets()
@@ -185,12 +216,12 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
         foreach (var ass in toBeDestroyed)
         {
-            
-            DestroyAsset(ass,ass.Controller);
+            DestroyAsset(ass, ass.Controller);
         }
     }
 
     #region Events
+
     public void ProcessEvent(IKUPEvent evnt)
     {
         if (evnt.GetType() == typeof(IKUPMoneyTransferEvent))
@@ -204,31 +235,40 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         else if (evnt.GetType() == typeof(KUPMoneyDepositEvent))
         {
             MoneyDeposit(evnt as KUPMoneyDepositEvent);
-        }else if (evnt.GetType() == typeof(KUPOperationEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPOperationEvent))
         {
             Operation(evnt as KUPOperationEvent);
-        }else if (evnt.GetType() == typeof(KUPShipDamagedEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPShipDamagedEvent))
         {
             ShipDamage(evnt as KUPShipDamagedEvent);
-        }else if (evnt.GetType() == typeof(KUPBuildShipEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPBuildShipEvent))
         {
             BuildShip(evnt as KUPBuildShipEvent);
-        }else if (evnt.GetType() == typeof(KUPMoveAssetEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPMoveAssetEvent))
         {
             MoveAsset(evnt as KUPMoveAssetEvent);
-        }else if (evnt.GetType() == typeof(KUPTakeAssetEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPTakeAssetEvent))
         {
             TakeAsset(evnt as KUPTakeAssetEvent);
-        }else if (evnt.GetType() == typeof(KUPTakeSystemEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPTakeSystemEvent))
         {
             TakeSystem(evnt as KUPTakeSystemEvent);
-        }else if (evnt.GetType() == typeof(KUPCaptureSystemEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPCaptureSystemEvent))
         {
             CaptureSystem(evnt as KUPCaptureSystemEvent);
-        }else if (evnt.GetType() == typeof(KUPBuyStoreEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPBuyStoreEvent))
         {
             StoreBuy(evnt as KUPBuyStoreEvent);
-        }else if (evnt.GetType() == typeof(KUPAssetTransferEvent))
+        }
+        else if (evnt.GetType() == typeof(KUPAssetTransferEvent))
         {
             TransferAsset(evnt as KUPAssetTransferEvent);
         }
@@ -237,10 +277,10 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     private void TransferAsset(KUPAssetTransferEvent evnt)
     {
         var sender = Factions.First(x => x.SenderID == evnt.SenderID);
-        var reciver = Factions.First(x => evnt.TargetFactionReciverID == x.ReciverID);
+        var reciver = Factions.First(x => evnt.TargetFactionReciverID == x.ReceiverID);
         var targetAssetIDs = evnt.AssetsToTransfer;
         var assetsToTransfer = new List<IKUPAsset>();
-        
+
         foreach (var asset in sender.Assets)
         {
             if (targetAssetIDs.Contains(asset.assetID))
@@ -248,67 +288,81 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                 assetsToTransfer.Add(asset);
             }
         }
-        
+
         foreach (var asset in assetsToTransfer)
         {
             sender.DestroyAsset(asset);
             reciver.AddAsset(asset);
         }
 
-        EventService.AddEvent(new IKUPMessageEvent(evnt.SenderID,evnt.TargetFactionReciverID,$"{sender.Name} " +
-            $"has given you the following assets w/ IDs: {targetAssetIDs.Aggregate("", (h,t) => h + ", " + t)}"));
-        
-        EventService.AddEvent(new IKUPMessageEvent(evnt.TargetFactionReciverID,evnt.SenderID,$"{reciver.Name} " +
-            $"has received the assets you gave them  w/ the following IDs: {targetAssetIDs.Aggregate("", (h,t) => h + ", " + t)}"));
+        EventService.AddEvent(new IKUPMessageEvent(evnt.SenderID, evnt.TargetFactionReciverID, $"{sender.Name} " +
+            $"has given you the following assets w/ IDs: {targetAssetIDs.Aggregate("", (h, t) => h + ", " + t)}"));
 
+        EventService.AddEvent(new IKUPMessageEvent(evnt.TargetFactionReciverID, evnt.SenderID, $"{reciver.Name} " +
+            $"has received the assets you gave them  w/ the following IDs: {targetAssetIDs.Aggregate("", (h, t) => h + ", " + t)}"));
     }
 
     private void StoreBuy(KUPBuyStoreEvent evnt)
     {
         var sender = Players.First(x => x.SenderID == evnt.SenderID);
-        sender.PersonalFunds= sender.PersonalFunds - evnt.Cost;
+        sender.PersonalFunds = sender.PersonalFunds - evnt.Cost;
         EventService.AddEvent(
             new KUPStoreSomeoneBought(sender.SenderID,
-                GetFaction("Food").ReciverID,sender.Name,
-                evnt.ItemToBuy,evnt.Amount));
+                GetFaction("Food").ReceiverID, sender.Name,
+                evnt.ItemToBuy, evnt.Amount));
     }
 
     private void CaptureSystem(KUPCaptureSystemEvent evnt)
     {
-        var taker = EventService.GetActorBySenderID(evnt.SenderID);
-        var targetStation = AssetsInPlay.First(x => x.assetID == evnt.SystemStationID);
-        var previousHolder = targetStation.Controller;
-        previousHolder.DestroyAsset(targetStation);
-        
-        var takeFact = Factions.First(x => x == taker);
-        takeFact.AddAsset(targetStation);
-        
-        EventService.AddEvent(new IKUPMessageEvent(
-            taker.SenderID,previousHolder.ReciverID,$"You have lost control of {targetStation.Location} to {taker.Name}"));
+        var ship = (EventService.GetActorBySenderID(evnt.AssetWhichTookID) as KUPCombatAsset);
+        if (!ship.AssetHasActed())
+        {
+            var taker = EventService.GetActorBySenderID(evnt.SenderID);
+            var targetStation = AssetsInPlay.First(x => x.assetID == evnt.SystemStationID);
+            var previousHolder = targetStation.Controller;
+            previousHolder.DestroyAsset(targetStation);
+
+            var takeFact = Factions.First(x => x == taker);
+            takeFact.AddAsset(targetStation);
+
+
+            EventService.AddEvent(new IKUPMessageEvent(
+                taker.SenderID, previousHolder.ReceiverID,
+                $"You have lost control of {targetStation.Location} to {taker.Name}"));
+        }
     }
 
     private void TakeSystem(KUPTakeSystemEvent evnt)
     {
-        var taker = EventService.GetActorBySenderID(evnt.SenderID);
-        var targetStation = AssetsInPlay.First(x => x.assetID == evnt.SystemStationID);
-        var takeFact = Factions.First(x => x == taker);
-        takeFact.AddAsset(targetStation);
+        var ship = (EventService.GetActorBySenderID(evnt.AssetWhichTookID) as KUPCombatAsset);
+        if (!ship.AssetHasActed())
+        {
+            var taker = EventService.GetActorBySenderID(evnt.SenderID);
+            var targetStation = AssetsInPlay.First(x => x.assetID == evnt.SystemStationID);
+            var takeFact = Factions.First(x => x == taker);
+            takeFact.AddAsset(targetStation);
+        }
     }
 
     private void TakeAsset(KUPTakeAssetEvent evnt)
     {
-        var taker = EventService.GetActorBySenderID(evnt.SenderID);
-        var targetStation = AssetsInPlay.First(x => x.assetID == evnt.AssetID);
-        var takeFact = Factions.First(x => x == taker);
-        takeFact.AddAsset(targetStation);
+        var ship = (EventService.GetActorBySenderID(evnt.AssetWhichTookID) as KUPCombatAsset);
+        if (!ship.AssetHasActed())
+        {
+            var taker = EventService.GetActorBySenderID(evnt.SenderID);
+            var targetStation = AssetsInPlay.First(x => x.assetID == evnt.AssetID);
+            var takeFact = Factions.First(x => x == taker);
+            takeFact.AddAsset(targetStation);
+        }
     }
 
     private void MoveAsset(KUPMoveAssetEvent evnt)
     {
         var target = (EventService.GetActorByReciverID(evnt.TargetID) as KUPCombatAsset);
-        if (!target.ChangeLocationTo(evnt.Destination))
+        if (!target?.ChangeLocationTo(evnt.Destination) ?? false)
         {
-            EventService.AddEvent(new IKUPMessageEvent(SenderID,evnt.SenderID,"Error building your ship. The location was invalid."));
+            EventService.AddEvent(new IKUPMessageEvent(SenderID, evnt.SenderID,
+                "Error building your ship. The location was invalid."));
         }
     }
 
@@ -318,24 +372,22 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         var buildLoc = AssetsInPlay.First(x => x.assetID == evnt.BuildLocationID).Location;
         var buildFaction = Factions.First(x => x.SenderID == evnt.SenderID);
 
-        if (buildFaction.Money >= cost)
-        {
-            buildFaction.Money = buildFaction.Money - cost;
-            NewAsset(new KUPCombatAsset(buildLoc, buildFaction, evnt.Size, GetNewAssetID(), ShipIDs++),
-                buildFaction);
-        }
+        if (buildFaction.Money < cost) return;
+        buildFaction.Money = buildFaction.Money - cost;
+        NewAsset(new KUPCombatAsset(buildLoc, buildFaction, evnt.Size, GetNewAssetID(), _shipIDs++),
+            buildFaction);
     }
-    
+
     private void ShipDamage(KUPShipDamagedEvent evnt)
     {
         var ship = AssetsInPlay.OfType<KUPCombatAsset>()
-            .First(x => x.ReciverID == evnt.TargetID);
+            .First(x => x.ReceiverID == evnt.TargetID);
         if (ship.HP - evnt.AmountOfDamage <= 0)
         {
             EventService.AddEvent(
                 new IKUPMessageEvent(evnt.SenderID,
                     evnt.TargetID, $"Ship was Destroyed."));
-            
+
             EventService.AddEvent(
                 new IKUPMessageEvent(evnt.TargetID,
                     evnt.SenderID, $"Ship was Destroyed."));
@@ -343,7 +395,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         }
         else
         {
-            ship.DoDamage(evnt.AmountOfDamage);
+            ship.TakeDamage(evnt.AmountOfDamage);
             EventService.AddEvent(
                 new IKUPMessageEvent(evnt.SenderID,
                     evnt.TargetID, $"Took 1 point of damage."));
@@ -362,7 +414,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
         ApplyCost(EventService.GetActorBySenderID(evnt.SenderID), operationCost, evnt.OperationNumber);
         ApplyDamage(target, amountOfDamage, evnt.OperationNumber);
-        
+
         EventService.AddEvent(
             new IKUPMessageEvent(evnt.SenderID,
                 evnt.OperationTarget, evnt.OperationMessage));
@@ -374,10 +426,12 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         if (evntOperationNumber == KUPOperationType.InfluenceAttack)
         {
             faction.DamageInfluence(operationCost);
-        }else if (evntOperationNumber == KUPOperationType.MoneyAttack)
+        }
+        else if (evntOperationNumber == KUPOperationType.MoneyAttack)
         {
             faction.DamageMoney(operationCost);
-        }else if (evntOperationNumber == KUPOperationType.MilitaryAttack)
+        }
+        else if (evntOperationNumber == KUPOperationType.MilitaryAttack)
         {
             faction.DamageInfluence(operationCost);
             faction.DamageMoney(operationCost);
@@ -391,11 +445,12 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         if (type == KUPOperationType.InfluenceAttack)
         {
             faction.DamageInfluence(amountOfDamage);
-        }else if (type == KUPOperationType.MoneyAttack)
+        }
+        else if (type == KUPOperationType.MoneyAttack)
         {
-            
             faction.DamageMoney(amountOfDamage);
-        }else if (type == KUPOperationType.MilitaryAttack)
+        }
+        else if (type == KUPOperationType.MilitaryAttack)
         {
             faction.DamageMilitary(amountOfDamage);
         }
@@ -407,14 +462,16 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         {
             KUPOPerationSize.Small => 10,
             KUPOPerationSize.Medium => 25,
-            KUPOPerationSize.Large => 50
+            KUPOPerationSize.Large => 50,
+            _ => 50,
         };
 
         amount *= evntOperationNumber switch
         {
             KUPOperationType.InfluenceAttack => 2,
             KUPOperationType.MoneyAttack => 3,
-            KUPOperationType.MilitaryAttack => 5
+            KUPOperationType.MilitaryAttack => 5,
+            _ => 2,
         };
 
         return amount;
@@ -425,58 +482,59 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         {
             KUPOPerationSize.Small => 25,
             KUPOPerationSize.Medium => 75,
-            KUPOPerationSize.Large => 125
+            KUPOPerationSize.Large => 125,
+            _ => 250,
         };
 
     private void MoneyDeposit(KUPMoneyDepositEvent evnt)
     {
         var transferee = EventService.GetActorByReciverID(evnt.TargetAccountID);
         var transferer = Factions.First(x => x.Name == "Bank");
-        EventService.AddEvent(new IKUPMessageEvent(evnt.SenderID,transferee.ReciverID,$"{evnt.AmountOfMoney}"));
-        
-        WithdrawMoney(transferer,evnt.AmountOfMoney);
-        DespoitMoney(transferee, evnt.AmountOfMoney);
+        EventService.AddEvent(new IKUPMessageEvent(evnt.SenderID, transferee.ReceiverID, $"{evnt.AmountOfMoney}"));
+
+        WithdrawMoney(transferer, evnt.AmountOfMoney);
+        DepositMoney(transferee, evnt.AmountOfMoney);
     }
-    
+
     private void MoneyWithdraw(KUPMoneyWithdrawEvent evnt)
     {
         var transferer = EventService.GetActorBySenderID(evnt.SenderID);
         var transferee = Factions.First(x => x.Name == "Bank");
-        EventService.AddEvent(new IKUPMessageEvent(evnt.SenderID,transferee.ReciverID,$"{evnt.AmountOfMoney}"));
-        
-        WithdrawMoney(transferer,evnt.AmountOfMoney);
-        DespoitMoney(transferee, evnt.AmountOfMoney);
+        EventService.AddEvent(new IKUPMessageEvent(evnt.SenderID, transferee.ReceiverID, $"{evnt.AmountOfMoney}"));
+
+        WithdrawMoney(transferer, evnt.AmountOfMoney);
+        DepositMoney(transferee, evnt.AmountOfMoney);
     }
 
-    private void MoneyTransfer(IKUPMoneyTransferEvent evnt)
+    private static void MoneyTransfer(IKUPMoneyTransferEvent evnt)
     {
         var transferer = EventService.GetActorBySenderID(evnt.SenderID);
         var transferee = EventService.GetActorByReciverID(evnt.TargetAccountID);
-        
-        WithdrawMoney(transferer,evnt.AmountOfMoney);
-        DespoitMoney(transferee, evnt.AmountOfMoney);
+
+        WithdrawMoney(transferer, evnt.AmountOfMoney);
+        DepositMoney(transferee, evnt.AmountOfMoney);
     }
 
-    private void DespoitMoney(IKUPEventActor transferee, int evntAmountOfMoney)
+    private static void DepositMoney(IKUPEventActor transferee, int evntAmountOfMoney)
     {
         if (transferee.GetType() == typeof(KUPPlayer))
         {
             ((KUPPlayer) transferee).PersonalFunds += evntAmountOfMoney;
         }
-        
+
         if (transferee.GetType() == typeof(KUPFaction))
         {
             ((KUPFaction) transferee).Money += evntAmountOfMoney;
         }
     }
 
-    private void WithdrawMoney(IKUPEventActor transferer, int evntAmountOfMoney)
+    private static void WithdrawMoney(IKUPEventActor transferer, int evntAmountOfMoney)
     {
         if (transferer.GetType() == typeof(KUPPlayer))
         {
             ((KUPPlayer) transferer).PersonalFunds -= evntAmountOfMoney;
         }
-        
+
         if (transferer.GetType() == typeof(KUPFaction))
         {
             ((KUPFaction) transferer).Money -= evntAmountOfMoney;
@@ -484,28 +542,27 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     }
 
     #endregion
-    public KUPFaction? GetFaction(string name)
+
+    public KUPFaction GetFaction(string name)
     {
         return Factions.First(x => x.Name == name);
     }
-    
-    public KUPFaction? GetFaction(int ID)
+
+    public KUPFaction GetFaction(int id)
     {
-        return Factions.First(x => x.FactionID == ID);
+        return Factions.First(x => x.FactionID == id);
     }
 
 
-    public bool CouldCaptureSystem(KUPFilledSystem system)
+    public bool CouldCaptureSystem(KUPFilledSystem system, KUPFaction who)
     {
-        if (system.SystemsPrimaryStation.PrimaryStationAsset.Controller != null &&
-            system.SystemsPrimaryStation.PrimaryStationAsset.Controller.FactionType != FactionType.Unclaimed)
-        {
-        
+        if (system.SystemsPrimaryStation?.PrimaryStationAsset.Controller == null ||
+            system.SystemsPrimaryStation.PrimaryStationAsset.Controller.FactionType == FactionType.Unclaimed ||
+            system.SystemsPrimaryStation.PrimaryStationAsset.Controller == who) return false;
         var locX = system.DisplayX;
         var locY = system.DisplayY;
         var ships = AssetsInPlay.Where(x => x.Location.SystemX == locX && x.Location.SystemY == locY);
         return ships.Any(x => x.Controller == system.SystemsPrimaryStation.PrimaryStationAsset.Controller);
-    }
-        return false;
+
     }
 }

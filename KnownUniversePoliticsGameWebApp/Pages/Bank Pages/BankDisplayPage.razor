@@ -15,7 +15,7 @@
         var player = PoliticsGameService.GetPlayer(depositingPlayerName);
         var bank = PoliticsGameService.GetFaction("Bank");
         EventService.AddEvent(
-            new KUPMoneyDepositEvent(bank.SenderID,player.ReciverID,depositAmount));
+            new KUPMoneyDepositEvent(bank.SenderID,player.ReceiverID,depositAmount));
     }
 
 }
@@ -34,7 +34,7 @@
 </form>
 <h3>List Of Withdrawls</h3>
 <ul>
-@foreach (var withdraw in EventService.GetEvents(PoliticsGameService.GetFaction("Bank").ReciverID))
+@foreach (var withdraw in EventService.GetEvents(PoliticsGameService.GetFaction("Bank").ReceiverID))
 {
     <li>@withdraw</li>
 }

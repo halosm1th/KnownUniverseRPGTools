@@ -1,6 +1,4 @@
 using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 using KnownUniversePoliticsGameWebApp.Data;
 using Microsoft.AspNetCore.HttpOverrides;
 

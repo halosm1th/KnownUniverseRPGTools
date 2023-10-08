@@ -12,7 +12,7 @@
 }
 
 <ul>
-    @foreach (var msg in EventService.GetEvents(PoliticsGameService.GetFaction("Food").ReciverID).OfType<KUPStoreSomeoneBought>())
+    @foreach (var msg in EventService.GetEvents(PoliticsGameService.GetFaction("Food").ReceiverID).OfType<KUPStoreSomeoneBought>())
     {
         @if (msg.HasBeenDone)
         {

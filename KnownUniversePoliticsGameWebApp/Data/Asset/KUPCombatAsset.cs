@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 
 namespace KnownUniversePoliticsGameWebApp.Data;
 
@@ -6,10 +7,11 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 {
     public int HP { get; set; }
     public bool HasMoved { get; set; } = false;
+    public bool HasActed { get; set; } = false;
     public int assetID { get; }
     public string Name { get; set; }
     public int SenderID { get; }
-    public int ReciverID { get; }
+    public int ReceiverID { get; }
     public void AddToEventService()
     {
         KUPEventService.AddActor(this);
@@ -22,7 +24,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         Size = size;
         assetID = id;
         SenderID = evntHandlingID;
-        ReciverID = evntHandlingID;
+        ReceiverID = evntHandlingID;
         Name = "Spaceship [" + Size + "] (" + Controller.Name + ") @ " + location;
         HP = Size switch
         {
@@ -41,34 +43,22 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 
     int IKUPAsset.MoralIncome => 0;
 
-    private int _MoneyTotal = 0;
-    private int _influecnceTotal = 0;
-
-    public int MoneyTotal => _MoneyTotal;
-
-    public int InfluenceTotal => _influecnceTotal;
-    int IKUPAsset.MoneyIncome => 0;
-
-    int IKUPAsset.UpKeepCost
-    {
+    private int _MoneyTotal {
         get
         {
             if (Size == CombatAssetSize.Small)
             {
-                _MoneyTotal = 10;
                 return 10;
             }
             else if (Size == CombatAssetSize.Medium)
             {
                 if (HP == 2)
                 {
-                    _MoneyTotal = 20;
                     return 20;
                 }
 
                 if (HP == 1)
                 {
-                    _MoneyTotal = 10;
                     return 10;
                 }
             }
@@ -76,87 +66,82 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
             {
                 if (HP == 4)
                 {
-                    _MoneyTotal = 50;
                     return 50;
                 }
 
                 if (HP == 3)
                 {
-                    _MoneyTotal = 35;
                     return 35;
                 }
 
                 if (HP == 2)
                 {
-                    _MoneyTotal = 20;
                     return 20;
                 }
 
                 if (HP == 1)
                 {
-                    _MoneyTotal = 10;
                     return 10;
                 }
             }
 
-            _MoneyTotal = 5;
             return 5;
         }
     }
-
-    int IKUPAsset.MoralCost
-    {
+        
+    int _influecnceTotal{
         get
         {
             if (Size == CombatAssetSize.Small)
             {
-                _influecnceTotal = 5;
                 return 5;
             }else if (Size == CombatAssetSize.Medium)
             {
                 if (HP == 2)
                 {
-                    _influecnceTotal = 10;
                     return 10;   
                 }
 
                 if (HP == 1)
                 {
-                    _influecnceTotal = 15;
                     return 15;
                 }
             }else if (Size == CombatAssetSize.Large)
             {
                 if (HP == 4)
                 {
-                    _influecnceTotal = 15;
                     return 15;
                 }
                 
                 if (HP == 3)
                 {
-                    _influecnceTotal = 20;
                     return 20;   
                 }
                 if (HP == 2)
                 {
-                    _influecnceTotal = 25;
                     return 25;   
                 }
 
                 if (HP == 1)
                 {
-                    _influecnceTotal = 30;
                     return 30;
                 }
             }
 
-            _influecnceTotal = 5;
             return 5;
         }
     }
 
-    public void DoDamage(int evntAmountOfDamage)
+    public int MoneyTotal => _MoneyTotal;
+
+    public int InfluenceTotal => _influecnceTotal;
+    int IKUPAsset.MoneyIncome => 0;
+
+    int IKUPAsset.UpKeepCost => MoneyTotal;
+
+    int IKUPAsset.MoralCost => InfluenceTotal;
+
+    public void TakeDamage(int evntAmountOfDamage)
     {
         HP =- evntAmountOfDamage;
     }
@@ -238,6 +223,18 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
             CombatAssetSize.Station => 1
         };
 
+    
+    public bool AssetHasActed()
+    {
+        if (!HasActed)
+        {
+            HasActed = true;
+            return false;
+        }
+
+        return true;
+    }
+    
     public bool ChangeLocationTo(KUPLocation location)
     {
         if (!HasMoved)
@@ -284,6 +281,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 
     public override string ToString()
     {
-        return $"{Name} HP: {HP} ${MoneyTotal} 😊{InfluenceTotal}";
+        //Show them as a cost, by making it a negative thing.
+        return $"{Name} HP: {HP} ${0-MoneyTotal} 😊{0-InfluenceTotal}";
     }
 }

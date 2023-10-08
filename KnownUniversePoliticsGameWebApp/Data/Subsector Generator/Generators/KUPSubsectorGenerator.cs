@@ -3,6 +3,7 @@ using System.Text;
 using System.Xml;
 using Dice;
 using KnownUniversePoliticsGameWebApp.Data;
+using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 using Simple_Subsector_Generator;
 
 class KUPSubsectorGenerator

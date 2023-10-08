@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using KnownUniversePoliticsGameWebApp.Data;
+using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 
 namespace Simple_Subsector_Generator;
 

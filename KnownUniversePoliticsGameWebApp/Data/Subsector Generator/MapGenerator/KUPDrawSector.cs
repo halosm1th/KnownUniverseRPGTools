@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using KnownUniversePoliticsGameWebApp.Data;
+using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 using Simple_Subsector_Generator;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
