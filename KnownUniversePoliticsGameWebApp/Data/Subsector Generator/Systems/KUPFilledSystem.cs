@@ -25,6 +25,36 @@ public class KUPFilledSystem : KUPStarSystem
         return complexPOI;
     }
     
+    
+    public List<KUPPointsOfInterest> GetPOI()
+    {
+        var pois = new List<KUPPointsOfInterest>();
+        foreach (var poi in PointsOfInterest)
+        {
+            if (poi.GetType() == typeof(KupPointsOfInterestAsteroid))
+            {
+                    pois.Add(poi);
+            }else if (poi.GetType() == typeof(KupPrimaryStation))
+            {
+                
+                    pois.Add(poi);
+            }
+            else if (poi.GetType() == typeof(KupPointsOfInterestWorld))
+            {
+                
+                    pois.Add(poi);
+            }else if (poi.GetType() == typeof(KupPointsOfInterestOther))
+            {
+                
+                    pois.Add(poi);
+            }else if (poi.GetType() == typeof(KupPointsOfInterestStation))
+            {
+                    pois.Add(poi);
+            }
+        }
+        return pois;
+    }
+    
     public List<KUPPointsOfInterest> GetUnclaimedPOI()
     {
         var unclaimed = new List<KUPPointsOfInterest>();

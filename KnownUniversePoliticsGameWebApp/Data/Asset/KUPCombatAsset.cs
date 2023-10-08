@@ -141,6 +141,15 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 
     int IKUPAsset.MoralCost => InfluenceTotal;
 
+    public int AttackPower => Size switch
+    {
+        CombatAssetSize.Small => 1,
+        CombatAssetSize.Medium => 2,
+        CombatAssetSize.Large => 3,
+        CombatAssetSize.Station => 5,
+        _ => 1,
+    };
+
     public void TakeDamage(int evntAmountOfDamage)
     {
         HP =- evntAmountOfDamage;
@@ -283,5 +292,13 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
     {
         //Show them as a cost, by making it a negative thing.
         return $"{Name} HP: {HP} ${0-MoneyTotal} 😊{0-InfluenceTotal}";
+    }
+
+    public bool AtWar(KUPCombatAsset asset)
+    {
+        if (Controller.FactionRelationships[asset.Controller] == FactionRelationshipOptions.War) return true;
+        if (asset.Controller == Controller) return false;
+
+        return false;
     }
 }

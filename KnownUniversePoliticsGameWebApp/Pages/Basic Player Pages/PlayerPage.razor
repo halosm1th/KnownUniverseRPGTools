@@ -96,7 +96,32 @@ else
 {
     <h3>@player.Name</h3>
     <button @onclick="Loggout">Log out</button>
-    
+                                   
+    <ul>
+        @foreach (var faction in player.Faction.FactionRelationships)
+        {
+            @if (faction.Value == FactionRelationshipOptions.Peace)
+            {
+                <li style="color: yellow">@faction.Key: @faction.Value</li>
+            }
+            
+            @if (faction.Value == FactionRelationshipOptions.War)
+            {
+                <li style="color: red">@faction.Key: @faction.Value</li>
+            }
+            
+            @if (faction.Value == FactionRelationshipOptions.DefenceAlliance)
+            {
+                <li style="color: blue">@faction.Key: @faction.Value</li>
+            }
+
+            @if (faction.Value == FactionRelationshipOptions.TotalAlliance)
+            {
+                <li style="color: green">@faction.Key: @faction.Value</li>
+            }
+        }
+    </ul>
+                                   
     <form>
         <h5>Send Message To Faction</h5>
         <label for="targetFaction">Target Faction</label>

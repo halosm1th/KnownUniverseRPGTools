@@ -1,4 +1,5 @@
-﻿using Simple_Subsector_Generator;
+﻿using Microsoft.AspNetCore.Components.Web;
+using Simple_Subsector_Generator;
 using SixLabors.ImageSharp;
 using TravellerMapSystem.Tools;
 
@@ -31,6 +32,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
     private int CurrentRound = 1;
     public List<IKUPAsset> AssetsInPlay { get; }
+    private List<KUPCombatAsset> AssetsToFight { get; set; }
 
     private readonly KUPDrawSector KupDrawSector;
 
@@ -120,6 +122,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                 }), ufe1)
         };
 
+        SetupBaseRelationships();
 
         NewAsset(new KUPCombatAsset(
             new KUPLocation(3, 3), Factions.First(x => x.FactionID == 4), CombatAssetSize.Large,
@@ -133,6 +136,15 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         Console.WriteLine($"Total income: {totalIncome}. Total influence: {totalInfluence}");
     }
 
+    private void SetupBaseRelationships()
+    {
+        foreach (var faction in Factions)
+        {
+            faction.SetStartingFactionRelationships(Factions
+                .Where(x => x.FactionID != faction.FactionID).ToList());
+        }
+    }
+
     public string GetLocationName(int x, int y)
     {
         return Sector.GetSystemName(x, y);
@@ -142,13 +154,18 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
     #region Assets
 
+    public IKUPAsset? GetAssetFromID(int assetID)
+    {
+        return AssetsInPlay.Find(x => x.assetID == assetID);
+    }
+    
     public List<IKUPAsset?> GetAssetsFromIDS(List<int> assetIDs)
     {
         var assets = new List<IKUPAsset?>();
 
         foreach (var assetID in assetIDs)
         {
-            assets.Add(AssetsInPlay.Find(x => x.assetID == assetID));
+            assets.Add(GetAssetFromID(assetID));
         }
 
         return assets;
@@ -201,6 +218,18 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     
     private void HandleCombats()
     {
+        foreach(var asset in AssetsToFight){
+            if (asset.HP > 0)
+            {
+                var targetShip = CombatAssets
+                    .First(x => x.Location == asset.Location
+                                && x.AtWar(asset)
+                                && x.HP > 0);
+                
+                EventService.AddEvent(
+                    new KUPShipDamagedEvent(asset.SenderID, targetShip.ReceiverID,asset.AttackPower));
+            }
+        }
     }
 
     private void RemoveDestroyedAssets()
@@ -271,7 +300,109 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         else if (evnt.GetType() == typeof(KUPAssetTransferEvent))
         {
             TransferAsset(evnt as KUPAssetTransferEvent);
+        }else if (evnt.GetType() == typeof(KUPAttackSystemEvent))
+        {
+            AddToAttack(evnt as KUPAttackSystemEvent);
         }
+        
+        else if (evnt.GetType() == typeof(KUPWarDeclareEvent))
+        {
+            DeclareWar(evnt as KUPWarDeclareEvent);
+        }else if (evnt.GetType() == typeof(KUPAtWarEvent))
+        {
+            AtWar(evnt as KUPAtWarEvent);
+        }
+        else if (evnt.GetType() == typeof(KUPPeaceEvent))
+        {
+            Peace(evnt as KUPPeaceEvent);
+        }else if (evnt.GetType() == typeof(KUPWarJoinedEvent))
+        {
+            Console.WriteLine("how did this get used?");
+            //WarJoin(evnt as KUPWarJoinedEvent);
+        }else if (evnt.GetType() == typeof(KUPAllianceEvent))
+        {
+            Alliance(evnt as KUPAllianceEvent);
+
+        }else if (evnt.GetType() == typeof(KUPDefenseEvent))
+        {
+            Defense(evnt as KUPDefenseEvent);
+        }
+    }
+
+    private void Defense(KUPDefenseEvent evnt)
+    {
+        var enemy = GetFaction(evnt.TargetID);
+        var me = GetFaction(evnt.SenderID);
+
+        me.FactionRelationships[enemy] = FactionRelationshipOptions.DefenceAlliance;
+    }
+
+    private void Alliance(KUPAllianceEvent evnt)
+    {
+        var enemy = GetFaction(evnt.TargetID);
+        var me = GetFaction(evnt.SenderID);
+
+        me.FactionRelationships[enemy] = FactionRelationshipOptions.TotalAlliance;
+    }
+
+    private void Peace(KUPPeaceEvent evnt)
+    {
+        var enemy = GetFaction(evnt.TargetID);
+        var me = GetFaction(evnt.SenderID);
+
+        me.FactionRelationships[enemy] = FactionRelationshipOptions.Peace;
+    }
+
+    private void AtWar(KUPAtWarEvent evnt)
+    {
+        var warAgainst = GetFaction(evnt.WarAgainst);
+        var me = GetFaction(evnt.TargetID);
+
+        warAgainst.FactionRelationships[me] = FactionRelationshipOptions.War;
+        me.FactionRelationships[warAgainst] = FactionRelationshipOptions.War;
+    }
+    
+
+    private void DeclareWar(KUPWarDeclareEvent evnt)
+    {
+        var sender = GetFaction(evnt.SenderID);
+        var reciever = GetFaction(evnt.TargetID);
+        
+        sender.AtWar(reciever);
+        //Send the event that the war started to the person its actually declared against.
+        EventService.AddEvent(
+            new KUPAtWarEvent(reciever.SenderID,reciever.ReceiverID,
+                sender.ReceiverID));
+        
+        var allies = sender.FactionRelationships
+            .Where(x => x.Value == FactionRelationshipOptions.TotalAlliance);
+        
+        var enemies = reciever.FactionRelationships
+            .Where(x => x.Value == FactionRelationshipOptions.DefenceAlliance
+                        || x.Value == FactionRelationshipOptions.TotalAlliance);
+
+        foreach (var ally in allies)
+        {
+            EventService.AddEvent(
+                new KUPAtWarEvent(sender.SenderID,ally.Key.ReceiverID,
+                    reciever.ReceiverID));
+        }
+
+        foreach (var enemy in enemies)
+        {
+            //The reciver (whom the enemies are the allies) sends a mesasge to their ally, infomring them they are at 
+            //war with the enemy, whom is recorded as sender.
+            EventService.AddEvent(
+                new KUPAtWarEvent(reciever.SenderID,enemy.Key.ReceiverID,
+                    sender.ReceiverID));
+        }
+        
+    }
+
+    private void AddToAttack(KUPAttackSystemEvent evnt)
+    {
+        var CombatAsset = GetAssetFromID(evnt.ShipOrdered) as KUPCombatAsset;
+        AssetsToFight.Add(CombatAsset);
     }
 
     private void TransferAsset(KUPAssetTransferEvent evnt)

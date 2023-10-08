@@ -28,6 +28,14 @@ public enum FactionType
     Deutchria3,
 }
 
+public enum FactionRelationshipOptions
+{
+    Peace,
+    War,
+    TotalAlliance,
+    DefenceAlliance
+}
+
 public class KUPFaction : IKUPEventActor
 {
 
@@ -37,6 +45,8 @@ public class KUPFaction : IKUPEventActor
     {
         KUPEventService.AddActor(this);
     }
+
+    public Dictionary<KUPFaction, FactionRelationshipOptions> FactionRelationships;
 
     public int FactionID { get; private set; }
     public string Name { get; }
@@ -74,6 +84,38 @@ public class KUPFaction : IKUPEventActor
         }
 
         AddToEventService();
+    }
+
+    public void AtWar(KUPFaction atWarWith)
+    {
+        FactionRelationships[atWarWith] = FactionRelationshipOptions.War;
+    }
+
+    public void Peace(KUPFaction atWarWith)
+    {
+        FactionRelationships[atWarWith] = FactionRelationshipOptions.Peace;
+    }
+
+    public void Alliance(KUPFaction atWarWith)
+    {
+        FactionRelationships[atWarWith] = FactionRelationshipOptions.TotalAlliance;
+    }
+
+    public void Defense(KUPFaction atWarWith)
+    {
+        FactionRelationships[atWarWith] = FactionRelationshipOptions.DefenceAlliance;
+    }
+    
+    public void SetStartingFactionRelationships(List<KUPFaction> factions)
+    {
+        foreach(var faction in factions){
+            NewFaction(faction,FactionRelationshipOptions.Peace);
+        }
+    }
+
+    public void NewFaction(KUPFaction newFaction, FactionRelationshipOptions relationship)
+    {
+        FactionRelationships.Add(newFaction,relationship);
     }
 
     public override string ToString()

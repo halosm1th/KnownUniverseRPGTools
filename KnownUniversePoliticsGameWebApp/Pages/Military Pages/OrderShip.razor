@@ -15,6 +15,7 @@
         TakeSystem,
         TakeAsset,
         CaptureSystem,
+        AttackSystem,
     }
 
     [Parameter]
@@ -47,6 +48,12 @@
                 var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
                 EventService.AddEvent(new
                     KUPTakeSystemEvent(Faction.SenderID, locID, ShipAssetID));
+            } else if (_militaryAction == MilitaryAction.AttackSystem)
+            {
+                UsedShip = true;
+                var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                EventService.AddEvent(new
+                    KUPAttackSystemEvent(Faction.SenderID, ShipAssetID,loc));
             }
             else if (_militaryAction == MilitaryAction.CaptureSystem)
             {
@@ -83,51 +90,67 @@
 }
 
 <div>
+    <div>
+        <h3>Action Types</h3>
+        <ul>
+            <li>Move Ship - Move a Ship to a different System</li>
+            <li>Take System - Take over an undefended System from another player.</li>
+            <li>Take Asset - Take control of a POI in a system. </li>
+            <li>Capture System - Take control of a System which no player presently controls.</li>
+            <li>Attack System - Order a ship to attack enemy ships or stations in the current system.</li>
+        </ul>
+    </div>
     @if (!UsedShip)
     {
         <h4>Use A ship</h4>
+        <div>
         <label for="SelectShip">Select a Ship</label>
-        <select @bind="ShipAssetID" id="SelectShip">
-            <option selected value="-1">None</option>
-            @foreach (var asset in Faction.GetMilitaryAssets())
-            {
-                @if (_militaryAction == MilitaryAction.MoveShip && asset.HasMoved)
+            <select @bind="ShipAssetID" id="SelectShip">
+                <option selected value="-1">None</option>
+                @foreach (var asset in Faction.GetMilitaryAssets())
                 {
-                }
-                else
-                {
-                    <option value="@asset.assetID">@asset.Name (@asset.Location)</option>
-                }
-            }
-        </select>
-        <label for="SelectAction">Select an Action</label>
-        <select @bind="_militaryAction" id="SelectAction">
-            @if (ShipAssetID != -1)
-            {
-                <option selected value="@MilitaryAction.MoveShip">Move Ship</option>
-                {
-                    var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
-                    system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
-                    if (system != null && system.GetType() == typeof(KUPFilledSystem))
+                    @if (_militaryAction == MilitaryAction.MoveShip && asset.HasMoved)
                     {
-                        if (system.SystemsPrimaryStation.PrimaryStationAsset.Controller == null
-                            ||
-                            system.SystemsPrimaryStation.PrimaryStationAsset.Controller.FactionType == FactionType.Unclaimed)
+                    }
+                    else
+                    {
+                        <option value="@asset.assetID">@asset.Name (@asset.Location)</option>
+                    }
+                }
+            </select>
+            </div>
+            
+        <div>
+            <label for="SelectAction">Select an Action</label>
+            <select @bind="_militaryAction" id="SelectAction">
+                @if (ShipAssetID != -1)
+                {
+                    <option selected value="@MilitaryAction.MoveShip">Move Ship</option>
+                    {
+                        var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
+                        system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
+                        if (system != null && system.GetType() == typeof(KUPFilledSystem))
                         {
-                            <option value="@MilitaryAction.TakeSystem">Take System</option>
-                        }
-                        else if (system.GetUnclaimedPOI().Count > 0)
-                        {
-                            <option value="@MilitaryAction.TakeAsset">Take Asset</option>
-                        }
-                        else if (PoliticsGameService.CouldCaptureSystem(system, Faction))
-                        {
-                            <option value="@MilitaryAction.CaptureSystem">Capture System</option>
+                            if (system.SystemsPrimaryStation.PrimaryStationAsset.Controller == null
+                                ||
+                                system.SystemsPrimaryStation.PrimaryStationAsset.Controller.FactionType == FactionType.Unclaimed)
+                            {
+                                <option value="@MilitaryAction.TakeSystem">Take System</option>
+                            }
+                            else if (system.GetPOI().Count > 0)
+                            {
+                                <option value="@MilitaryAction.TakeAsset">Take Asset</option>
+                            }
+                            else if (PoliticsGameService.CouldCaptureSystem(system, Faction))
+                            {
+                                <option value="@MilitaryAction.CaptureSystem">Capture System</option>
+                            }
+                            <option value="@MilitaryAction.AttackSystem"> Attack Ships</option>
                         }
                     }
                 }
-            }
-        </select>
+            </select>
+            </div>
 
         <label style="">Extra Information</label>
         @if (_militaryAction == MilitaryAction.MoveShip)
