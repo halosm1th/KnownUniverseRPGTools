@@ -2,7 +2,8 @@
 using System.Text;
 using KnownUniversePoliticsGameWebApp.Data;
 using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
-using Simple_Subsector_Generator;
+using KnownUniversePoliticsGameWebApp.Data.Subsector_Generator.Regions_of_Space;
+using KUP_Simple_Sector_Generator;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -19,11 +20,11 @@ namespace TravellerMapSystem.Tools
         private static readonly int ySize = KUPDrawSubsector.ySize*4;
         private static readonly int HEIGHT = KUPDrawSubsector.HEIGHT;
 
-        private readonly KURPGSector? _knownUniverseSectorToDraw;
+        private readonly KUPSector? _knownUniverseSectorToDraw;
         private readonly List<KUPFaction>? _factions;
         private KnownUniversePoliticsGame PoliticsGame;
 
-        public KUPDrawSector(KURPGSector? knownUniverseSectorToDraw, List<KUPFaction>? factions, KnownUniversePoliticsGame politicsGame)
+        public KUPDrawSector(KUPSector? knownUniverseSectorToDraw, List<KUPFaction>? factions, KnownUniversePoliticsGame politicsGame)
         {
             _knownUniverseSectorToDraw = knownUniverseSectorToDraw;
             _factions = factions;

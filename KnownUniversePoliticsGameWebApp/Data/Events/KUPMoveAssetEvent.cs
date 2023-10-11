@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class KUPMoveAssetEvent : IKUPEvent
 {
@@ -6,6 +8,17 @@ public class KUPMoveAssetEvent : IKUPEvent
     public int SenderID { get; }
     public int TargetID { get; }
     public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        
+        var target = (EventService.GetActorByReciverID(TargetID) as KUPCombatAsset);
+        if (!target?.ChangeLocationTo(Destination) ?? false)
+        {
+            EventService.AddEvent(new IKUPMessageEvent(SenderID, SenderID,
+                "Error building your ship. The location was invalid."));
+        }
+    }
+
     public KUPLocation Destination { get; }
 
     public KUPMoveAssetEvent(int senderId, int targetID, KUPLocation destination)

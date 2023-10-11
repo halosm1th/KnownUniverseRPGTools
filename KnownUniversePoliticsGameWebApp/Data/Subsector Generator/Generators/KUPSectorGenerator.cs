@@ -2,7 +2,7 @@
 using KnownUniversePoliticsGameWebApp.Data;
 using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
 public class KUPSectorGenerator
 {
@@ -15,7 +15,7 @@ public class KUPSectorGenerator
     private int DisplayX;
     private int DisplayY;
 
-    public KURPGSector? Sector { get; private set; }
+    public KnownUniversePoliticsGameWebApp.Data.Subsector_Generator.Regions_of_Space.KUPSector? Sector { get; private set; }
     private KnownUniversePoliticsGame PoliticsGame;
 
     public KUPSectorGenerator(string name, bool usingSeed, int seed,KnownUniversePoliticsGame politicsGame ,
@@ -56,7 +56,7 @@ public class KUPSectorGenerator
         fs.Close();
     }
 
-    public KURPGSector Generate()
+    public KnownUniversePoliticsGameWebApp.Data.Subsector_Generator.Regions_of_Space.KUPSector Generate()
     {
         if (IsPrinting)
         {
@@ -64,7 +64,7 @@ public class KUPSectorGenerator
             Console.WriteLine($"Starting to generate {Name} Sector");
             Console.ForegroundColor = ConsoleColor.Gray;
         }
-        Sector = new KURPGSector(Name, Seed);
+        Sector = new KnownUniversePoliticsGameWebApp.Data.Subsector_Generator.Regions_of_Space.KUPSector(Name, Seed);
 
         for(var x = 0; x < Sector.Subsectors.GetLength(0); x++)
         {
@@ -91,7 +91,7 @@ public class KUPSectorGenerator
     
     public static int _Index = 0;
     
-    private KURPGSubsector GenerateSectorData(int x, int y, int index)
+    private KUPSubsector GenerateSectorData(int x, int y, int index)
     {
         if (IsPrinting)
         {

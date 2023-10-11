@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class KUPTakeAssetEvent : IKUPEvent
 {
@@ -8,6 +10,18 @@ public class KUPTakeAssetEvent : IKUPEvent
     public int AssetID { get; }
     public int AssetWhichTookID { get; }
     public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        
+        var ship = (game.GetAssetFromID(AssetWhichTookID) as KUPCombatAsset);
+        if (!ship.AssetHasActed())
+        {
+            var taker = EventService.GetActorBySenderID(SenderID);
+            var targetStation = game.AssetsInPlay.First(x => x.assetID == AssetID);
+            var takeFact = game.Factions.First(x => x == taker);
+            takeFact.AddAsset(targetStation);
+        }
+    }
 
     public KUPTakeAssetEvent(int senderId, int assetID, int takingAssetID)
     {

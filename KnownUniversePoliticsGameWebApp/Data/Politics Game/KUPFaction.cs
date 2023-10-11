@@ -57,14 +57,20 @@ public class KUPFaction : IKUPEventActor
     public List<IKUPAsset> Assets { get; }
 
     public List<KUPCombatAsset> CombatAssets => Assets.OfType<KUPCombatAsset>().ToList();
+    public List<string> Summary { get; }
+    public List<string> Goals { get; set; }
+    public List<IKUPLocationAsset> LocationAssets => Assets.OfType<IKUPLocationAsset>().ToList();
 
     public KUPFaction(string name = "Empty Faction", int id =-10000, FactionType factionType = FactionType.Unclaimed, int money = 0, 
-        int influence = 0, List<IKUPAsset?> assets = default, KUPPlayer player = default)
+        int influence = 0, List<IKUPAsset?> assets = default, KUPPlayer player = default, 
+        List<string> summary = default, List<string> goals = default)
     {
         Name = name;
         FactionType = factionType;
         Money = money;
         Influence = influence;
+        Goals = goals;
+        Summary = summary;
 
         FactionID = id;
         Player = player;
@@ -228,12 +234,15 @@ public class KUPFaction : IKUPEventActor
     {
         var numbToHurt = amountOfDamage / 5;
         var milAssets = GetMilitaryAssets();
-        var random = new Random(milAssets.Count + numbToHurt);
-        for (int i = 0; i < numbToHurt; i++)
+        if (milAssets.Count > 0)
         {
-            var asset = milAssets[random.Next(0,milAssets.Count)];
-            KUPEventService.AddEventStatic(
-                new KUPShipDamagedEvent(SenderID,asset.ReceiverID,1));
+            var random = new Random(milAssets.Count + numbToHurt);
+            for (int i = 0; i < numbToHurt; i++)
+            {
+                var asset = milAssets[random.Next(0, milAssets.Count)];
+                KUPEventService.AddEventStatic(
+                    new KUPShipDamagedEvent(SenderID, asset.ReceiverID, 1));
+            }
         }
     }
 

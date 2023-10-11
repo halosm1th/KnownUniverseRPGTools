@@ -1,5 +1,9 @@
 ﻿@page "/PlayerPage"
 @using KnownUniversePoliticsGameWebApp.Data
+@using KnownUniversePoliticsGameWebApp.Pages.Bank_Pages
+@using KnownUniversePoliticsGameWebApp.Pages.Store_Pages
+@using KnownUniversePoliticsGameWebApp.Pages.Military_Pages
+@using KnownUniversePoliticsGameWebApp.Pages.Trade
 @inject KnownUniversePoliticsGameService PoliticsGameService
 @inject KUPEventService EventService;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
@@ -10,11 +14,8 @@
     bool logginError = false;
     string Password = "";
     string Username = "";
-    int TransferAmount;
     KUPPlayer? player;
 
-    string targetFactionName = "Game Master";
-    string message;
 
     bool GetLoggedInValue = true;
 
@@ -55,22 +56,6 @@
         }
     }
 
-    private void SendMessage()
-    {
-        try
-        {
-            var factionID = PoliticsGameService.PoliticsGame.Factions.First(x => x.Name == targetFactionName).ReceiverID;
-
-            EventService.AddEvent(new IKUPMessageEvent(player.Faction.SenderID, factionID, message));
-            targetFactionName = "";
-            message = "";
-        }
-        catch (Exception e)
-        {
-            
-        }
-    }
-
     private void Loggout()
     {
         LoggedIn = false;
@@ -82,6 +67,20 @@
     private void AlreadyLoggedIn()
     {
     }
+    
+    enum PlayerMenuChoice
+
+    {
+        FactionRelations,
+        Message,
+        FactionView,
+        Military,
+        Trade,
+        Store,
+        Bank,
+    }
+
+    PlayerMenuChoice MenuChoice { get; set; } = PlayerMenuChoice.FactionRelations;
 
 }
 
@@ -101,73 +100,46 @@
 }
 else
 {
+    <div>
     <h3>@player.Name</h3>
-    <button @onclick="Loggout">Log out</button>
-                                   
-    <ul>
-        @foreach (var faction in player.Faction.FactionRelationships)
-        {
-            @if (faction.Value == FactionRelationshipOptions.Peace)
-            {
-                <li style="background: darkviolet;color:yellow;border:black;border-width: thick;border-style:solid">
-                    <p>@faction.Key</p>
-                    <br/>
-                    <p>Current Relationship: @faction.Value</p>
-                    <button type="button" @onclick="() => EventService.AddEvent(new KUPWarDeclareEvent(player.Faction.SenderID,faction.Key.ReceiverID))">To War!</button>
-                    <button @onclick="() => EventService.AddEvent(new KUPDefenseEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Oath Defense</button>
-                    <button @onclick="() => EventService.AddEvent(new KUPAllianceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Oath Alliance</button>
-                </li>
-            }
-            
-            @if (faction.Value == FactionRelationshipOptions.War)
-            {
-                <li style="background: darkred;color: yellow;border:black;border-width: thick;border-style:solid">
-                    <p>@faction.Key</p>
-                    <br/>
-                    <p>Current Relationship: @faction.Value</p>
-                    
-                    <button type="button" @onclick="() => EventService.AddEvent(new KUPPeaceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Declare Peace!</button>
-                </li>
-            }
-            
-            @if (faction.Value == FactionRelationshipOptions.DefenceAlliance)
-            {
-                <li style="background: darkblue;color: yellow;border:black;border-width: thick;border-style:solid">
-                    <p>@faction.Key</p>
-                    <br/>
-                    <p>Current Relationship: @faction.Value</p> 
-                    <button type="button" @onclick="() => EventService.AddEvent(new KUPPeaceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Declare Peace!</button>
-                    <button @onclick="() => EventService.AddEvent(new KUPAllianceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Oath Alliance</button>
-                </li>
-            }
-
-            @if (faction.Value == FactionRelationshipOptions.TotalAlliance)
-            {
-                <li style="background: darkgreen;color: yellow;border:black;border-width: thick;border-style:solid">
-                    <p>@faction.Key</p>
-                    <br/>
-                    <p>Current Relationship: @faction.Value</p>
-                    <button type="button" @onclick="() => EventService.AddEvent(new KUPPeaceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Declare Peace!</button>
-                    <button @onclick="() => EventService.AddEvent(new KUPDefenseEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Oath Defense</button>
-                                </li>
-            }
-        }
-    </ul>
-                                   
-    <form>
-        <h5>Send Message To Faction</h5>
-        <label for="targetFaction">Target Faction</label>
-        <select list="targetFactions" id="targetFaction" name="targetFaction" @bind="targetFactionName">
-            @foreach (var faction in PoliticsGameService.PoliticsGame.Factions)
-            {
-                <option value="@faction.Name">
-                    @faction.Name
-                </option>
-            }
+         </div>          
+         
+    <div>
+          <label for="SelectOption">Select player page option</label>
+        <select id="SelectOption" @bind="MenuChoice">
+            <option value="@PlayerMenuChoice.FactionRelations">Faction Relations</option>
+            <option value="@PlayerMenuChoice.Message">Show Messages </option>
+            <option value="@PlayerMenuChoice.FactionView">Show Faction</option>
+            <option value="@PlayerMenuChoice.Store">Store</option>
+            <option value="@PlayerMenuChoice.Bank">Bank</option>
+            <option value="@PlayerMenuChoice.Military">Military</option>
+            <option value="@PlayerMenuChoice.Trade">Trade</option>
         </select>
-                <label for="message">Message: </label>
-        <input type="text" id="message" name="message" @bind="message"/>
-        <button  class="btn btn-primary"  type="button" @onclick="SendMessage">Send Message</button>
-    </form>
-    <FactionView Faction="player?.Faction"></FactionView>
+        
+        @if (MenuChoice == PlayerMenuChoice.FactionRelations)
+        {
+            <PlayerViewFactionRelationships player="player"></PlayerViewFactionRelationships>
+        }else if (MenuChoice == PlayerMenuChoice.Message)
+        {
+            <PlayerSendMessage player="player"></PlayerSendMessage>
+        }else if (MenuChoice == PlayerMenuChoice.FactionView)
+        {
+            <FactionView Faction="player?.Faction"></FactionView>
+        }else if (MenuChoice == PlayerMenuChoice.Store)
+        {
+            <PlayerStore player="player"></PlayerStore>
+        }else if (MenuChoice == PlayerMenuChoice.Bank)
+        {
+            <PlayerBank player="player"></PlayerBank>
+        }else if (MenuChoice == PlayerMenuChoice.Military){
+            <MilitaryPage player="player"></MilitaryPage>
+            }else if (MenuChoice == PlayerMenuChoice.Trade)
+            {
+                <Trade player="player"></Trade>
+            }
+    
+    </div>
+    
+    <button @onclick="Loggout">Log out</button>
+                  
 }

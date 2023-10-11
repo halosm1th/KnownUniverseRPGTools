@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
 public class KURPGMegaSector
 {
@@ -17,7 +17,7 @@ public class KURPGMegaSector
     }
 
 
-    public override string ToString()
+    public override string? ToString()
     {
         return $"# {Name} Sector ({SuperSectors.GetLength(0)+1}x{SuperSectors.GetLength(1)+1})\n" +
                $"{SectorsText()}";

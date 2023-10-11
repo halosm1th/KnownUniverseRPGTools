@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using KUP_Simple_Sector_Generator;
 
-namespace Simple_Subsector_Generator;
+namespace KnownUniversePoliticsGameWebApp.Data.Subsector_Generator.Regions_of_Space;
 
 public class KURPGMegaSector
 {

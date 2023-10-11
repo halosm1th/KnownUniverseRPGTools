@@ -35,7 +35,7 @@ public class KUPPlayer : IKUPEventActor
 
         Faction = newFaction;
         Faction.NewPlayer(this);
-        
+
         return oldFaction;
 
     }

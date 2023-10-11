@@ -153,11 +153,13 @@
                             {
                                 <option value="@MilitaryAction.TakeSystem">Take System</option>
                             }
-                            else if (system.GetPOI().Count > 0)
+                            
+                            if (system.GetPOI().Count > 0)
                             {
                                 <option value="@MilitaryAction.TakeAsset">Take Asset</option>
                             }
-                            else if (PoliticsGameService.CouldCaptureSystem(system, Faction))
+                            
+                            if (PoliticsGameService.CouldCaptureSystem(system, Faction))
                             {
                                 <option value="@MilitaryAction.CaptureSystem">Capture System</option>
                             }

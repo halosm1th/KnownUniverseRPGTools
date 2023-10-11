@@ -113,12 +113,16 @@
 <div>
     <label for="selectAsset">Select Asset to Transfer: </label>
     <select id="selectAsset" @bind="AssetID">
+        <option value="-1">None</option>
         @foreach (var asset in AssetsToSee())
         {
             <option value="@asset.assetID">@asset</option>
         }
     </select>
-    <button type="button" @onclick="AddToTransferList">Add to transfer list</button>
+    @if (AssetID != -1)
+    {
+        <button type="button" @onclick="AddToTransferList">Add to transfer list</button>
+    }
     <button type="button" @onclick="ResetTransferList">Reset transfer list</button>
 </div>
 

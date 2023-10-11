@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using Dice;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 
 class KURpgSubsectorGenerator
 {
@@ -57,13 +57,16 @@ class KURpgSubsectorGenerator
     {
         foreach (var system in Subsector.GetFilledSystems())
         {
-            var poiCount = PointOfInterestCount(system);
+            if (system != null)
+            {
+                var poiCount = PointOfInterestCount(system);
             
-            for(int i =0; i < poiCount; i++){
-                var poi = PointOfInterestTypeAndSubtype(system);
+                for(int i =0; i < poiCount; i++){
+                    var poi = PointOfInterestTypeAndSubtype(system);
                 
-                FleshOutPrimaryStation(system);
-                FleshOutPointsOfInterest(system, poi);
+                    FleshOutPrimaryStation(system);
+                    FleshOutPointsOfInterest(system, poi);
+                }
             }
         }
     }
@@ -100,12 +103,24 @@ class KURpgSubsectorGenerator
 
     private int SpacePortRatingModifierTable(string? SpacePortRating)
     {
-        if (SpacePortRating[0] == 'A') return 2;
-        if (SpacePortRating[0] == 'B') return 1;
-        if (SpacePortRating[0] == 'C') return 0;
-        if (SpacePortRating[0] == 'D') return -1;
-        if (SpacePortRating[0] == 'E') return -2;
-        if (SpacePortRating[0] == 'F') return -3;
+        if (SpacePortRating != null)
+        {
+            switch (SpacePortRating[0])
+            {
+                case 'A':
+                    return 2;
+                case 'B':
+                    return 1;
+                case 'C':
+                    return 0;
+                case 'D':
+                    return -1;
+                case 'E':
+                    return -2;
+                case 'F':
+                    return -3;
+            }
+        }
 
         return 0;
     }
@@ -486,36 +501,43 @@ class KURpgSubsectorGenerator
     }
     private int GetLowGovMod(KURPGFilledSystem system)
     {
-        var complexPOI = system.PointsOfInterest.Where(x =>
+        var complexPoi = system.PointsOfInterest.Where(x =>
             x.HasComplexInfo
             && x.GetType() != typeof(KURPGPointsOfInterestWreck)
             && x.GetType() != typeof(KURPGPrimaryStation));
 
         var result = 0;
 
-        foreach (var poi in complexPOI)
+        foreach (var poi in complexPoi)
         {
-            if (complexPOI is KURPGPointsOfInterestWorld)
+            switch (poi)
             {
-                if ((complexPOI as KURPGPointsOfInterestWorld).GovernemntRoll <= 5)
+                case KURPGPointsOfInterestWorld world:
                 {
-                    result++;
-                }
-            }
-            else if (complexPOI is KURPGPointsOfInterestStation)
-            {
-                if ((complexPOI as KURPGPointsOfInterestStation).TLRoll <= 5)
-                {
-                    result++;
-                }
+                    if (world.GovernemntRoll <= 5)
+                    {
+                        result++;
+                    }
 
-            }
-            else if (complexPOI is KURPGPointsOfInterestAsteroid)
-            {
-
-                if ((complexPOI as KURPGPointsOfInterestAsteroid).TLRoll <= 5)
+                    break;
+                }
+                case KURPGPointsOfInterestStation station:
                 {
-                    result++;
+                    if (station.TLRoll <= 5)
+                    {
+                        result++;
+                    }
+
+                    break;
+                }
+                case KURPGPointsOfInterestAsteroid asteroid:
+                {
+                    if (asteroid.TLRoll <= 5)
+                    {
+                        result++;
+                    }
+
+                    break;
                 }
             }
         }

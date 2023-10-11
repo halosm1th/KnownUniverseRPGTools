@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class KUPAttackSystemEvent : IKUPEvent
 {
@@ -8,6 +10,11 @@ public class KUPAttackSystemEvent : IKUPEvent
     public int ShipOrdered { get; }
     private KUPLocation _location;
     public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        var CombatAsset = game.GetAssetFromID(ShipOrdered) as KUPCombatAsset;
+        game.AssetsToFight.Add(CombatAsset);
+    }
 
     public KUPAttackSystemEvent(int senderId, int shipOrdered, KUPLocation location)
     {

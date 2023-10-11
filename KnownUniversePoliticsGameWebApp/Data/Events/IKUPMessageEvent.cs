@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class IKUPMessageEvent : IKUPEvent
 {
@@ -6,6 +8,12 @@ public class IKUPMessageEvent : IKUPEvent
     public int SenderID { get; }
     public int TargetID { get; }
     public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+
+        Console.WriteLine($"Message from: {SenderID} to {TargetID} saying: {Message}");
+    }
+
     public string Message { get; }
 
     public IKUPMessageEvent(int senderId, int targetId, string message)

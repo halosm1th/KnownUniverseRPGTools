@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public interface IKUPEvent
 {
@@ -6,6 +8,8 @@ public interface IKUPEvent
     int SenderID { get; }
     int TargetID { get; }
     DateTime CreationTime { get; }
+
+    void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService);
 }
 
 public enum KUPOPerationSize

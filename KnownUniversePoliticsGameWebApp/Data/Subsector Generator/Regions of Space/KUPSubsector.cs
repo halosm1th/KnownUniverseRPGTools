@@ -1,9 +1,9 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
-public class KURPGSubsector
+public class KUPSubsector
 {
     public Dictionary<(int X, int Y),KUPStarSystem> Subsector { get; private set; }
 
@@ -36,7 +36,7 @@ public class KURPGSubsector
         
     }
     
-    public KURPGSubsector(string name, int xSize, int ySize, int subX, int subY)
+    public KUPSubsector(string name, int xSize, int ySize, int subX, int subY)
     {
         //Y,X
         Subsector = new Dictionary<(int X, int Y), KUPStarSystem>();

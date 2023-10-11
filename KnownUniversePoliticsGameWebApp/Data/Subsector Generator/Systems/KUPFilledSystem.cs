@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Text;
 using KnownUniversePoliticsGameWebApp.Data;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 
 public class KUPFilledSystem : KUPStarSystem
 {
@@ -182,7 +182,7 @@ public class KUPFilledSystem : KUPStarSystem
         PointsOfInterest.First(x => x.GetType() == typeof(KupPrimaryStation)) as KupPrimaryStation;
 
     
-    public KUPFilledSystem(string name, int x, int y, KURPGSubsector subsector, ref int dispX, ref int dispY) : base(x, y, subsector, ref dispX, ref dispY)
+    public KUPFilledSystem(string name, int x, int y, KUPSubsector subsector, ref int dispX, ref int dispY) : base(x, y, subsector, ref dispX, ref dispY)
     {
         Name = name;
         PointsOfInterest = new List<KUPPointsOfInterest>();

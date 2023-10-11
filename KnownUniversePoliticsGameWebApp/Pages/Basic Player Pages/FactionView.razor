@@ -1,6 +1,6 @@
 ﻿@using KnownUniversePoliticsGameWebApp.Data
 @inject KUPEventService EventService;
-<h3>@Faction.Name - @Faction.Player.Name</h3>
+<h3>@(Faction?.Name ?? "None")- @(Faction.Player?.Name ?? "None")</h3>
 
 @code {
    [Parameter]
@@ -16,6 +16,27 @@
 <p>Money: $@Faction.Money</p>
 <p>Influence: 😊@Faction.Influence</p>
 
+<details>
+   <summary>Faction Info &amp; Goals</summary>
+   <div>
+      <h5>Summary</h5>
+      <ul>
+         @foreach (var point in Faction.Summary)
+         {
+            <li>@point</li>
+         }
+      </ul>
+   </div>
+   <div>
+      <h5>Goals</h5>
+      <ol>
+         @foreach (var goal in Faction.Goals)
+         {
+            <li>@goal</li>
+         }
+      </ol>
+   </div>
+</details>
 <details>
    <summary>Events & Notifications</summary>
    <ul>

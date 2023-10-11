@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class KUPAtWarEvent : IKUPEvent
 {
@@ -8,6 +10,15 @@ public class KUPAtWarEvent : IKUPEvent
     public int TargetID { get; }
     public int WarAgainst { get; }
     public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        
+        var warAgainst = game.GetFaction(WarAgainst);
+        var me = game.GetFaction(TargetID);
+
+        warAgainst.AtWar(me);
+        me.AtWar(warAgainst);
+    }
 
     public KUPAtWarEvent(int senderId, int targetId, int against)
     {

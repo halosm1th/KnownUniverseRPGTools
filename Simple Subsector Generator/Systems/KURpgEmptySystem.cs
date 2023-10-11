@@ -1,4 +1,4 @@
-﻿using Simple_Subsector_Generator;
+﻿using KUP_Simple_Sector_Generator;
 
 public class KURPGEmptySystem : KURPGStarSystem
 {
@@ -9,6 +9,5 @@ public class KURPGEmptySystem : KURPGStarSystem
     public override string ToString()
     {
         return "";
-        return base.ToString() + "**An Empty System**";
     }
 }

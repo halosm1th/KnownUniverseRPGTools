@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class IKUPMoneyTransferEvent : IKUPEvent
 {
@@ -6,6 +8,7 @@ public class IKUPMoneyTransferEvent : IKUPEvent
     public int SenderID { get; }
     public int TargetID => 1919991701;
     public DateTime CreationTime { get; }
+
 
     public int TargetAccountID { get; }
     public int AmountOfMoney { get; }
@@ -19,6 +22,17 @@ public class IKUPMoneyTransferEvent : IKUPEvent
         CreationTime = DateTime.Now;
         ;
     }
+    
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        
+        var transferer = EventService.GetActorBySenderID(SenderID);
+        var transferee = EventService.GetActorByReciverID(TargetAccountID);
+
+        game.WithdrawMoney(transferer, AmountOfMoney);
+        game.DepositMoney(transferee, AmountOfMoney);
+    }
+    
 
     public override string ToString()
     {

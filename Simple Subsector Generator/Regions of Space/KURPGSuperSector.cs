@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
 public class KURPGSuperSector
 {
@@ -28,7 +28,7 @@ public class KURPGSuperSector
         var sb = new StringBuilder();
         foreach (var s in Sectors)
         {
-            sb.Append(s.ToString());
+            sb.Append(s?.ToString());
         }
 
         return sb.ToString();

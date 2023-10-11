@@ -1,13 +1,12 @@
 ﻿using System.Text;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
 public class KURPGSector
 {
     public KURPGSubsector[,] Subsectors { get; }
 
 
-    private List<KURPGPointsOfInterest> _PointsOfInterests;
     public List<KURPGPointsOfInterest> PointsOfInterests
     {
         get
@@ -19,7 +18,7 @@ public class KURPGSector
                 var items = kurpgSubsector.GetFilledSystems().Select(x => x?.PointsOfInterest);
                 foreach (var item in items)
                 {
-                    poi.AddRange(item);   
+                    if (item != null) poi.AddRange(item);
                 }
             }
 

@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public enum StoreItems
 {
@@ -18,6 +20,17 @@ public class KUPBuyStoreEvent : IKUPEvent
     public int SenderID { get; }
     public int TargetID => 1919991701;
     public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        
+        var sender = game.Players.First(x => x.SenderID == SenderID);
+        sender.PersonalFunds = sender.PersonalFunds - Cost;
+        EventService.AddEvent(
+            new KUPStoreSomeoneBought(sender.SenderID,
+                game.GetFaction("Food").ReceiverID, sender.Name,
+                ItemToBuy, Amount));
+    }
+
     public StoreItems ItemToBuy { get; }
     public int Amount { get; }
     

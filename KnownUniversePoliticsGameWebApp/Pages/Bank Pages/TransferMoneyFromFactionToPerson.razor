@@ -1,0 +1,55 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+<h3>TransferMoneyFromFactionToPerson</h3>
+
+@code {
+    [Parameter] public KUPPlayer player { get; set;  }
+    int TransferAmount = 0;
+    int withdrawAmount = 0;
+    
+    
+    private void FactionTransferMoneyToPlayer()
+    {
+        var faction = PoliticsGameService.GetFaction(player.Faction.FactionID);
+
+        if (TransferAmount > 0 && faction.Money >= TransferAmount)
+        {
+            EventService.AddEvent(
+                new IKUPMoneyTransferEvent(player.Faction.FactionID, player.ReceiverID, TransferAmount));
+        }
+    }
+
+    private void PlayerTransferMoneyToFaction()
+    {
+        if (TransferAmount > 0 && player.PersonalFunds >= TransferAmount)
+        {
+            EventService.AddEvent(
+                new IKUPMoneyTransferEvent(player.ReceiverID, player.Faction.FactionID, TransferAmount));
+        }
+    }
+
+    private void ResetTransfer()
+    {
+        TransferAmount = 0;
+    }
+}
+
+
+<div>
+    <form>
+        <p>Transfer Money from Faction To Personal</p>
+        <label for="AmountToTransfer">Amount to Transfer:</label>
+        <input class="form-control" id="AmountToTransfer" type="text" @bind="TransferAmount"/>
+        @if (TransferAmount <= player.Faction.Money)
+        {
+            <button class="btn btn-primary" @onclick="FactionTransferMoneyToPlayer">Transfer From Faction</button>
+        }
+        @if (TransferAmount <= player.PersonalFunds)
+        {
+            <button class="btn btn-primary" @onclick="PlayerTransferMoneyToFaction">Transfer From Player</button>
+        }
+        <button class="btn btn-primary" @onclick="ResetTransfer">Reset Trasnfer Amount</button>
+
+    </form>
+</div>

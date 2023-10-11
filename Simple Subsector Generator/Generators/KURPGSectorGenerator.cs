@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
 public class KURPGSectorGenerator
 {
@@ -31,20 +31,23 @@ public class KURPGSectorGenerator
     
     public void WriteToFile(string name, string path)
     {
-        var utf8Text = Utf8Encoder.GetString(Utf8Encoder.GetBytes(Sector.ToString()));
-        
-        var st = utf8Text;
-        
-        var fs = File.OpenWrite(path + $"/{name}.md");
-        var sw = new StreamWriter(fs);
-        foreach (var s in st.Split('\n'))
+        if (Sector != null)
         {
-            sw.WriteLine(s);
-            Console.WriteLine($"Writing: ("+ s + ") to file.");
-            sw.Flush();
+            var utf8Text = Utf8Encoder.GetString(Utf8Encoder.GetBytes(Sector.ToString()));
+        
+            var st = utf8Text;
+        
+            var fs = File.OpenWrite(path + $"/{name}.md");
+            var sw = new StreamWriter(fs);
+            foreach (var s in st.Split('\n'))
+            {
+                sw.WriteLine(s);
+                Console.WriteLine($"Writing: ("+ s + ") to file.");
+                sw.Flush();
+            }
+            sw.Close();
+            fs.Close();
         }
-        sw.Close();
-        fs.Close();
     }
 
     public KURPGSector Generate()

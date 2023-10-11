@@ -1,5 +1,5 @@
 ﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 using SixLabors.ImageSharp;
 
 namespace KnownUniversePoliticsGameWebApp.Data;
@@ -93,6 +93,17 @@ public class KnownUniversePoliticsGameService
         return null;
     }
 
+    
+    public KUPPlayer? GetPlayer(int id)
+    {
+        if (PoliticsGame != null)
+        {
+            return PoliticsGame.Players.Find(x => x.SenderID == id);
+        }
+
+        return null;
+    }
+    
     public void EndOfTurn()
     {
         PoliticsGame.EndOfTurn();
@@ -158,5 +169,24 @@ public class KnownUniversePoliticsGameService
     public void AdminTransferAssets(KUPFaction targetFaction, List<IKUPAsset> assetsToTransfer)
     {
         PoliticsGame.AdminTranferAssets(targetFaction, assetsToTransfer);
+    }
+
+    public void SetPlayerFaction(string playerName, int factionId)
+    {
+        PoliticsGame.SetPlayerFaction(playerName,factionId);
+    }
+
+    public List<IKUPLocationAsset> GetBuildLocations(KUPFaction? faction)
+    {
+        return PoliticsGame.GetBuildLocations(faction);
+    }
+
+    public void CreateNewFaction(string name, int facID, FactionType factionType,
+        int money, int influence, List<IKUPAsset> assets, string chosenPlayer, List<string> summary,
+        List<string> goals)
+    {
+
+        var player = GetPlayer(chosenPlayer);
+        PoliticsGame.CreateNewFaction(name,facID,factionType,money,influence,assets,player,summary,goals);
     }
 }

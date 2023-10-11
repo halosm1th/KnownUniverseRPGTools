@@ -1,4 +1,4 @@
-﻿namespace Simple_Subsector_Generator;
+﻿namespace KUP_Simple_Sector_Generator;
 
 public abstract class KURPGStarSystem
 {

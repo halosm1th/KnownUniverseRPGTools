@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class KUPWarJoinedEvent : IKUPEvent
 {
@@ -8,6 +10,10 @@ public class KUPWarJoinedEvent : IKUPEvent
     public int TargetID { get; }
     public int WarAgainst { get; }
     public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        throw new NotImplementedException();
+    }
 
     //Used for allies to be dragged into a war, when on the defenses, vs AT War which si for allies who are dragged
     //into the offensive.

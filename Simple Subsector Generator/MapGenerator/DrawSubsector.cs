@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;

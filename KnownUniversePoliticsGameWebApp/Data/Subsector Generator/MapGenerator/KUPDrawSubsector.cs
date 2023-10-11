@@ -2,7 +2,7 @@
 using System.Text;
 using KnownUniversePoliticsGameWebApp.Data;
 using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -25,10 +25,10 @@ namespace TravellerMapSystem.Tools
 
         private static readonly SolidBrush WorldTextBrush = new SolidBrush(Color.Black);
         
-        private readonly KURPGSubsector _knownUniverseSubsectorToDraw;
+        private readonly KUPSubsector _knownUniverseSubsectorToDraw;
         private KnownUniversePoliticsGame PoliticsGame;
 
-        public KUPDrawSubsector(KURPGSubsector knownUniverseSubsectorToDraw, KnownUniversePoliticsGame politicsGame)
+        public KUPDrawSubsector(KUPSubsector knownUniverseSubsectorToDraw, KnownUniversePoliticsGame politicsGame)
         {
             _knownUniverseSubsectorToDraw = knownUniverseSubsectorToDraw;
             PoliticsGame = politicsGame;
@@ -301,7 +301,7 @@ namespace TravellerMapSystem.Tools
 
         public bool PRINTER_FRIENDLY = true;
         
-        private Image? CreateGrid(KURPGSubsector subsector, bool whiteBackground)
+        private Image? CreateGrid(KUPSubsector subsector, bool whiteBackground)
         {
             Image? retImage = null;
             var fontSize = 18;

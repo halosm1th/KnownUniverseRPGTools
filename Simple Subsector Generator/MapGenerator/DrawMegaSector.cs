@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -28,18 +28,20 @@ namespace TravellerMapSystem.Tools
         {
             Console.WriteLine("Starting Megasector image generation");
             Image subsector = CreateGrid();
-            for (int x = 0; x < _knownUniverseSuperSectorToDraw.SuperSectors.GetLength(0); x++)
-            {
-                for (int y = 0; y < _knownUniverseSuperSectorToDraw.SuperSectors.GetLength(1); y++)
+            if (_knownUniverseSuperSectorToDraw != null)
+                for (int x = 0; x < _knownUniverseSuperSectorToDraw.SuperSectors.GetLength(0); x++)
                 {
-                    var imageToAdd = new DrawSuperSector(_knownUniverseSuperSectorToDraw.SuperSectors[x,y]);
-                    var image = imageToAdd.GenerateImage();
-                    var placeX = ((1050*4)*4) * x;
-                    var placeY = ((1500*4)*4) * y;
-                    var location = new Point(placeX, placeY);
-                    subsector.Mutate(i => i.DrawImage(image,location,1));
-                }   
-            }
+                    for (int y = 0; y < _knownUniverseSuperSectorToDraw.SuperSectors.GetLength(1); y++)
+                    {
+                        var imageToAdd = new DrawSuperSector(_knownUniverseSuperSectorToDraw.SuperSectors[x, y]);
+                        var image = imageToAdd.GenerateImage();
+                        var placeX = ((1050 * 4) * 4) * x;
+                        var placeY = ((1500 * 4) * 4) * y;
+                        var location = new Point(placeX, placeY);
+                        subsector.Mutate(i => i.DrawImage(image, location, 1));
+                    }
+                }
+
             return subsector;
         }
 

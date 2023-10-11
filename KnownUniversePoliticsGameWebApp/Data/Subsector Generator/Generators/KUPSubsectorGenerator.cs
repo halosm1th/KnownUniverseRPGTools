@@ -4,11 +4,11 @@ using System.Xml;
 using Dice;
 using KnownUniversePoliticsGameWebApp.Data;
 using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 
 class KUPSubsectorGenerator
 {
-    public KURPGSubsector Subsector { get; }
+    public KUPSubsector Subsector { get; }
     public string Name { get; }
     private int Seed { get; set; }
     private Random RandomNumberGenerator;
@@ -30,14 +30,14 @@ class KUPSubsectorGenerator
         //Seed *= Name.Aggregate(0, (h,t) => h * ((int) t)) + name.Aggregate(0, (h,t) => h * ((int) t));
         RandomNumberGenerator = new Random(Seed);
         UsingSeed = usingSeed;
-        Subsector = new KURPGSubsector(name, XSize, YSize, subX, subY);
+        Subsector = new KUPSubsector(name, XSize, YSize, subX, subY);
         IsPrinting = isPrinting;
         PoliticsGame = politicsGame;
         DispalyX = dispX;
         DisplayY = dispY;
     }
 
-    public KURPGSubsector Generate()
+    public KUPSubsector Generate()
     {
         PlaceSystems();
         DetermineSpacePortQuality();

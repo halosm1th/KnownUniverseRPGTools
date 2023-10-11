@@ -31,6 +31,19 @@
         _politicsGameService.EndOfTurn();
     }
 
+    enum AdminActions
+    {
+        EventView,
+        FactionList,
+        AssetList,
+        TransferFactionAsset,
+        CreateShip,
+        AssignPlayerToFaction,
+        CreateNewFaction,
+    }
+
+    AdminActions AdminAction = AdminActions.EventView;
+
 }
 <div>
     @if (!_politicsGameService.HasBeenInited)
@@ -46,12 +59,23 @@
 {
     <button @onclick="EndOfTurn">End of Turn!</button>
  
-    <AdminEventsView></AdminEventsView>
-    <AdminFactionList></AdminFactionList>
-    <AdminAssetList></AdminAssetList>
     
-    <AdminTransferFactionAsset></AdminTransferFactionAsset>
-    <AdminGiveFactionShip></AdminGiveFactionShip>
-    <AdminAssignPlayerToFaction></AdminAssignPlayerToFaction>
-    <AdminCreateFaction></AdminCreateFaction>
+    <select @bind="AdminAction">
+        <option value="@AdminActions.EventView">Event View</option>
+        <option value="@AdminActions.FactionList">Faction List</option>
+        <option value="@AdminActions.AssetList">Asset List</option>
+        <option value="@AdminActions.TransferFactionAsset">Transfer Faction Asset</option>
+        <option value="@AdminActions.CreateShip">Create Ship</option>
+        <option value="@AdminActions.AssignPlayerToFaction">Assign Player To Faction</option>
+        <option value="@AdminActions.CreateNewFaction">Create New Faction</option>
+    </select>
+
+    @if(AdminAction == AdminActions.EventView){ <AdminEventsView></AdminEventsView>}
+    else if(AdminAction == AdminActions.FactionList){ <AdminFactionList></AdminFactionList>}
+    else if(AdminAction == AdminActions.AssetList){ <AdminAssetList></AdminAssetList>}
+    
+    else if(AdminAction == AdminActions.TransferFactionAsset){ <AdminTransferFactionAsset></AdminTransferFactionAsset>}
+    else if(AdminAction == AdminActions.CreateShip){ <AdminGiveFactionShip></AdminGiveFactionShip>}
+    else if(AdminAction == AdminActions.AssignPlayerToFaction){ <AdminAssignPlayerToFaction></AdminAssignPlayerToFaction>}
+    else if(AdminAction == AdminActions.CreateNewFaction){ <AdminCreateFaction></AdminCreateFaction>}
 }

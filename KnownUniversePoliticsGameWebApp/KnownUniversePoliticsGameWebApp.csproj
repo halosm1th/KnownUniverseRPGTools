@@ -35,12 +35,35 @@
       <_ContentIncludedByDefault Remove="Pages\Bank Pages\Trade\DidTrade.razor" />
       <_ContentIncludedByDefault Remove="Pages\Bank Pages\Trade\FailedToTrade.razor" />
       <_ContentIncludedByDefault Remove="Pages\Bank Pages\Trade\Trade.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\BankDisplayPage.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\PlayerBank.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\PlayerBankPage.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\TransferComplete.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\TransferMoneyBetweenPages.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\TransferMoneyFromFactionToPerson.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Bank Pages\WithdrawMoneyFromPersonnelAccount.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Basic Player Pages\Bank Pages\PlayerBankPage.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Basic Player Pages\Bank Pages\TransferComplete.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Basic Player Pages\Bank Pages\TransferMoneyBetweenPages.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Basic Player Pages\Bank Pages\TransferMoneyFromFactionToPerson.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Basic Player Pages\Bank Pages\WithdrawMoneyFromPersonnelAccount.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Basic Player Pages\Store Pages\PlayerStore.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Basic Player Pages\Store Pages\StoreDisplay.razor" />
     </ItemGroup>
 
     <ItemGroup>
       <AdditionalFiles Include="Pages\Store Pages\StoreDisplay.razor" />
-      <AdditionalFiles Include="Pages\Store Pages\StorePage.razor" />
       <AdditionalFiles Include="Pages\Trade\Trade.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Pages\Bank Pages\BankDisplayPage.razor" />
+      <UpToDateCheckInput Remove="Pages\Bank Pages\PlayerBank.razor" />
+      <UpToDateCheckInput Remove="Pages\Bank Pages\PlayerBankPage.razor" />
+      <UpToDateCheckInput Remove="Pages\Bank Pages\TransferComplete.razor" />
+      <UpToDateCheckInput Remove="Pages\Bank Pages\TransferMoneyBetweenPages.razor" />
+      <UpToDateCheckInput Remove="Pages\Bank Pages\TransferMoneyFromFactionToPerson.razor" />
+      <UpToDateCheckInput Remove="Pages\Bank Pages\WithdrawMoneyFromPersonnelAccount.razor" />
     </ItemGroup>
 
 </Project>

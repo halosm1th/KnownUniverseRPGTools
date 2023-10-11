@@ -21,33 +21,7 @@
 
     public List<IKUPLocationAsset> GetBuildLocations()
     {
-
-            var locations = new List<IKUPLocationAsset>();
-        foreach (var location in Faction.Assets.OfType<IKUPLocationAsset>())
-        {
-            var tradeCodes = location.POI.GetTradeCodes();
-            if (Faction.FactionType == FactionType.Pirates)
-            {                
-                if (tradeCodes.Contains(KURPGTradeCodes.Bh)
-                                 || tradeCodes.Contains(KURPGTradeCodes.Is)
-                                 || tradeCodes.Contains(KURPGTradeCodes.Io))
-            {
-                locations.Add(location);
-            }
-            }
-            else
-            {
-
-                if (tradeCodes.Contains(KURPGTradeCodes.Ms)
-                    || tradeCodes.Contains(KURPGTradeCodes.Mb)
-                    || tradeCodes.Contains(KURPGTradeCodes.Ht)
-                    || tradeCodes.Contains(KURPGTradeCodes.Rs))
-                {
-                    locations.Add(location);
-                }
-            }
-        }
-        return locations;
+        return PoliticsGameService.GetBuildLocations(Faction);
     }
 
     public void AnotherBuildOrder()

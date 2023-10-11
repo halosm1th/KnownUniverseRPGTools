@@ -1,12 +1,9 @@
 ﻿
 A random event button on the admin page & sending the event to people
 
-A way on hte admin page to control which player is assigned  to which faction.
-    Add a way to create new factions on the fly
-    A way to assign player who lose control of their factions to new factions or to an agitator role of some kind
+Add a way to the admin page to create new factions on the fly
+A way to the admin assign player who lose control of their factions to new factions or to an agitator role of some kind?
     
-A way to transfer assets to a faction from the admin page
-    A way to move assets rfom one page to another on the admin page.
 
 All Black market/etc stuff is for the pirate faction, who can only build ships at those locations or something.
 
@@ -42,3 +39,7 @@ Making treaties:
 4) Trade Deal
 5) Military Alliance
 6) Open Boarders
+
+
+A way on hte admin page to control which player is assigned  to which faction.
+A way to transfer assets to a faction from the admin page

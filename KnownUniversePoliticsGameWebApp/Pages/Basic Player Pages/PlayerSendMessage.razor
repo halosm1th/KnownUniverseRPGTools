@@ -1,0 +1,48 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@using Microsoft.AspNetCore.Components
+
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+<h3>PlayerSendMessage</h3>
+
+@code {
+    
+    string targetFactionName = "Game Master";
+    string message;
+    [Parameter] public KUPPlayer player { get; set; }
+
+
+    private void SendMessage()
+    {
+        try
+        {
+            var factionID = PoliticsGameService.PoliticsGame.Factions.First(x => x.Name == targetFactionName).ReceiverID;
+
+            EventService.AddEvent(new IKUPMessageEvent(player.Faction.SenderID, factionID, message));
+            targetFactionName = "";
+            message = "";
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
+}
+
+
+<form>
+    <h5>Send Message To Faction</h5>
+    <label for="targetFaction">Target Faction</label>
+    <select list="targetFactions" id="targetFaction" name="targetFaction" @bind="targetFactionName">
+        @foreach (var faction in PoliticsGameService.PoliticsGame.Factions)
+        {
+            <option value="@faction.Name">
+                @faction.Name
+            </option>
+        }
+    </select>
+    <label for="message">Message: </label>
+    <input type="text" id="message" name="message" @bind="message"/>
+    <button  class="btn btn-primary"  type="button" @onclick="SendMessage">Send Message</button>
+</form>

@@ -1,4 +1,6 @@
-﻿namespace KnownUniversePoliticsGameWebApp.Data;
+﻿using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+
+namespace KnownUniversePoliticsGameWebApp.Data;
 
 public class KUPStoreSomeoneBought : IKUPEvent
 {
@@ -8,6 +10,10 @@ public class KUPStoreSomeoneBought : IKUPEvent
     public int SenderID { get; }
     public int TargetID { get; }
     public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        
+    }
 
     public string BuyerName { get; }
     public StoreItems ItemToBuy { get; }

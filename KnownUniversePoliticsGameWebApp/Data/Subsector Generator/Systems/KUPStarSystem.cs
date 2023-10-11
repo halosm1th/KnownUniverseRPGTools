@@ -1,16 +1,16 @@
-﻿namespace Simple_Subsector_Generator;
+﻿namespace KUP_Simple_Sector_Generator;
 
 public abstract class KUPStarSystem
 {
     public int SystemX { get; }
     public int SystemY { get; }
     
-    public KURPGSubsector Subsector { get; }
+    public KUPSubsector Subsector { get; }
     
     public int DisplayX { get; }
     public int DisplayY { get; }
 
-    public KUPStarSystem(int x, int y, KURPGSubsector subsector, ref int dispX, ref int dispY)
+    public KUPStarSystem(int x, int y, KUPSubsector subsector, ref int dispX, ref int dispY)
     {
         SystemX = x;
         SystemY = y;

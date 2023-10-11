@@ -1,7 +1,7 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
 public class KURPGSubsector
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
 class KURPGMegaSectorGenerator
 {
@@ -24,7 +24,7 @@ class KURPGMegaSectorGenerator
     public void WriteToFile(string name, string path)
     {
         var utf8Text = GeneratorUtils.Utf8Encoder.GetString(
-            GeneratorUtils.Utf8Encoder.GetBytes(MegaSector.ToString()));
+            GeneratorUtils.Utf8Encoder.GetBytes(MegaSector?.ToString() ?? string.Empty));
 
         var st = utf8Text;
 

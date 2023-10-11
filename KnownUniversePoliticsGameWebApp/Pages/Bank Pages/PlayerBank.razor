@@ -1,0 +1,45 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@using KnownUniversePoliticsGameWebApp.Pages.Bank_Pages
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Bank Stuff</h3>
+
+@code {
+
+    [Parameter] public KUPPlayer player { get; set; }
+    enum BankActions
+    {
+        TransferBetweenPersonalAndFaction,
+        WithdrawFromPersonnel,
+        TransferBetweenFactions
+    }
+
+    BankActions actionChoice = BankActions.TransferBetweenPersonalAndFaction;
+}
+
+@if (player != null)
+{
+    <h5>Your Personal Funds: @player.PersonalFunds</h5>
+    <h5>Your Factions Funds: @player.Faction.Money</h5>
+
+    <label for="actChoice">What do you wish to do?</label>
+    <select id="actChoice" @bind="actionChoice">
+        <option value="@BankActions.TransferBetweenPersonalAndFaction">Move $ between personal &AMP; faction accounts</option>
+        <option value="@BankActions.WithdrawFromPersonnel">Withdraw $ from Personal Account</option>
+    </select>
+    
+    @if (actionChoice == BankActions.TransferBetweenPersonalAndFaction)
+    {
+        <TransferMoneyFromFactionToPerson player="player"></TransferMoneyFromFactionToPerson>
+    }
+    @if (actionChoice == BankActions.WithdrawFromPersonnel)
+    {
+        <WithdrawMoneyFromPersonnelAccount player="player"></WithdrawMoneyFromPersonnelAccount>
+    }
+    @if (actionChoice == BankActions.TransferBetweenFactions)
+    {
+        <WithdrawMoneyFromPersonnelAccount player="player"></WithdrawMoneyFromPersonnelAccount>
+    }
+}

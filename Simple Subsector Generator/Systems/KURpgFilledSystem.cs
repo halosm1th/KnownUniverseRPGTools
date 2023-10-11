@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 
 public class KURPGFilledSystem : KURPGStarSystem
 {

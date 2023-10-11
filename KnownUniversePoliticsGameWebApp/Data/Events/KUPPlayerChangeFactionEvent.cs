@@ -2,7 +2,7 @@
 
 namespace KnownUniversePoliticsGameWebApp.Data;
 
-public class KUPDefenseEvent : IKUPEvent
+public class KUPPlayerChangeFactionEvent : IKUPEvent
 {
     
     public int eventID { get; }
@@ -11,24 +11,26 @@ public class KUPDefenseEvent : IKUPEvent
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
-        
-        var enemy = game.GetFaction(TargetID);
-        var me = game.GetFaction(SenderID);
+        var player = game.Players.First(x => x.SenderID == SenderID);
+        var fac = game.Factions.First(x => x.ReceiverID == TargetID);
 
-        me.Defense(enemy);
+        var newFacPlayer = fac.Player;
+        var oldFac = player.ChangeFaction(fac);
+        fac.NewPlayer(player);
+        oldFac.NewPlayer(null);
     }
 
-    public KUPDefenseEvent(int senderId, int targetId)
+    public KUPPlayerChangeFactionEvent(int playerID, int targetFactionId)
     {
-        SenderID = senderId;
-        TargetID = targetId;
+        SenderID = playerID;
+        TargetID = targetFactionId;
         eventID = KUPEventService.GetEventID();
         CreationTime = DateTime.Now;
     }
 
     public override string ToString()
     {
-        return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Defense Pact Event] " +
+        return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Change Faction Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
                $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} ";
     }

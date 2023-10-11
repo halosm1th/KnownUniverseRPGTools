@@ -5,7 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml.Xsl;
 using TravellerMapSystem.Tools;
 
-namespace Simple_Subsector_Generator;
+namespace KUP_Simple_Sector_Generator;
 
 class Tester
 {

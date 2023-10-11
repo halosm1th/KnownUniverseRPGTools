@@ -1,5 +1,4 @@
-﻿@page "/Trade"
-@using KnownUniversePoliticsGameWebApp.Data
+﻿@using KnownUniversePoliticsGameWebApp.Data
 @using System.Diagnostics.Eventing.Reader
 @inject KnownUniversePoliticsGameService PoliticsGameService
 @inject KUPEventService EventService;
@@ -9,25 +8,14 @@
 
 @code {
     
-    KUPPlayer? player;
+    [Parameter] public KUPPlayer? player { get; set; }
     int targetFactionID = -1;
-    private bool LoggedIn = false;
-    bool hasBeenLoaded = false;
     bool AssetTransfered = false;
     List<int> AssetsToTrade = new List<int>();
     int AssetToTrade = -1;
     int FactionToGiveTo = -1;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        var loggedIn = await localStorage.GetItemAsync<string>("LoggedIn");
-        if (loggedIn == "True")
-        {
-            var playerName = await localStorage.GetItemAsync<string>("LoggedInAs");
-            player = PoliticsGameService.GetPlayer(playerName);
-            LoggedIn = true;
-        }
-    }
+    
 
     private void TransferAsset()
     {
@@ -59,12 +47,7 @@
             AssetToTrade = -1;
         }
     }
-
-    private void DoSomething()
-    {
-        var temp = LoggedIn;
-        LoggedIn = temp;
-    }
+    
 
     private void SetFaction()
     {
@@ -79,8 +62,6 @@
 
 }
 
-@if (LoggedIn)
-{
     <form>
             <label for="target">Transfer Asset To</label>
             
@@ -129,10 +110,3 @@
                 <button type="button" @onclick="TransferAsset">Transfer Asset</button>
             }
         </form>
-}
-else
-{
-    
-    <button type="button" @onclick="DoSomething">Click me.</button>
-    <p>If not logged in, will do nothing. To log in, go to the player page and log in.</p>
-}

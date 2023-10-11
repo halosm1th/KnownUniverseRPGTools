@@ -1,34 +1,14 @@
-﻿@page "/MilitaryPage"
-@using KnownUniversePoliticsGameWebApp.Data
+﻿@using KnownUniversePoliticsGameWebApp.Data
 @inject KnownUniversePoliticsGameService PoliticsGameService
 @inject KUPEventService EventService;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
-<h3>MilitaryPage</h3>
+<h3>Military Actions</h3>
 
 @code {
 
     
-    KUPPlayer player;
-    bool LoggedIn = false;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        var loggedIn = await localStorage.GetItemAsync<string>("LoggedIn");
-        if (loggedIn == "True")
-        {
-            var playerName = await localStorage.GetItemAsync<string>("LoggedInAs");
-            player = PoliticsGameService.GetPlayer(playerName);
-            LoggedIn = true;
-        }
-    }
-    
-    
-    private void DoSomething()
-    {
-        var temp = LoggedIn;
-        LoggedIn = temp;
-    }
+    [Parameter] public KUPPlayer player { get; set; }
 
     choiceTypes choice = choiceTypes.BuildShip;
     
@@ -44,8 +24,6 @@
 
 }
 
-@if (LoggedIn)
-{
     <h3>@player.Faction.Name</h3>
     <div>
         <h4>List of Military Assets</h4>
@@ -76,9 +54,3 @@
     {
     <OrderShip Faction = "player.Faction" ></OrderShip>
     }
-}
-else
-{
-    <button type="button" @onclick="DoSomething">Click me.</button>
-    <p>If not logged in, will do nothing. To log in, go to the player page and log in.</p>
-}

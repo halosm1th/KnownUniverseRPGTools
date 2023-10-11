@@ -61,8 +61,13 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                     return 10;
                 }
             }
-            else if (Size == CombatAssetSize.Large)
+            else if (Size == CombatAssetSize.Large || Size == CombatAssetSize.Station)
             {
+                if (HP == 5)
+                {
+                    return 80;
+                }
+                
                 if (HP == 4)
                 {
                     return 50;
@@ -98,32 +103,36 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
             {
                 if (HP == 2)
                 {
-                    return 10;   
+                    return 15;   
                 }
 
-                if (HP == 1)
+                if (HP == 2)
                 {
-                    return 15;
+                    return 10;
                 }
-            }else if (Size == CombatAssetSize.Large)
+            }else if (Size == CombatAssetSize.Large || Size == CombatAssetSize.Station)
             {
+                if (HP == 5)
+                {
+                    return 45;
+                }
                 if (HP == 4)
                 {
-                    return 15;
+                    return 30;
                 }
                 
                 if (HP == 3)
                 {
-                    return 20;   
+                    return 25;   
                 }
                 if (HP == 2)
                 {
-                    return 25;   
+                    return 20;   
                 }
 
                 if (HP == 1)
                 {
-                    return 30;
+                    return 15;
                 }
             }
 

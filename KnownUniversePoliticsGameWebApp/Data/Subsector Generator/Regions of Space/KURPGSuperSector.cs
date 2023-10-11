@@ -1,10 +1,11 @@
 ﻿using System.Text;
+using KUP_Simple_Sector_Generator;
 
-namespace Simple_Subsector_Generator;
+namespace KnownUniversePoliticsGameWebApp.Data.Subsector_Generator.Regions_of_Space;
 
 public class KURPGSuperSector
 {
-    public KURPGSector?[,] Sectors { get; }
+    public KUPSector?[,] Sectors { get; }
     public string Name { get; }
     public int Seed { get; }
     public bool UsingSeed { get; }
@@ -13,7 +14,7 @@ public class KURPGSuperSector
     {
         Name = name;
         Seed = seed;
-        Sectors = new KURPGSector?[4, 4];
+        Sectors = new KUPSector?[4, 4];
     }
 
 

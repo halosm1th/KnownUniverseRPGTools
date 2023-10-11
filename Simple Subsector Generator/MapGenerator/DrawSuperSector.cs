@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using Simple_Subsector_Generator;
+using KUP_Simple_Sector_Generator;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
@@ -27,7 +27,7 @@ namespace TravellerMapSystem.Tools
 
         public Image GenerateImage(bool printSubImages = false, string path = "", bool highVersian = false)
         {
-            Console.WriteLine($"Starting to Generate Super Sector: {_knownUniverseSuperSectorToDraw.Name}");
+            Console.WriteLine($"Starting to Generate Super Sector: {_knownUniverseSuperSectorToDraw?.Name}");
             Image subsector = CreateGrid();
             for (int x = 0; x < _knownUniverseSuperSectorToDraw.Sectors.GetLength(0); x++)
             {
@@ -42,7 +42,7 @@ namespace TravellerMapSystem.Tools
 
                     if (printSubImages)
                     {
-                        image.SaveAsPng(path + " " + _knownUniverseSuperSectorToDraw.Sectors[x,y].Name + ".png");
+                        image.SaveAsPng(path + " " + _knownUniverseSuperSectorToDraw.Sectors[x,y]?.Name + ".png");
                     }
                     
                 }   

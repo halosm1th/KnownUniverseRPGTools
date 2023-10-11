@@ -1,10 +1,11 @@
 ﻿using System.Text;
+using KUP_Simple_Sector_Generator;
 
-namespace Simple_Subsector_Generator;
+namespace KnownUniversePoliticsGameWebApp.Data.Subsector_Generator.Regions_of_Space;
 
-public class KURPGSector
+public class KUPSector
 {
-    public KURPGSubsector[,] Subsectors { get; }
+    public KUPSubsector[,] Subsectors { get; }
 
     public List<KUPFilledSystem> FilledSystems
     {
@@ -68,11 +69,11 @@ public class KURPGSector
         return results;
     }
 
-    public KURPGSector(string name, int seed)
+    public KUPSector(string name, int seed)
     {
         Name = name;
         Seed = seed;
-        Subsectors = new KURPGSubsector[4, 4];
+        Subsectors = new KUPSubsector[4, 4];
     }
 
     public override string ToString()
