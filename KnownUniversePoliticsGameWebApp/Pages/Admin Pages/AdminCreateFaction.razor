@@ -1,0 +1,89 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService _politicsGameService
+<h3>AdminCreateFaction</h3>
+
+@code {
+    string Name;
+    FactionType factionType = FactionType.Vers1;
+    int StartingMoney = 0;
+    int StartingInfluence = 0;
+    List<IKUPAsset> StartingAssets = new List<IKUPAsset>();
+    string ChosenPlayerName;
+    string Goalss = "";
+    string Summary = "";
+    int selectedAssetID = -1;
+
+
+    void AdminCreateNewFaction()
+    {
+        var facID = (_politicsGameService
+            .PoliticsGame.Factions.OrderBy(x => x.FactionID).Last().FactionID) + 1;
+
+        _politicsGameService.CreateNewFaction(Name, facID, factionType, StartingMoney,
+            StartingInfluence, StartingAssets,
+            ChosenPlayerName, new(){Summary}, new (){Goalss});
+    }
+
+    void AddAsset()
+    {
+        StartingAssets.Add(_politicsGameService.GetAsset(selectedAssetID));
+        selectedAssetID = -1;
+    }
+}
+
+<div>
+    
+    <label for="name">New Faction Name:</label>
+    <input type="text" @bind="Name" id="name"/>
+    
+    <div>
+        <label for="factionType">Faction Type</label>
+        <select @bind="factionType" id="factionType">
+            <option value="@(FactionType.Vers1)">Vers 1</option>
+        </select>
+    </div>
+    
+    <label for="money">Starting Money:</label>
+    <input type="number" @bind="StartingMoney" id="money"/>
+        
+    
+    <label for="influence">Starting Influence:</label>
+    <input type="number" @bind="StartingInfluence" id="influence"/>
+    
+    <label for="choosePlayer">Player:</label>
+    <select @bind="ChosenPlayerName" id="choosePlayer">
+        @foreach (var player in _politicsGameService.PoliticsGame.Players)
+        {
+            <option value="@player.Name">@player.Name</option>
+        }
+    </select>
+    
+    <div>
+        <h5>Chosen Assets:</h5>
+        <ul>
+            @foreach (var asset in StartingAssets)
+            {
+                <li>@asset.Name</li>
+            }
+        </ul>
+        
+        <label for="addAsset">Asset to Add</label>
+        <select @bind="selectedAssetID">
+            <option value="-1">None</option>
+            @foreach (var asset in _politicsGameService.PoliticsGame.AssetsInPlay
+                .Where(x => x.Controller == null))
+            {
+                <option value="@asset.assetID">@asset.Name</option>
+            }
+        </select>
+        <button @onclick="AddAsset">Add Asset to List</button>
+    </div>
+    
+    <label for="summary">Summary:</label>
+    <input type="text" @bind="Summary" id="summary"/>
+
+    <label for="goals">Goals:</label>
+    <input type="text" @bind="Goalss" id="goals"/>
+        
+    <button @onclick="AdminCreateNewFaction">Create Faction</button>
+</div>
