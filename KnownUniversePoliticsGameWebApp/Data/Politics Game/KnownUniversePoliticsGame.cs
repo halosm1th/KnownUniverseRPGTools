@@ -30,6 +30,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     public List<KUPPlayer?> Players { get; }
     private int seed = 20001201;
     private static int CurrentAssetId = 0;
+    private static int CurrentPOIAssetId = 0;
 
     private int CurrentRound = 1;
     public List<IKUPAsset> AssetsInPlay { get; } = new List<IKUPAsset>();
@@ -92,9 +93,10 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         GameMaster = new("Game Master", 0, FactionType.GM, 1000000, 10000000,
             GetAssetsFromIDS(new()
             {
-                1597
+                200
             }), thomas);
-
+        
+        
         //Generate the factions for the players.
         Factions = new List<KUPFaction>()
         {
@@ -102,7 +104,6 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new("Bank", 1, FactionType.Bank, 1000000, 10000000,
                 GetAssetsFromIDS(new()
                 {
-                    1597
                 }), bank),
             new("Food", 2, FactionType.Food, 1000000, 10000000,
                 GetAssetsFromIDS(new()
@@ -111,6 +112,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new("Pirates", 3, FactionType.Pirates, 0, 0,
                 GetAssetsFromIDS(new()
                 {
+                    /*
                     38, 40, 44, 498, 499, 965, 968, 52, 502,504,979,74,78,
                     525, 996, 1509, 528, 1006,1008, 1012,94,26,1026,97,109,110,567,1037,
                     1040,1553, 166,172, 1095, 1611, 178, 1622,1110, 1114,1624,202, 1117,
@@ -120,7 +122,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                     1781,1782,332,787,1256,1258, 1259, 1262,1265,788,789,1268,1269,1273,343,807,
                     1281, 1288, 1805, 1809, 391,395,396,858,1854,399,866,409,871,413,878,1872,1375,
                     1879, 1887, 423,1380, 1888,893,899,1893,1391,1902, 915,1397,1404,1905,924,929,
-                    1409,1913,1915, 1917 
+                    1409,1913,1915, 1917 */
                 }), pirate),
             
             
@@ -128,17 +130,16 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new KUPFaction("Federation Industry",6,FactionType.UFE3, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    1584,1694, 1580 
                 }), wes,
                 new (){},
                 new (){}),
             new KUPFaction("Federation Core",4,FactionType.UFE1, 0,0,
             GetAssetsFromIDS(new ()
             {
-                
+                /*
                 1312, 1315, 1314, 1316, 1317, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1327, 1328, 1326, 1329,
                 1330,
-                1840, 1842, 1843, 1844, 1845
+                1840, 1842, 1843, 1844, 1845 */
             }), grayson,
             new (){},
             new (){}),
@@ -147,7 +148,6 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                 GetAssetsFromIDS(new ()
                 {
                 
-                    346 
                 }), alex,
                 new (){},
                 new (){}),
@@ -155,9 +155,12 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new KUPFaction("Lord of the Sector",7,FactionType.Vers1, 0,0,
                 GetAssetsFromIDS(new ()
                 {
+                    0,1,2,3,4,5,6,7,8,9,10,12,13,14,16,17,18,19,20
+                    
+                    /*
                     0, 1, 5, 7, 8, 9, 10, 12, 13, 16,
                     51, 54, 55, 56, 57, 58, 75, 2, 41, 43, 3, 45,
-                    4, 48, 50,
+                    4, 48, 50, */
                     
                 }), max,
                 new (){},
@@ -165,14 +168,14 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new KUPFaction("Princess of the Sector",8,FactionType.Vers2, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    379
+                    //379
                 }), solange,
                 new (){},
                 new (){}),
             
             new KUPFaction("Ancapitstan",9,FactionType.Deutchria1, 0,0,
                 GetAssetsFromIDS(new ()
-                { 141,  
+                { //141,  
                 
                 }), jake,
                 new ()
@@ -190,7 +193,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new KUPFaction("Finn",10,FactionType.Deutchri2, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    1721 
+                    //1721 
                 }), finn,
                 new ()
                 {
@@ -206,7 +209,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new KUPFaction("Xiao-Ming Sectorial Branch Office",11,FactionType.XiaoMing1, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    466,
+                    //466,
                 }), maya,
                 new ()
                 {
@@ -223,10 +226,11 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new KUPFaction("The Empire",12,FactionType.Imperial1, 0,0,
                 GetAssetsFromIDS(new ()
                 {
+                    /*
                     1418, 1419, 1420, 1421, 1422, 1423, 1424, 1426, 1427, 1428, 1429, 1430,
                     1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443, 1444, 1445,
                     1448, 1450, 1447, 954, 953, 959, 938, 939, 941, 940, 943, 944, 945, 946, 947,
-                    948, 949, 950, 951
+                    948, 949, 950, 951 */
                 
                 }), logan,
                 new ()
@@ -244,7 +248,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new KUPFaction("The All-Conquerer",13, FactionType.Imperial3, 5000,8000,
                 GetAssetsFromIDS(new ()
                 {
-                    1176,
+                    //1176,
                 
                 }),malik,
                 new ()
@@ -263,8 +267,9 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         SetupBaseRelationships();
 
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(3, 3), Factions.First(x => x.FactionID == 4), CombatAssetSize.Large,
-            _shipIDs++, 80081222), Factions.First(x => x.FactionID == 4));
+            new KUPLocation(3, 3), Factions.First(x => x.FactionID == 0), CombatAssetSize.Large,
+            _shipIDs++, 80081222), Factions.First(x => x.FactionID == 0));
+
         KupDrawSector = new KUPDrawSector(Sector, Factions, this);
 
 
@@ -316,6 +321,12 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     }
 
 
+    
+    public int GetNewPOIAssetID()
+    {
+        return CurrentPOIAssetId++;
+    }
+    
     public void NewAsset(IKUPAsset asset)
     {
         if (asset.Controller != null) NewAsset(asset, asset.Controller);
@@ -363,13 +374,19 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         foreach(var asset in AssetsToFight){
             if (asset.HP > 0)
             {
-                var targetShip = CombatAssets
-                    .First(x => x.Location == asset.Location
-                                && x.AtWar(asset)
-                                && x.HP > 0);
-                
-                EventService.AddEvent(
-                    new KUPShipDamagedEvent(asset.SenderID, targetShip.ReceiverID,asset.AttackPower));
+                if (CombatAssets
+                    .Any(x => x.Location == asset.Location
+                              && x.AtWar(asset)
+                              && x.HP > 0))
+                {
+                    var targetShip = CombatAssets
+                        .First(x => x.Location == asset.Location
+                                    && x.AtWar(asset)
+                                    && x.HP > 0);
+
+                    EventService.AddEvent(
+                        new KUPShipDamagedEvent(asset.SenderID, targetShip.ReceiverID, asset.AttackPower));
+                }
             }
         }
         
@@ -477,13 +494,13 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
     public bool CouldCaptureSystem(KUPFilledSystem system, KUPFaction who)
     {
-        if (system.SystemsPrimaryStation?.PrimaryStationAsset.Controller == null ||
-            system.SystemsPrimaryStation.PrimaryStationAsset.Controller.FactionType == FactionType.Unclaimed ||
-            system.SystemsPrimaryStation.PrimaryStationAsset.Controller == who) return false;
+        if (system.SysetmAsset.Controller == null ||
+            system.SysetmAsset.Controller.FactionType == FactionType.Unclaimed ||
+            system.SysetmAsset.Controller == who) return false;
         var locX = system.DisplayX;
         var locY = system.DisplayY;
         var ships = AssetsInPlay.Where(x => x.Location.SystemX == locX && x.Location.SystemY == locY);
-        return ships.Any(x => x.Controller == system.SystemsPrimaryStation.PrimaryStationAsset.Controller);
+        return ships.Any(x => x.Controller == system.SysetmAsset.Controller);
 
     }
 
@@ -516,9 +533,9 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     {
         var locations = new List<IKUPLocationAsset>();
         if (faction != null)
-            foreach (var location in faction.Assets.OfType<IKUPLocationAsset>())
+            foreach (var location in faction.LocationAssets)
             {
-                var tradeCodes = location.POI.GetTradeCodes();
+                var tradeCodes = location.TradeCodes;
                 if (faction.FactionType == FactionType.Pirates)
                 {
                     if (tradeCodes.Contains(KURPGTradeCodes.Bh)

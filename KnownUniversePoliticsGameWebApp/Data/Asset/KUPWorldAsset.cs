@@ -93,6 +93,7 @@ public class KUPWorldAsset : IKUPPOIAsset
     public KUPLocation Location { get; }
     public KUPFaction? Controller { get; set; }
     public List<KURPGTradeCodes> TradeCodes => World.GetTradeCodes();
+    public KUPPointsOfInterest PointOfInterst => World;
     public KupPointsOfInterestWorld World { get; }
 
     public KUPWorldAsset(KupPointsOfInterestWorld world, int id)
@@ -105,6 +106,6 @@ public class KUPWorldAsset : IKUPPOIAsset
     }
     public override string ToString()
     {
-        return $"#{assetID} {Name} ({Location}) [{Controller?.Name ?? "No Controller"}] ${MoneyIncome-UpKeepCost} 😊{MoralIncome-MoralCost}.";
+        return $"#{assetID} {Name} ({Location}) ${MoneyIncome-UpKeepCost}.";
     }
 }

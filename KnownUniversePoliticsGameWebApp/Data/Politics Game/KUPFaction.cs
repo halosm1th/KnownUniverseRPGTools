@@ -53,7 +53,7 @@ public class KUPFaction : IKUPEventActor
     public FactionType FactionType { get; }
     public KUPPlayer? Player { get; private set; }
     public int Money { get; set; }
-    public int Influence { get; private set; }
+    //public int Influence { get; private set; }
     public List<IKUPAsset> Assets { get; }
 
     public List<KUPCombatAsset> CombatAssets => Assets.OfType<KUPCombatAsset>().ToList();
@@ -68,7 +68,7 @@ public class KUPFaction : IKUPEventActor
         Name = name;
         FactionType = factionType;
         Money = money;
-        Influence = influence;
+        //Influence = influence;
         if (goals == default)
         {
             goals = new List<string>();
@@ -89,10 +89,11 @@ public class KUPFaction : IKUPEventActor
             Player.Faction = this;
         }
 
-        if (assets == default)
+        if (assets == default || assets == null)
         {
             assets = new List<IKUPAsset>();
         }
+        
         Assets = assets;
         foreach (var asset in Assets)
         {
@@ -137,7 +138,8 @@ public class KUPFaction : IKUPEventActor
 
     public override string ToString()
     {
-        return $"{Name} ({Player?.Name ?? "No Controller"}) ${Money} 😊{Influence}."; //+ GetAssetList();
+        return $"{Name} ({Player?.Name ?? "No Controller"}) ${Money}."; //+ GetAssetList();
+//        return $"{Name} ({Player?.Name ?? "No Controller"}) ${Money} 😊{Influence}."; //+ GetAssetList();
     }
 
     public string GetAssetList()
@@ -161,14 +163,14 @@ public class KUPFaction : IKUPEventActor
                 if (asset is not KUPCombatAsset)
                 {
                     Money +=  (-1 * asset.MoneyTotal);
-                    Influence += (-1 * asset.MoneyTotal);
+                    //Influence += (-1 * asset.MoneyTotal);
                 }
             }
 
             else
             {
                 Money += asset.MoneyTotal;
-                Influence += asset.MoneyTotal;
+                //Influence += asset.MoneyTotal;
             }
         }
 
@@ -184,21 +186,21 @@ public class KUPFaction : IKUPEventActor
     {
         if (Money > 0)
         {
-            Influence = Influence + (Money / 5);
+            //Influence = Influence + (Money / 5);
         }
         else if (Money < 0)
         {
-            Influence = Influence - (Money / 2);
+            //Influence = Influence - (Money / 2);
         }
 
-        if (Influence > 0)
+        /*if (Influence > 0)
         {
             Money = Money + (Influence / 2);
         }
         else if (Influence < 0)
         {
             Money = Money + (Influence / 20);
-        }
+        }*/
     }
 
     public void AddAsset(IKUPAsset asset)
@@ -231,7 +233,7 @@ public class KUPFaction : IKUPEventActor
 
     public void DamageInfluence(int amountOfDamage)
     {
-        Influence -= amountOfDamage;
+        //Influence -= amountOfDamage;
     }
 
     public void DamageMoney(int amountOfDamage)

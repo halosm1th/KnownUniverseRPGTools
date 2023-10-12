@@ -6,8 +6,8 @@
     [Parameter] public KUPFilledSystem System { get; set; }
 }
 
-<h4>@System.Name (@System.DisplayX, @System.DisplayY)</h4>
 <ul>
+    <li>@System.Name (@System.DisplayX, @System.DisplayY) Owned by: @System.SysetmAsset.Controller</li>
 @foreach (var poi in System.PointsOfInterest)
 {
     if (poi.GetType() == typeof(KupPrimaryStation))

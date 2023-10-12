@@ -7,7 +7,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 {
     public int HP { get; set; }
     public bool HasMoved { get; set; } = false;
-    public bool HasActed { get; set; } = false;
+    //public bool HasActed { get; set; } = false;
     public int assetID { get; }
     public string Name => "Spaceship [" + Size + "] (" + Controller.Name + ") @ " + Location;
     public int SenderID { get; }
@@ -241,7 +241,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         };
 
     
-    public bool AssetHasActed()
+    /*public bool AssetHasActed()
     {
         if (!HasActed)
         {
@@ -250,7 +250,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         }
 
         return true;
-    }
+    }*/
     
     public bool ChangeLocationTo(KUPLocation location)
     {
@@ -303,9 +303,10 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 
     public bool AtWar(KUPCombatAsset asset)
     {
-        if (Controller.FactionRelationships[asset.Controller] == FactionRelationshipOptions.War) return true;
-        if (asset.Controller == Controller) return false;
-
+            if (asset.Controller == Controller) return false;
+            
+            if (Controller.FactionRelationships[asset.Controller] == FactionRelationshipOptions.War) return true;
+        
         return false;
     }
 }

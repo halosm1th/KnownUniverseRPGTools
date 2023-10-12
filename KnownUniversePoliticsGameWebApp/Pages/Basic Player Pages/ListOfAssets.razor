@@ -54,7 +54,7 @@
         }
     }
 
-
+/*
     private bool DisplayPOI(KUPPointsOfInterest poi)
     {
         bool shouldShow = false;
@@ -212,6 +212,7 @@
 
         return shouldShow;
     }
+    */
 
 }
 @inject KnownUniversePoliticsGameService PoliticsGameService
@@ -228,7 +229,7 @@
     <div>
         <h4>List of Map Assets</h4>
         <form>
-        <label for="filterValue">Filter Value:</label>
+            <label for="filterValue">Filter Value:</label>
             <select id="filterValue" @bind="filter">
                 <option value="0">None</option>
                 <option value="1">Not Controlled</option>
@@ -242,43 +243,12 @@
             </select>
             <button type="button" @onclick="SetFilter"> submit</button>
         </form>
+        <p>Total money = @(PoliticsGameService.PoliticsGame.AssetsInPlay.OfType<KUPSystemAsset>().Aggregate(0, (h,t) => h + t.MoneyTotal)) </p>
+        <p>Total Influence = @(PoliticsGameService.PoliticsGame.AssetsInPlay.OfType<KUPSystemAsset>().Aggregate(0, (h,t) => h + t.InfluenceTotal)) </p>
         <ul id="AssetsToLookAt">
-            @foreach (var system in PoliticsGameService.PoliticsGame.Sector.FilledSystems.OrderBy(x => (x.DisplayX, x.DisplayY)))
+            @foreach (var system in PoliticsGameService.PoliticsGame.AssetsInPlay.OfType<KUPSystemAsset>())
             {
-                foreach (var asset in system.PointsOfInterest
-                    .Where(x => DisplayPOI(x)))
-                {
-                     if (asset.GetType() == typeof(KupPrimaryStation))
-                    {
-                        
-                        <li>@(((KupPrimaryStation) asset).PrimaryStationAsset)</li>
-                    }
-                     else if (asset.GetType() == typeof(KUPAsteroidAsset))
-                    {
-                        <ul>
-                            <li>@(((KupPointsOfInterestAsteroid) asset).AsteroidAsset)</li>
-                        </ul>
-                    }else if (asset.GetType() == typeof(KupPointsOfInterestWorld))
-                    {
-                        
-                        <ul>
-                            <li>@(((KupPointsOfInterestWorld) asset).WorldAsset)</li>
-                        </ul>
-                    }else if (asset.GetType() == typeof(KupPointsOfInterestStation))
-                    {
-                        
-                        <ul>
-                            <li>@(((KupPointsOfInterestStation) asset).StationAsset)</li>
-                        </ul>
-                    }else if (asset.GetType() == typeof(KupPointsOfInterestOther))
-                    {
-                        
-                        <ul>
-                            <li>@(((KupPointsOfInterestOther) asset).OtherAsset)</li>
-                        </ul>
-                    }
-                }
-
+                <li>[#@system.assetID] @system.Name @system.Location $@system.MoneyTotal, 😊@system.InfluenceTotal </li>
             }
         </ul>
     </div>

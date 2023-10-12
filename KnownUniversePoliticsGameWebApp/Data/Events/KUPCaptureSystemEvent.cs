@@ -14,8 +14,7 @@ public class KUPCaptureSystemEvent : IKUPEvent
     {
         
         var ship = (game.GetAssetFromID(AssetWhichTookID) as KUPCombatAsset);
-        if (!ship.AssetHasActed())
-        {
+        
             var taker = EventService.GetActorBySenderID(SenderID);
             var targetStation = game.AssetsInPlay.First(x => x.assetID == SystemStationID);
             var previousHolder = targetStation.Controller;
@@ -29,7 +28,7 @@ public class KUPCaptureSystemEvent : IKUPEvent
                 taker.SenderID, previousHolder.ReceiverID,
                 $"You have lost control of {targetStation.Location} to {taker.Name}"));
             
-        }
+        
     }
 
     public KUPCaptureSystemEvent(int senderId, int systemStationID, int takingAssetID)

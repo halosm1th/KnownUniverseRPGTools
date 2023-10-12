@@ -251,7 +251,7 @@ namespace TravellerMapSystem.Tools
             var y = (height / 2 + row * height) + SPACER;
             if (col % 2 == 1) y += height / 2;
 
-            var text = travellerWorld.USPDisplay()
+            var text = "$"+ travellerWorld.MoneyIncome().ToString()
                 .Replace("\n","")
                 .Replace(" ","");
             
@@ -323,7 +323,7 @@ namespace TravellerMapSystem.Tools
                     
                     if (system is KUPFilledSystem)
                     {
-                        var controllingFaction = ((KUPFilledSystem) system).SystemsPrimaryStation?.PrimaryStationAsset.Controller?.FactionType ?? FactionType.Unclaimed;
+                        var controllingFaction = ((KUPFilledSystem) system).SysetmAsset.Controller?.FactionType ?? FactionType.Unclaimed;
 
                         if (  controllingFaction == FactionType.Unclaimed)
                         {

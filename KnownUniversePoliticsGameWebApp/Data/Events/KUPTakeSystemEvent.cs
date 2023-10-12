@@ -15,8 +15,7 @@ public class KUPTakeSystemEvent : IKUPEvent
         
         
         var ship = (game.GetAssetFromID(AssetWhichTookID) as KUPCombatAsset);
-        if (!ship.AssetHasActed())
-        {
+        
             var taker = EventService.GetActorBySenderID(SenderID);
             var targetStation = game.AssetsInPlay.First(x => x.assetID == SystemStationID);
             var takeFact = game.Factions.First(x => x == taker);
@@ -25,9 +24,8 @@ public class KUPTakeSystemEvent : IKUPEvent
             
             EventService.AddEvent(new KUPMoneyDepositEvent(
                 game.SenderID, SenderID,targetStation.MoneyIncome));
-        }
-        
-        
+
+
     }
 
     public KUPTakeSystemEvent(int senderId, int systemStationID, int takingAssetID)

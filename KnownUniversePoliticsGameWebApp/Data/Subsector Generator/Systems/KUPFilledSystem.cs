@@ -7,6 +7,8 @@ using KUP_Simple_Sector_Generator;
 public class KUPFilledSystem : KUPStarSystem
 {
     public List<KUPPointsOfInterest> PointsOfInterest { get; }
+    public KUPSystemAsset SysetmAsset { get; set; }
+
     public List<KUPPointsOfInterest> GetComplexPOI()
     {
         var complexPOI = new List<KUPPointsOfInterest>();
@@ -25,7 +27,7 @@ public class KUPFilledSystem : KUPStarSystem
         return complexPOI;
     }
     
-    
+    /*
     public List<KUPPointsOfInterest> GetPOI()
     {
         var pois = new List<KUPPointsOfInterest>();
@@ -57,6 +59,8 @@ public class KUPFilledSystem : KUPStarSystem
     
     public List<KUPPointsOfInterest> GetUnclaimedPOI()
     {
+        
+        
         var unclaimed = new List<KUPPointsOfInterest>();
         foreach (var poi in PointsOfInterest)
         {
@@ -103,7 +107,7 @@ public class KUPFilledSystem : KUPStarSystem
         }
         return unclaimed;
     }
-    
+    */
     public string Name { get; }
 
     public string USPDisplay()
@@ -222,5 +226,10 @@ public class KUPFilledSystem : KUPStarSystem
         }
 
         return assets;
+    }
+
+    public int MoneyIncome()
+    {
+        return POIAssets().Aggregate(0, (h, t) => h + t.MoneyTotal);
     }
 }

@@ -13,7 +13,7 @@ public class KUPSystemAsset : IKUPLocationAsset
     public string Name { get; }
     public KUPLocation Location { get; }
     public KUPFaction Controller { get; set; }
-    public KUPPointsOfInterest POI => POIAssets.OfType<KupPointsOfInterestStation>().First();
+    public KUPPointsOfInterest POI => POIAssets.First().PointOfInterst;
 
     public List<KURPGTradeCodes> TradeCodes =>
         POIAssets

@@ -13,4 +13,5 @@ public interface IKUPPOIAsset
     public   KUPLocation Location { get; }
     public  KUPFaction Controller { get; set; }
     public List<KURPGTradeCodes> TradeCodes { get; }
+    public KUPPointsOfInterest PointOfInterst { get; }
 }

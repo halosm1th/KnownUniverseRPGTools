@@ -96,6 +96,7 @@ public class KUPAsteroidAsset : IKUPPOIAsset
 
     public KUPPointsOfInterest POI => Asteroid;
     public List<KURPGTradeCodes> TradeCodes => Asteroid.GetTradeCodes();
+    public KUPPointsOfInterest PointOfInterst => POI;
 
     public KUPAsteroidAsset(KupPointsOfInterestAsteroid asteroid, int id)
     {
@@ -107,6 +108,7 @@ public class KUPAsteroidAsset : IKUPPOIAsset
 
     public override string ToString()
     {
-        return $"#{assetID} {Name} ({Location}) [{Controller?.Name ?? "No Controller"}] ${MoneyIncome-UpKeepCost} 😊{MoralIncome-MoralCost}.";
+        return $"#{assetID} {Name} ({Location})${MoneyIncome-UpKeepCost}.";
+//        return $"#{assetID} {Name} ({Location}) [{Controller?.Name ?? "No Controller"}] ${MoneyIncome-UpKeepCost} 😊{MoralIncome-MoralCost}.";
     }
 }

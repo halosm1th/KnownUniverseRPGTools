@@ -199,7 +199,7 @@ class KUPSubsectorGenerator
         {
             if (realSystem != null)
             {
-                var station = new KupPrimaryStation(RollDice(), realSystem, PoliticsGame.GetNewAssetID());
+                var station = new KupPrimaryStation(RollDice(), realSystem, PoliticsGame.GetNewPOIAssetID());
                 realSystem.AddPoint(station);
                 //if (IsPrinting)
                 //Console.WriteLine(
@@ -226,7 +226,9 @@ class KUPSubsectorGenerator
             
             var addSystem = new KUPSystemAsset(pois,PoliticsGame.GetNewAssetID(),
                 system.Name,pois.First().Location,null);
-            
+
+
+            system.SysetmAsset = addSystem;
             PoliticsGame.NewAsset(addSystem);
         }
     }
@@ -269,12 +271,12 @@ class KUPSubsectorGenerator
 
         KUPPointsOfInterest poi = typeRoll switch
         {
-            1 => new KupPointsOfInterestWorld(subtypeRoll, system, PoliticsGame.GetNewAssetID()),
-            2 => new KupPointsOfInterestStation(subtypeRoll, system, PoliticsGame.GetNewAssetID()),
+            1 => new KupPointsOfInterestWorld(subtypeRoll, system, PoliticsGame.GetNewPOIAssetID()),
+            2 => new KupPointsOfInterestStation(subtypeRoll, system, PoliticsGame.GetNewPOIAssetID()),
             3 => new KupPointsOfInterestWreck(subtypeRoll, system),
-            4 => new KupPointsOfInterestAsteroid(subtypeRoll, system, PoliticsGame.GetNewAssetID()),
+            4 => new KupPointsOfInterestAsteroid(subtypeRoll, system, PoliticsGame.GetNewPOIAssetID()),
             5 => new KUPPointOfInterestAnomaly(subtypeRoll, system),
-            6 => new KupPointsOfInterestOther(subtypeRoll, system, PoliticsGame.GetNewAssetID()),
+            6 => new KupPointsOfInterestOther(subtypeRoll, system, PoliticsGame.GetNewPOIAssetID()),
             _ => throw new ArgumentOutOfRangeException()
         };
         

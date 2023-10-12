@@ -8,7 +8,6 @@
 @inject KUPEventService EventService;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
-<h3>Your Page</h3>
 @code {
     bool LoggedIn = false;
     bool logginError = false;
@@ -90,23 +89,31 @@
     {
         <p style="text-color: red">Error you put something in wrong when logging in.</p>
     }
-    <label for="playerName">Name: </label>
-    <input type="text" class="form-control"id="playerName" @bind="Username"/>
-    
-    <label for="playerPassword">password: </label>
-    <input type="password" class="form-control" id="playerPassword" @bind="Password"/>
+    <div class="vstack gap-2">
+        <div class="hstack gap-0">
+            <label class="form-label" for="playerName">Name: </label>
+            <input class="form-text" type="text" id="playerName" @bind="Username"/>
+        </div>
+        <div  class="hstack gap-0">
+        <label class="form-label" for="playerPassword">password: </label>
+            <input class="form-text" type="password" id="playerPassword" @bind="Password"/>
+            </div>
+    </div>
     <button  class="btn btn-primary"  @onclick="Login">Try Logging in</button>
-    <button class="btn btn-secondary" @onclick="AlreadyLoggedIn">Click me if you've already logged in recently.</button>
-}
+    <button class="btn btn-secondary" @onclick="AlreadyLoggedIn">Already Logged In.</button>
+
+    }
 else
 {
     <div>
-    <h3>@player.Name</h3>
+        <h2>@player.Name</h2>
+        
+    <button class="btn-danger" @onclick="Loggout">Log out</button>
          </div>          
          
     <div>
-          <label for="SelectOption">Select player page option</label>
-        <select id="SelectOption" @bind="MenuChoice">
+          <label class="form-label" for="SelectOption">Select player page option</label>
+        <select class="form-select" id="SelectOption" @bind="MenuChoice">
             <option value="@PlayerMenuChoice.FactionRelations">Faction Relations</option>
             <option value="@PlayerMenuChoice.Message">Show Messages </option>
             <option value="@PlayerMenuChoice.FactionView">Show Faction</option>
@@ -139,6 +146,5 @@ else
     
     </div>
     
-    <button @onclick="Loggout">Log out</button>
                   
 }

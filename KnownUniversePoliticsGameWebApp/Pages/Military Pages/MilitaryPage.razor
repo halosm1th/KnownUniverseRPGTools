@@ -37,10 +37,10 @@
     
     <select @bind="choice">
         <option value="@choiceTypes.BuildShip" >Build Ships </option>
-        <option value="@choiceTypes.Operation" >Order an Operation </option>
+        <option value="@choiceTypes.OrderShip" >Order your ship around </option>
     </select>
     
-    if (choice == choiceTypes.BuildShip)
+    @if (choice == choiceTypes.BuildShip)
     {
         <BuildShip Faction="player.Faction"></BuildShip>
     }

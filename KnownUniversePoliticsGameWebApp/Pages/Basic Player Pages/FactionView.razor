@@ -14,12 +14,14 @@
 }
 
 <p>Money: $@Faction.Money</p>
-<p>Influence: 😊@Faction.Influence</p>
 
 <details>
    <summary>Faction Info &amp; Goals</summary>
    <div>
       <h5>Summary</h5>
+      <p>Income: @Faction.Assets.Aggregate(0,(h,t) => h + t.MoneyIncome)</p>
+      <p>Exepensies: @Faction.Assets.Aggregate(0, (h,t) => h + t.UpKeepCost)</p>
+      <p>Net: @(Faction.Assets.Aggregate(0,(h,t) => h + t.MoneyIncome) - Faction.Assets.Aggregate(0, (h,t) => h + t.UpKeepCost)) </p>
       <ul>
          @foreach (var point in Faction.Summary)
          {
@@ -66,7 +68,7 @@
       {
          <option>
             <li>
-               <a href="/SystemViewer/@locationPath(locations.Location)"> @locations</a>
+               <a href="/SystemViewer/@locationPath(locations.Location)"> @locations.Name (@locations.Location) $@locations.MoneyIncome 😊@locations.MoralIncome</a>
             </li>
          </option>
       }

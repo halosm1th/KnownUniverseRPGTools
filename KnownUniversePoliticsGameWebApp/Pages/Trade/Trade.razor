@@ -90,7 +90,7 @@
                          @foreach (var asset in player.Faction.Assets)
                             {
                                 <option value="@asset.assetID">
-                                    @asset
+                                    @asset.Name @asset.Location
                                 </option>
                             }
             </select>

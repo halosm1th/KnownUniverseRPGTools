@@ -5,6 +5,7 @@ public class KUPPrimaryStationAsset : IKUPPOIAsset
     public int MoneyTotal => MoneyIncome - UpKeepCost;
     public int InfluenceTotal => MoralIncome - MoralCost;
     public int MoneyIncome => GetIncome();
+    public KUPPointsOfInterest PointOfInterst => POI;
 
     private int GetIncome()
     {
@@ -105,6 +106,6 @@ public class KUPPrimaryStationAsset : IKUPPOIAsset
     public override string ToString()
     {
         return
-            $"#{assetID} {Name} ({Location}) [{Controller?.Name ?? "No Controller"}] ${MoneyIncome - UpKeepCost} 😊{MoralIncome - MoralCost}.";
+            $"#{assetID} {Name} ({Location}) ${MoneyIncome - UpKeepCost}.";
     }
 }
