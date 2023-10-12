@@ -1,6 +1,6 @@
 ﻿namespace KnownUniversePoliticsGameWebApp.Data;
 
-public class KUPAsteroidAsset : IKUPPOIAsset
+public class KUPPrimaryStationAsset : IKUPPOIAsset
 {
     public int MoneyTotal => MoneyIncome - UpKeepCost;
     public int InfluenceTotal => MoralIncome - MoralCost;
@@ -9,7 +9,7 @@ public class KUPAsteroidAsset : IKUPPOIAsset
     private int GetIncome()
     {
         var income = 0;
-        foreach (var tradecode in Asteroid.GetTradeCodes())
+        foreach (var tradecode in SystemStation.GetTradeCodes())
         {
             if (tradecode == KURPGTradeCodes.Ht) income += 25;
             else if (tradecode == KURPGTradeCodes.Ht) income += 50;
@@ -31,7 +31,7 @@ public class KUPAsteroidAsset : IKUPPOIAsset
     private int GetMoneyUpkeep()
     {
         var costs = 0;
-        foreach (var tradecode in Asteroid.GetTradeCodes())
+        foreach (var tradecode in SystemStation.GetTradeCodes())
         {
             if (tradecode == KURPGTradeCodes.Is) costs -= 10;
             else if (tradecode == KURPGTradeCodes.Io) costs += 25;
@@ -43,7 +43,6 @@ public class KUPAsteroidAsset : IKUPPOIAsset
             else if (tradecode == KURPGTradeCodes.Rl) costs += 10;
             else if (tradecode == KURPGTradeCodes.Gw) costs += 50;
             else if (tradecode == KURPGTradeCodes.Lt) costs += 10;
-
         }
 
         return costs;
@@ -54,7 +53,7 @@ public class KUPAsteroidAsset : IKUPPOIAsset
     private int GetMoral()
     {
         var moral = 0;
-        foreach (var tradecode in Asteroid.GetTradeCodes())
+        foreach (var tradecode in SystemStation.GetTradeCodes())
         {
             if (tradecode == KURPGTradeCodes.Hp) moral -= 10;
             else if (tradecode == KURPGTradeCodes.Hl) moral += 10;
@@ -64,7 +63,6 @@ public class KUPAsteroidAsset : IKUPPOIAsset
             else if (tradecode == KURPGTradeCodes.Rs) moral += 25;
             else if (tradecode == KURPGTradeCodes.Sp) moral += 10;
             else if (tradecode == KURPGTradeCodes.Sc) moral += 10;
-
         }
 
         return moral;
@@ -75,14 +73,13 @@ public class KUPAsteroidAsset : IKUPPOIAsset
     private int GetMoralCosts()
     {
         var moral = 0;
-        foreach (var tradecode in Asteroid.GetTradeCodes())
+        foreach (var tradecode in SystemStation.GetTradeCodes())
         {
             if (tradecode == KURPGTradeCodes.Lp) moral -= 10;
             else if (tradecode == KURPGTradeCodes.Ll) moral += 10;
             else if (tradecode == KURPGTradeCodes.Is) moral += 10;
             else if (tradecode == KURPGTradeCodes.Io) moral += 25;
             else if (tradecode == KURPGTradeCodes.Bh) moral += 50;
-
         }
 
         return moral;
@@ -92,21 +89,22 @@ public class KUPAsteroidAsset : IKUPPOIAsset
     public string Name { get; }
     public KUPLocation Location { get; }
     public KUPFaction? Controller { get; set; }
-    public KupPointsOfInterestAsteroid Asteroid { get; }
+    public KupPrimaryStation SystemStation { get; }
 
-    public KUPPointsOfInterest POI => Asteroid;
-    public List<KURPGTradeCodes> TradeCodes => Asteroid.GetTradeCodes();
+    public KUPPointsOfInterest POI => SystemStation;
+    public List<KURPGTradeCodes> TradeCodes => SystemStation.GetTradeCodes();
 
-    public KUPAsteroidAsset(KupPointsOfInterestAsteroid asteroid, int id)
+    public KUPPrimaryStationAsset(KupPrimaryStation systemStation, int id)
     {
-        Asteroid = asteroid;
-        Name = asteroid.SubtypeName + " in " + asteroid.InSystem.Name;
-        Location = new KUPLocation(asteroid.InSystem.DisplayX,asteroid.InSystem.DisplayY);
+        Name = "Control of the " + systemStation.InSystem.Name + " System";
+        Location = new KUPLocation(systemStation.InSystem.DisplayX, systemStation.InSystem.DisplayY);
+        SystemStation = systemStation;
         assetID = id;
     }
 
     public override string ToString()
     {
-        return $"#{assetID} {Name} ({Location}) [{Controller?.Name ?? "No Controller"}] ${MoneyIncome-UpKeepCost} 😊{MoralIncome-MoralCost}.";
+        return
+            $"#{assetID} {Name} ({Location}) [{Controller?.Name ?? "No Controller"}] ${MoneyIncome - UpKeepCost} 😊{MoralIncome - MoralCost}.";
     }
 }

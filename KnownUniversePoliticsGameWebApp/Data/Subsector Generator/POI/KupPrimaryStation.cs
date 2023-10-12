@@ -7,7 +7,7 @@ public class KupPrimaryStation: KUPPointsOfInterest
     public int LawLevelRoll { get; set; }
     public int GovernemntRoll { get; set; }
     public int SizeRoll { get; set; }
-    public KUPSystemAsset PrimaryStationAsset { get; }
+    public KUPPrimaryStationAsset PrimaryStationAsset { get; }
 
 
     public override string ToString()
@@ -49,7 +49,7 @@ public class KupPrimaryStation: KUPPointsOfInterest
     public KupPrimaryStation(int subtypeRoll, KUPFilledSystem system, int assetId) 
         : base(KUPPoiTypes.Primary_Station, subtypeRoll, system)
     {
-        PrimaryStationAsset = new KUPSystemAsset(this, assetId);
+        PrimaryStationAsset = new KUPPrimaryStationAsset(this, assetId);
     }
 
     public override bool HasComplexInfo => true;

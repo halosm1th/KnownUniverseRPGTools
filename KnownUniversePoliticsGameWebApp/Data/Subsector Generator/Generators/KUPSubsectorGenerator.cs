@@ -212,14 +212,22 @@ class KUPSubsectorGenerator
     {
         foreach (var system in Subsector.GetFilledSystems())
         {
+            var pois = new List<IKUPPOIAsset>();
             var poiCount = PointOfInterestCount(system);
             
             for(int i =0; i < poiCount; i++){
                 var poi = PointOfInterestTypeAndSubtype(system);
-                
-                FleshOutPrimaryStation(system);
-                FleshOutPointsOfInterest(system, poi);
+
+                var station = FleshOutPrimaryStation(system);
+                pois.Add(station);
+                pois.AddRange( FleshOutPointsOfInterest(system, poi));
             }
+            
+            
+            var addSystem = new KUPSystemAsset(pois,PoliticsGame.GetNewAssetID(),
+                system.Name,pois.First().Location,null);
+            
+            PoliticsGame.NewAsset(addSystem);
         }
     }
 
@@ -277,25 +285,26 @@ class KUPSubsectorGenerator
         return poi;
     }
 
-    private void FleshOutPointsOfInterest(KUPFilledSystem system, KUPPointsOfInterest poi)
+    private List<IKUPPOIAsset> FleshOutPointsOfInterest(KUPFilledSystem system, KUPPointsOfInterest poi)
     {
+        var retAsset = new List<IKUPPOIAsset>();
         if (poi.POIType is KUPPoiTypes.Planet)
         {
             GeneratePlanetPOI(system, poi as KupPointsOfInterestWorld);
-            PoliticsGame.NewAsset((poi as KupPointsOfInterestWorld).WorldAsset);
+            retAsset.Add((poi as KupPointsOfInterestWorld).WorldAsset);
         }
 
         if (poi.POIType is KUPPoiTypes.Asteroid)
         {
             GenerateAsteorid(system, poi as KupPointsOfInterestAsteroid);
-            PoliticsGame.NewAsset((poi as KupPointsOfInterestAsteroid).AsteroidAsset);
+            retAsset.Add((poi as KupPointsOfInterestAsteroid).AsteroidAsset);
         }
         
         
         if (poi.POIType is KUPPoiTypes.Station)
         {
             GenerateStation(system, poi as KupPointsOfInterestStation);
-            PoliticsGame.NewAsset((poi as KupPointsOfInterestStation).StationAsset);
+            retAsset.Add((poi as KupPointsOfInterestStation).StationAsset);
         }
         
         
@@ -306,8 +315,10 @@ class KUPSubsectorGenerator
 
         if (poi.POIType is KUPPoiTypes.Other)
         {
-            PoliticsGame.NewAsset((poi as KupPointsOfInterestOther).OtherAsset);
+            retAsset.Add((poi as KupPointsOfInterestOther).OtherAsset);
         }
+
+        return retAsset;
     }
 
     private void GenerateStation(KUPFilledSystem system, KupPointsOfInterestStation? poi)
@@ -342,11 +353,6 @@ class KUPSubsectorGenerator
         poi.LawLevelRoll = RollDice() + poi.GetPopModifier;
         poi.GovernemntRoll = RollDice() + poi.GetLawLevelModifier;
         poi.SizeRoll = RollDice();
-        
-       // if(IsPrinting) Console.WriteLine($"{poi.POIType} in {system.SystemX},{system.SystemY} stats:" +
-       //                                  $"TL: {poi.TLMeaning}, Pop:{poi.PopulationMeaning}, Law Level:{poi.LawLevelMeaning}" +
-       //                                  $"Government: {poi.GovernmentMeaning}" +
-       //                                  $"Size: {poi.SizeMeaning}");
     }
 
     private void GeneratePlanetPOI(KUPFilledSystem system, KupPointsOfInterestWorld? poi)
@@ -359,12 +365,6 @@ class KUPSubsectorGenerator
         poi.AtmosphereRoll = RollDice();
         poi.GravityRoll = RollDice();
         
-        //if(IsPrinting) Console.WriteLine($"{poi.POIType} in {system.SystemX},{system.SystemY} stats:" +
-        //                                 $"TL: {poi.TLMeaning}, Pop:{poi.PopulationMeaning}, Law Level:{poi.LawLevelMeaning}" +
-        //                                 $"Government: {poi.GovernmentMeaning}" +
-        //                                 $"Size: {poi.SizeMeaning}," +
-        //                                 $"Atmo: {poi.AtmosphereMeaning}," +
-        //                                 $"Grav: {poi.GravityMeaning}");
     }
 
     private int GetMainStationModifiedResult(KUPFilledSystem system)
@@ -379,7 +379,7 @@ class KUPSubsectorGenerator
 
     
     
-    private void FleshOutPrimaryStation(KUPFilledSystem system)
+    private KUPPrimaryStationAsset FleshOutPrimaryStation(KUPFilledSystem system)
     {
         if (system.SystemsPrimaryStation != null)
         {
@@ -395,8 +395,10 @@ class KUPSubsectorGenerator
 
             var station = system.SystemsPrimaryStation;
             
-            PoliticsGame.NewAsset((station as KupPrimaryStation).PrimaryStationAsset);
+            return station.PrimaryStationAsset;
         }
+
+        return system.SystemsPrimaryStation?.PrimaryStationAsset;
 
         //if(IsPrinting) Console.WriteLine($"Station @ {system.SystemX},{system.SystemY}: " +
         //                                 $"{station.SubtypeName}, {station.TLMeaning}, {station.PopulationMeaning}," +

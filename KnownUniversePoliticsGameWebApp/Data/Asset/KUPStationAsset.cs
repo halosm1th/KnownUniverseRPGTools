@@ -1,6 +1,6 @@
 ﻿namespace KnownUniversePoliticsGameWebApp.Data;
 
-public class KUPStationAsset : IKUPLocationAsset
+public class KUPStationAsset : IKUPPOIAsset
 {
     public int MoneyTotal => MoneyIncome - UpKeepCost;
     public int InfluenceTotal => MoralIncome - MoralCost;
@@ -93,6 +93,7 @@ public class KUPStationAsset : IKUPLocationAsset
     public KUPFaction? Controller { get; set; }
     public KupPointsOfInterestStation Station { get; }
     public KUPPointsOfInterest POI => Station;
+    public List<KURPGTradeCodes> TradeCodes  => Station.GetTradeCodes();
 
     public KUPStationAsset(KupPointsOfInterestStation station, int id)
     {

@@ -21,7 +21,13 @@ public class KUPTakeSystemEvent : IKUPEvent
             var targetStation = game.AssetsInPlay.First(x => x.assetID == SystemStationID);
             var takeFact = game.Factions.First(x => x == taker);
             takeFact.AddAsset(targetStation);
+            
+            
+            EventService.AddEvent(new KUPMoneyDepositEvent(
+                game.SenderID, SenderID,targetStation.MoneyIncome));
         }
+        
+        
     }
 
     public KUPTakeSystemEvent(int senderId, int systemStationID, int takingAssetID)

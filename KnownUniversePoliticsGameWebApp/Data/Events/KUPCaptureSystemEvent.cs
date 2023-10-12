@@ -28,6 +28,7 @@ public class KUPCaptureSystemEvent : IKUPEvent
             EventService.AddEvent(new IKUPMessageEvent(
                 taker.SenderID, previousHolder.ReceiverID,
                 $"You have lost control of {targetStation.Location} to {taker.Name}"));
+            
         }
     }
 

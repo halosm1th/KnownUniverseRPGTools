@@ -88,10 +88,10 @@
 </form>
 
 
-<select @bind="systemLoc">
+<select class="list-unstyled" @bind="systemLoc">
     @foreach (var sys in PoliticsGameService.PoliticsGame.Sector.FilledSystems)
     {
-        <option value="@sys.DisplayX @sys.DisplayY">@sys.Name</option>
+        <option class="dropdown-item" value="@sys.DisplayX @sys.DisplayY">@sys.Name</option>
     }
 </select>
     <button @onclick="FindSystem">Find System</button>

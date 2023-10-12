@@ -127,7 +127,7 @@ namespace TravellerMapSystem.Tools
 
             else if (controllingFaction == FactionType.Vers1)
             {
-                return Color.Gold;
+                return Color.Yellow;
             }
             else if (controllingFaction == FactionType.Vers2)
             {
@@ -138,17 +138,17 @@ namespace TravellerMapSystem.Tools
                 return Color.PaleGoldenrod;
             }
 
-            else if (controllingFaction == FactionType.UFE1)
+            if (controllingFaction == FactionType.UFE1)
             {
                 return Color.LightBlue;
             }
-            else if (controllingFaction == FactionType.UFE2)
+            if (controllingFaction == FactionType.UFE2)
             {
-                return Color.CornflowerBlue;
-            }
-            else if (controllingFaction == FactionType.UFE3)
+                return Color.MidnightBlue;
+            } 
+            if (controllingFaction == FactionType.UFE3)
             {
-                return Color.AliceBlue;
+                return Color.DarkBlue;
             }
 
             else if (controllingFaction == FactionType.XiaoMing1)

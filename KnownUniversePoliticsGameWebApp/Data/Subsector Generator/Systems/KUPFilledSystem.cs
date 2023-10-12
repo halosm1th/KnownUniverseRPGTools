@@ -193,9 +193,9 @@ public class KUPFilledSystem : KUPStarSystem
         PointsOfInterest.Add(poi);
     }
 
-    public List<IKUPAsset> POIAssets()
+    public List<IKUPPOIAsset> POIAssets()
     {
-        var assets = new List<IKUPAsset>();
+        var assets = new List<IKUPPOIAsset>();
 
         foreach (var poi in GetComplexPOI())
         {

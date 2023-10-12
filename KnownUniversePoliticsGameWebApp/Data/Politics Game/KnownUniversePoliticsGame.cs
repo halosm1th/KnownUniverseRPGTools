@@ -57,16 +57,28 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         AssetsInPlay = new List<IKUPAsset>();
 
         //Setup Playesr
-        var thomas = new KUPPlayer("Thomas", "password", 100, 10001, 10001);
-        var imp1 = new KUPPlayer("IMP1", "Empire", 10, 10002, 10002);
-        var vrs1 = new KUPPlayer("VRS1", "Empire", 10, 10003, 10003);
-        var ufe1 = new KUPPlayer("UFE1", "Federation", 10, 10004, 10004);
-        var pirate = new KUPPlayer("PIRATE", "Federation", 10, 10005, 10005);
-        var bank = new KUPPlayer("BANK", "Federation", 10, 10006, 10006);
-        var food = new KUPPlayer("FOOD", "Federation", 10, 10007, 10007);
+        var thomas = new KUPPlayer("Thomas", "password", 100, 10001);
+        var pirate = new KUPPlayer("PIRATE", "Federation", 10, 10002);
+        var bank = new KUPPlayer("BANK", "Federation", 10, 10003);
+        var food = new KUPPlayer("FOOD", "Federation", 10, 10004);
+        
+        
+        var grayson = new KUPPlayer("Grayson", "Empire", 10, 10005);
+        var max = new KUPPlayer("Max", "Empire", 10, 10006);
+        var solange = new KUPPlayer("Solange", "Federation", 10, 10007);
+        var alex = new KUPPlayer("Alex", "Federation", 10, 10008);
+        var wes = new KUPPlayer("Wes", "Federation", 10, 10009);
+        var jake = new KUPPlayer("Jake", "Federation", 10, 10010);
+        var finn = new KUPPlayer("Finn", "Federation", 10, 10011);
+        var maya = new KUPPlayer("Maya", "Federation", 10, 10012);
+        var logan = new KUPPlayer("Logan", "Federation", 10, 10013);
+        var malik = new KUPPlayer("Malik", "Federation", 10, 10014);
+
+
         Players = new List<KUPPlayer?>()
         {
-            thomas, imp1, vrs1, ufe1,pirate,bank,food
+            thomas,pirate,bank,food,
+            grayson, max,solange,alex,wes,jake,finn,maya,logan
         };
 
         //Setup the subsector
@@ -110,28 +122,142 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                     1879, 1887, 423,1380, 1888,893,899,1893,1391,1902, 915,1397,1404,1905,924,929,
                     1409,1913,1915, 1917 
                 }), pirate),
-            new KUPFaction("Test Imperials 3", 4, FactionType.Imperial3, 0, 0,
-                GetAssetsFromIDS(new()
+            
+            
+            
+            new KUPFaction("Federation Industry",6,FactionType.UFE3, 0,0,
+                GetAssetsFromIDS(new ()
+                {
+                    1584,1694, 1580 
+                }), wes,
+                new (){},
+                new (){}),
+            new KUPFaction("Federation Core",4,FactionType.UFE1, 0,0,
+            GetAssetsFromIDS(new ()
+            {
+                
+                1312, 1315, 1314, 1316, 1317, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1327, 1328, 1326, 1329,
+                1330,
+                1840, 1842, 1843, 1844, 1845
+            }), grayson,
+            new (){},
+            new (){}),
+            
+            new KUPFaction("Federation Military",5,FactionType.UFE2, 0,0,
+                GetAssetsFromIDS(new ()
+                {
+                
+                    346 
+                }), alex,
+                new (){},
+                new (){}),
+            
+            new KUPFaction("Lord of the Sector",7,FactionType.Vers1, 0,0,
+                GetAssetsFromIDS(new ()
                 {
                     0, 1, 5, 7, 8, 9, 10, 12, 13, 16,
                     51, 54, 55, 56, 57, 58, 75, 2, 41, 43, 3, 45,
-                    4, 48, 50
-                }), imp1),
-            new("Test Versians", 7, FactionType.Vers1, 0, 0,
-                GetAssetsFromIDS(new()
+                    4, 48, 50,
+                    
+                }), max,
+                new (){},
+                new (){}),
+            new KUPFaction("Princess of the Sector",8,FactionType.Vers2, 0,0,
+                GetAssetsFromIDS(new ()
+                {
+                    379
+                }), solange,
+                new (){},
+                new (){}),
+            
+            new KUPFaction("Ancapitstan",9,FactionType.Deutchria1, 0,0,
+                GetAssetsFromIDS(new ()
+                { 141,  
+                
+                }), jake,
+                new ()
+                {
+                    "Contracts are king. People should be writing them, and respecting them. By force if necessary.",
+                    "you are for sale. Everything with you is for sale, so long as you can make a profit",
+                    "Anacapistan Baby! Fuck the state, insurance companies and money rule everything."
+                },
+                new ()
+                {
+                    "Create and force people to respect written contracts.",
+                    "Convince others to reject creating alliances outside of written contracts.",
+                    "Own the clear majority military bases and stations on the map."
+                }),
+            new KUPFaction("Finn",10,FactionType.Deutchri2, 0,0,
+                GetAssetsFromIDS(new ()
+                {
+                    1721 
+                }), finn,
+                new ()
+                {
+                    "You broke away from monarchy for an equal society under Sigmoria. Monarchy is wrong and must be toppled",
+                    "You are a religious fanatic for the Church of Sigmar, you want to spread the church everywhere"
+                },
+                new ()
+                {
+                    "Get everyone to sign treaties confirming that they will suppress all other religions within their systems",
+                    "reclaim the following systems because they are your holy sites:",
+                    "As you hate Monarchy for its placing of people as near God; Destroy all monarchies and princessess on the map."
+                }),
+            new KUPFaction("Xiao-Ming Sectorial Branch Office",11,FactionType.XiaoMing1, 0,0,
+                GetAssetsFromIDS(new ()
+                {
+                    466,
+                }), maya,
+                new ()
+                {
+                    "You're this sector's branch of THE megacorporation. You as the middle manager assigned here are looking to make your money and get out",
+                    "Money comes before morals",
+                    "But steampunk is the astatic to go with, its in this season."
+                },
+                new ()
+                {
+                    "Be the richest player at the end of the game; both by goods you have bought/own at the end of the game, and the money you have.",
+                    "Dont loose the corporate headquarters, ie the following systems:",
+                }),
+            
+            new KUPFaction("The Empire",12,FactionType.Imperial1, 0,0,
+                GetAssetsFromIDS(new ()
                 {
                     1418, 1419, 1420, 1421, 1422, 1423, 1424, 1426, 1427, 1428, 1429, 1430,
                     1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443, 1444, 1445,
                     1448, 1450, 1447, 954, 953, 959, 938, 939, 941, 940, 943, 944, 945, 946, 947,
                     948, 949, 950, 951
-                }), vrs1),
-            new("Test Fedeation", 10, FactionType.UFE1, 0, 0,
-                GetAssetsFromIDS(new()
+                
+                }), logan,
+                new ()
                 {
-                    1312, 1315, 1314, 1316, 1317, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1327, 1328, 1326, 1329,
-                    1330,
-                    1840, 1842, 1843, 1844, 1845
-                }), ufe1)
+                    "Pirates are a scourge to the empire, they are worse then all others, destroy them.",
+                    "The empire is the greatest thing in the sector, and all others should be made to realize that!"
+                },
+                new ()
+                {
+                    "Control the most systems on the map",
+                    "Pirates are such a problem, they need to be wiped out. make sure all the pirate locations are controlled by someone who isnt the pirate faction, and destroy all pirates fleets by the end of hte game.",
+                }),
+            
+            
+            new KUPFaction("The All-Conquerer",13, FactionType.Imperial3, 5000,8000,
+                GetAssetsFromIDS(new ()
+                {
+                    1176,
+                
+                }),malik,
+                new ()
+                {
+                    "You want to cnoquere everything, control the galaxy. You are large, and powerful and rich.",
+                    "Deals are for chumps, only to be adhered to so long as they're good for you",
+                    "paper is cheap, but your signature should never be on it."
+                },
+                new ()
+                {
+                    "Do not be destroyed",
+                    "End the game at war and without any alliances",
+                }),
         };
 
         SetupBaseRelationships();
@@ -231,6 +357,9 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     
     private void HandleCombats()
     {
+        //Have all ships attempt to fight so we don't need a fight commnat
+        //TODO make fight command easier to issue so you can just do that instead
+        AssetsToFight = CombatAssets;
         foreach(var asset in AssetsToFight){
             if (asset.HP > 0)
             {

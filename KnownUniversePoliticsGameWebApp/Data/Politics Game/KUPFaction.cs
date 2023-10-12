@@ -69,7 +69,16 @@ public class KUPFaction : IKUPEventActor
         FactionType = factionType;
         Money = money;
         Influence = influence;
+        if (goals == default)
+        {
+            goals = new List<string>();
+        }
         Goals = goals;
+
+        if (summary == default)
+        {
+            summary = new List<string>();
+        }
         Summary = summary;
 
         FactionID = id;

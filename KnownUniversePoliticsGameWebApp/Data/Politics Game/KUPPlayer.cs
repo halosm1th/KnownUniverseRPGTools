@@ -15,13 +15,13 @@ public class KUPPlayer : IKUPEventActor
         KUPEventService.AddActor(this);
     }
 
-    public KUPPlayer(string name, string password, int personalFunds, int senderId, int reciverId)
+    public KUPPlayer(string name, string password, int personalFunds, int senderId)
     {
         Name = name;
         Password = password;
         PersonalFunds = personalFunds;
         SenderID = senderId;
-        ReceiverID = reciverId;
+        ReceiverID = senderId;
         AddToEventService();
     }
 

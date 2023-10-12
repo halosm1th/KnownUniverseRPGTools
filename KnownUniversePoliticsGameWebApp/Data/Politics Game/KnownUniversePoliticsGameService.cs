@@ -12,7 +12,7 @@ public class KnownUniversePoliticsGameService
     public bool HasBeenInited = false;
     
     
-    public static string Base64Image = "";
+    public static byte[] Base64Image;
     private DateTime ImageCreated = DateTime.UnixEpoch;
     private bool RefereshMap = false;
     public async Task  Init()
@@ -40,28 +40,32 @@ public class KnownUniversePoliticsGameService
     
     public async Task<string> GetFullMapBase64()
     {
-        //Referesh the map every 2 minutes, saves on processing power.
+        var path = "";
+        //Refresh the map every 2 minutes, saves on processing power.
         if (DateTime.Now >= ImageCreated.AddMinutes(5) || RefereshMap)
         {
-            Base64Image = String.Empty;
+            byte[] imgBytes = new byte[0];
             RefereshMap = false;
-        }
-
-        if (Base64Image == String.Empty)
-        {
+            
             using (Image img = GetFulLMap())
             {
                 using (MemoryStream ms = new MemoryStream())
                 {
                     await img.SaveAsPngAsync(ms);
-                    byte[] imgBytes = ms.ToArray();
-                    Base64Image =  Convert.ToBase64String(imgBytes);
+                    imgBytes = ms.ToArray();
+                    
+                    path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                    path = Path.Combine(path, "img.png");
+                    
+                    File.WriteAllBytes(path,imgBytes);
+                    
+                    Base64Image =  imgBytes;
                     ImageCreated = DateTime.Now;
                 }
             }
         }
-        
-        return Base64Image;
+
+        return path;
     }
     
     public Image GetFulLMap()

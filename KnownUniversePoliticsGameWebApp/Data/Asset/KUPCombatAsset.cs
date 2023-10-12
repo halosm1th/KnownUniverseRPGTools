@@ -269,7 +269,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 
         return false;
     }
-    
+
     public List<KUPLocation> MoveLocations()
     {
         int maxX = 8 * 4;

@@ -109,7 +109,6 @@
             <li>Take System - Take over an undefended System from another player.</li>
             <li>Take Asset - Take control of a POI in a system. </li>
             <li>Capture System - Take control of a System which no player presently controls.</li>
-            <li>Attack System - Order a ship to attack enemy ships or stations in the current system.</li>
         </ul>
     </div>
     @if (!UsedShip)
@@ -163,7 +162,7 @@
                             {
                                 <option value="@MilitaryAction.CaptureSystem">Capture System</option>
                             }
-                            <option value="@MilitaryAction.AttackSystem"> Attack Ships</option>
+                            //<option value="@MilitaryAction.AttackSystem"> Attack Ships</option>
                         }
                     }
                 }
@@ -186,16 +185,6 @@
                             @shipLoc;
                         </option>
                     }
-                }
-            </select>
-        }
-        else if (_militaryAction == MilitaryAction.TakeAsset)
-        {
-            <select @bind="targetAssetID">
-                <option selected value="-1">None</option>
-                @foreach (var asset in system?.POIAssets() ?? new List<IKUPAsset>())
-                {
-                    <option selected value="@asset.assetID">@asset.Name</option>
                 }
             </select>
         }
