@@ -93,7 +93,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         GameMaster = new("Game Master", 0, FactionType.GM, 1000000, 10000000,
             GetAssetsFromIDS(new()
             {
-                200
+                81
             }), thomas);
         
         
@@ -104,25 +104,19 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new("Bank", 1, FactionType.Bank, 1000000, 10000000,
                 GetAssetsFromIDS(new()
                 {
+                    629
                 }), bank),
             new("Food", 2, FactionType.Food, 1000000, 10000000,
                 GetAssetsFromIDS(new()
                 {
+                    546
                 }), food),
             new("Pirates", 3, FactionType.Pirates, 0, 0,
                 GetAssetsFromIDS(new()
                 {
-                    /*
-                    38, 40, 44, 498, 499, 965, 968, 52, 502,504,979,74,78,
-                    525, 996, 1509, 528, 1006,1008, 1012,94,26,1026,97,109,110,567,1037,
-                    1040,1553, 166,172, 1095, 1611, 178, 1622,1110, 1114,1624,202, 1117,
-                    1629, 642, 1124, 1125,1637,215,224,226 ,227,656,1143,1653,1658 ,232,
-                    659, 661,1666 ,1667, 238,667,1164,1166,1169, 1674, 1212,1213,1737,735,
-                    1742, 1750,304,751,750,1756,1761,312,1767, 316, 762,1243,771,773,1248,1774,
-                    1781,1782,332,787,1256,1258, 1259, 1262,1265,788,789,1268,1269,1273,343,807,
-                    1281, 1288, 1805, 1809, 391,395,396,858,1854,399,866,409,871,413,878,1872,1375,
-                    1879, 1887, 423,1380, 1888,893,899,1893,1391,1902, 915,1397,1404,1905,924,929,
-                    1409,1913,1915, 1917 */
+                    67,66,75,71,69,73,74,86,34, 42, 43, 44, 49, 60,
+                    56, 439, 448, 260, 175, 31, 26, 35, 15, 181, 184,
+                    322, 562, 377, 539,544, 543, 
                 }), pirate),
             
             
@@ -130,32 +124,67 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new KUPFaction("Federation Industry",6,FactionType.UFE3, 0,0,
                 GetAssetsFromIDS(new ()
                 {
+                    567,568, 564, 563, 558, 557, 556, 561, 560, 571, 566, 555, 554,
+                    552, 551, 550, 549, 548,
+                    
                 }), wes,
-                new (){},
-                new (){}),
+                new ()
+                {
+                    "You are small but rich, and prefer not to be the one in the light causing war; you just want to cause wars to happen so you can profit off of them!",
+                    "You are (in theory) part of the Federation, which is led by Grayson.",
+                    "You are the Federation business sector, you want to make money.",
+                },
+                new ()
+                {
+                    "You want to ensure the Federation has outposts to spread its fleets all over the place. You, or another Federation aligned player whom you are in a signed and active alliance with, must control the following systems: England (5, 22), Managua (1, 28), Odisha (3, 14), Jill Sheng (11, 9), and Flanders (6, 6), Central Juntland (12, 6),  Ile-De-France (32, 9), Limburg (5, 13), Jalisco (1, 23), and Maharashtra (5, 16), Okayama (3, 23), ",
+                    "You seek to cause wars, playing both sides to profit. You win if the vast majority of players are at war at the end of the game."
+                }),
             new KUPFaction("Federation Core",4,FactionType.UFE1, 0,0,
             GetAssetsFromIDS(new ()
             {
-                /*
-                1312, 1315, 1314, 1316, 1317, 1319, 1320, 1321, 1322, 1323, 1324, 1325, 1327, 1328, 1326, 1329,
-                1330,
-                1840, 1842, 1843, 1844, 1845 */
+                628,627, 626,625, 623, 465, 456, 464,455, 452, 449,450, 447, 451, 454, 460,
+                463, 462, 459, 458, 457, 461, 600, 601, 603, 604, 607, 608, 614, 615, 616,
+                619, 453,441, 436, 435, 440, 442, 443,444, 445,446, 
             }), grayson,
-            new (){},
-            new (){}),
+            new ()
+            {
+                " You're like the Federation from star trek, you try to do good, even if it can't always happen.",
+                "You seek to avoid using violence to reach your objects. Only wars when you absolutely have too are acceptable.",
+                "The old empire has collapsed, you're the promise of somehting new, something better, something more free."
+            },
+            new (){
+                "You want everyone to be stable and happy at the end of the game. No Wars, everyone should have positive money and influence.",
+                "Establish the Space UN as a legislative body democratically passing a consitution as the basis of space law",
+                "Don't loose the homeland of freedom: Haryana (38, 21)"
+            }),
             
             new KUPFaction("Federation Military",5,FactionType.UFE2, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                
+                    94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107,
+                    108, 109, 110, 111, 112, 125, 121, 120, 119, 118, 117,116,
+                    115, 114,113, 238, 93, 92, 89, 90, 91, 88, 275, 274, 268, 271,
+                    266, 261, 265, 233
                 }), alex,
-                new (){},
-                new (){}),
+                new ()
+                {
+                    "You are the Federation fleet; you believe in honour and duty to your state, so long as you believe that state is acting in a manner you believe just.",
+                    "You are (in theory) part of the Federation, which is led by Grayson.",
+                    "You are the Federation fleet, your purpose is to defend the Federation from all threats, real or perceived."
+                },
+                new ()
+                {
+                    "You want to have the largest fleet at the end of the game",
+                    "Defend the Federation from all threats, real or perceived.",
+                    "Keep control of: Ile-De-France (32, 9), Baden0Wurttembe (29, 2), Indiana (23, 10), and Utah (23, 4)"
+                }),
             
             new KUPFaction("Lord of the Sector",7,FactionType.Vers1, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    0,1,2,3,4,5,6,7,8,9,10,12,13,14,16,17,18,19,20
+                    0,1,2,3,4,5,6,7,8,9,10,12,13,14,16,17,18,19,20, 11,21,
+                    23, 25, 30, 163, 168, 158, 159, 154, 155, 156, 160, 161,
+                    157, 153, 152, 151, 189, 51
                     
                     /*
                     0, 1, 5, 7, 8, 9, 10, 12, 13, 16,
@@ -163,20 +192,45 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                     4, 48, 50, */
                     
                 }), max,
-                new (){},
-                new (){}),
+                new ()
+                {
+                    "You are the Monarch! You need a court and nobles. You must develop a group of fiefs who for whatever reason pay you (in kind is valid)  each round, but to whom you are obligated to defend.",
+                    "You must gain control of the the Empires former-capital systems systems: England (5, 22), Okayama (3, 23), and Managua (1, 28)",
+                    "You must never lose the following systems, for they are the heartlands of your kingdom: Odisha (3, 14), Jill Sheng (11, 9), and Flanders (6, 6)"
+                },
+                new ()
+                {
+                    "You are the Monarch, you rule because you are loved, and becuase you have a big stick. You aren't afraid to use it.",
+                    "Lavish living is the only way to show your superiority over other peasants.",
+                    "You are the source of honour and just! An insult to you is an insult to your people, and vice versa. Every defeat is an assault against your family name, every victory raises the family to new heights, and as the current head of the family, raises you further to divinity."
+                }),
+            
             new KUPFaction("Princess of the Sector",8,FactionType.Vers2, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    //379
+                    127, 131, 135, 142,147, 150, 149,146, 141,288,
+                    289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299,300, 301, 302,
+                    303, 304, 305, 308, 309, 310, 285, 286, 287, 282,306, 307, 
                 }), solange,
-                new (){},
-                new (){}),
+                new ()
+                {
+                    "You are rebellious and independent by nature. You know your rightful place is to rule, not to be ruled, and anyone who wants to rule you must be made to understand they were wrong for daring to assert their superiority to you. ",
+                    "Your people are kind and caring, they want to avoid war as much as possible. The only just war is when the oppressed fights the oppressor. ",
+                    "You are the princess; chosen because of your kindness, your people look up to you for justice and as an inspiration for what good can be."
+                },
+                new ()
+                {
+                    "You must not be a subordinate in a faction, only an equal at the end of the game.",
+                    "You seek to mediate peace and avoid wars, but if war is to break out, you must side with the side which you believe to be the oppressed. At the end of the game is must be well establsihed that you have tried to prevent wars.",
+                    "You must never loose the following systems, as they are the heart of your kingdom: New Jersey (40, 14), Uttar Pradesh (38, 15), Zonguldak (38, 7)"
+                }),
             
             new KUPFaction("Ancapitstan",9,FactionType.Deutchria1, 0,0,
                 GetAssetsFromIDS(new ()
-                { //141,  
-                
+                { 
+                    62,22,24, 27, 28, 29, 32,33,  68,70,72, 76, 77, 78,
+                    82, 83, 84,63, 217,38, 39, 40, 55, 54, 59, 
+                    211, 222, 223, 225,52, 53, 57, 58, 46, 45
                 }), jake,
                 new ()
                 {
@@ -187,88 +241,97 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                 new ()
                 {
                     "Create and force people to respect written contracts.",
-                    "Convince others to reject creating alliances outside of written contracts.",
-                    "Own the clear majority military bases and stations on the map."
+                    "Be the richest player by combined assets, physical items bought during the game, and in game money at the end of the game.",
+                    "To ensure your ideals can spread and live on Control the following systems: Odisha (3, 14), Jalisco (1, 23), Androy (10, 29), Mariy-El (28, 23), Baja California (35, 17), and Moscow (31, 17)  "
                 }),
-            new KUPFaction("Finn",10,FactionType.Deutchri2, 0,0,
+            new KUPFaction("Church of Sigmar",10,FactionType.Deutchri2, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    //1721 
-                }), finn,
+                    580, 583, 582, 585, 586, 588, 589, 590, 591, 592, 594, 595,
+                    596, 597, 598, 599, 577,578, 579, 576, 575, 574, 408, 414, 413,
+                    573, 570, 569, 572, 403, 553, 417
+                    }), finn,
                 new ()
                 {
                     "You broke away from monarchy for an equal society under Sigmoria. Monarchy is wrong and must be toppled",
-                    "You are a religious fanatic for the Church of Sigmar, you want to spread the church everywhere"
+                    "You are a religious fanatic for the Church of Sigmar, you want to spread the church everywhere",
+                    "The church believes SIgmoria is the one true god, and all actions and spread in his name, as he empowers all actions. You are his Sigmarette, a divine agent sent to carry out his will. WHo can feel his spirit and interpret it."
                 },
                 new ()
                 {
-                    "Get everyone to sign treaties confirming that they will suppress all other religions within their systems",
-                    "reclaim the following systems because they are your holy sites:",
+                    "Prove you're on top. Get everyone to sign treaties confirming that they will suppress all other religions within their systems.",
+                    "reclaim the following systems because they are your holy sites: Central Juntland (12, 6), Limburg (5, 13), and Ile-De-France (32, 9)",
                     "As you hate Monarchy for its placing of people as near God; Destroy all monarchies and princessess on the map."
                 }),
             new KUPFaction("Xiao-Ming Sectorial Branch Office",11,FactionType.XiaoMing1, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    //466,
+                    313, 311, 312, 316, 317, 314, 315, 162, 167, 164, 165, 166, 169, 
+                    170, 171, 172, 173, 174, 177, 182, 185,178,186, 187,
+                    188, 345, 183, 180, 179, 176, 191, 192
                 }), maya,
                 new ()
                 {
                     "You're this sector's branch of THE megacorporation. You as the middle manager assigned here are looking to make your money and get out",
                     "Money comes before morals",
-                    "But steampunk is the astatic to go with, its in this season."
+                    "You're a wolf, they are sheep, and its time to feast."
                 },
                 new ()
                 {
-                    "Be the richest player at the end of the game; both by goods you have bought/own at the end of the game, and the money you have.",
-                    "Dont loose the corporate headquarters, ie the following systems:",
+                    "Prove you're the best. Be the richest player at the end of the game; both by goods you have bought/own at the end of the game, and the money you have.",
+                    "Dont loose the corporate headquarters, ie the following systems:Limburg (5, 13), Jalisco (1, 23), and Maharashtra (5, 16)",
                 }),
             
-            new KUPFaction("The Empire",12,FactionType.Imperial1, 0,0,
+            new KUPFaction("The New Empire",12,FactionType.Imperial1, 0,0,
                 GetAssetsFromIDS(new ()
                 {
-                    /*
-                    1418, 1419, 1420, 1421, 1422, 1423, 1424, 1426, 1427, 1428, 1429, 1430,
-                    1431, 1432, 1433, 1434, 1435, 1436, 1437, 1438, 1439, 1440, 1441, 1442, 1443, 1444, 1445,
-                    1448, 1450, 1447, 954, 953, 959, 938, 939, 941, 940, 943, 944, 945, 946, 947,
-                    948, 949, 950, 951 */
-                
+                    467,466, 471, 318, 324, 470, 469, 472, 468, 474, 476, 478, 477, 479, 480, 481,
+                    482, 483, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493,495, 496, 498, 319,
+                    320, 321, 323, 325, 326, 327, 328, 329, 330,331, 333,334, 339, 475, 473,
+                    340, 500, 506, 507, 512, 513, 516, 521, 344,
                 }), logan,
                 new ()
                 {
+                    "You are the new empire, the old empire has fallen and is weak, you are here to replace it.",
                     "Pirates are a scourge to the empire, they are worse then all others, destroy them.",
                     "The empire is the greatest thing in the sector, and all others should be made to realize that!"
                 },
                 new ()
                 {
-                    "Control the most systems on the map",
-                    "Pirates are such a problem, they need to be wiped out. make sure all the pirate locations are controlled by someone who isnt the pirate faction, and destroy all pirates fleets by the end of hte game.",
+                    "Crush The Old Empire.",
+                    "Pirates are a pain, destroy them.",
+                    "Be recognized as the Emperor of the Sector by all other players, signed in a treaty.",
+                    "Do not loose: England (5, 22), Okayama (3, 23), and Managua (1, 28) as these are the capital systems of the Empire.",
+                    
                 }),
             
             
-            new KUPFaction("The All-Conquerer",13, FactionType.Imperial3, 5000,8000,
+            new KUPFaction("The Old Empire",13, FactionType.Imperial3, 5000,8000,
                 GetAssetsFromIDS(new ()
                 {
-                    //1176,
-                
+                    139,140,143,144,148,138,137,136,134,133,132,129,128,124,
+                    123,122, 499, 504, 505, 510, 503, 509, 508, 515, 514, 518,519,511,
+                    355, 360, 361, 362, 363, 364,365,366,367, 368,369,370,371,372,373,
+                    374,375,376,378, 379,380,381,382,383,384,385,386,387,359, 502, 501,
+
                 }),malik,
                 new ()
                 {
-                    "You want to cnoquere everything, control the galaxy. You are large, and powerful and rich.",
+                    "You are the Empire which rightfully rules this sector and has done so for hundreds of years. All were and one day will again be your subjects.",
                     "Deals are for chumps, only to be adhered to so long as they're good for you",
                     "paper is cheap, but your signature should never be on it."
                 },
                 new ()
                 {
                     "Do not be destroyed",
-                    "End the game at war and without any alliances",
+                    "End the game having been declared the true Emperor by all other players, with recognization on a signed document declaring you as true Emperor",
+                    "Crush the false 'New Empire', by retaking the Empires capital systems systems: England (5, 22), Okayama (3, 23), and Managua (1, 28)"
                 }),
         };
 
         SetupBaseRelationships();
 
-        NewAsset(new KUPCombatAsset(
-            new KUPLocation(3, 3), Factions.First(x => x.FactionID == 0), CombatAssetSize.Large,
-            _shipIDs++, 80081222), Factions.First(x => x.FactionID == 0));
+        AddShips();
 
         KupDrawSector = new KUPDrawSector(Sector, Factions, this);
 
@@ -278,6 +341,315 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         Console.WriteLine($"Total income: {totalIncome}. Total influence: {totalInfluence}");
 
         AssetsToFight = new List<KUPCombatAsset>();
+    }
+
+    private void AddShips()
+    {
+        /*
+        //Game
+        AddPirateShips();
+        AddGmBankShips();
+        
+        //Federation
+        AddGraysonShips();
+        AddWesShips();
+        AddAlexShips();
+
+        //Vers
+        */
+        AddMaxShips();
+        AddSolangeShips();
+        
+        //Deutch
+        AddJakeShips();
+        AddFinnShips();
+        
+        //Empire
+        AddLoganShips();
+        AddMalikShips();
+        
+        //Xiao-Ming
+        AddMayaShips();
+        
+    }
+
+    private void AddSolangeShips()
+    {
+        var solangeShips = 880082;
+        var solange = Factions.First(x => x.FactionID == 8);
+        //Station at Attack fleet
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(19, 9),solange , CombatAssetSize.Small,
+            _shipIDs++, solangeShips++), solange);
+    }
+
+    private void AddMaxShips()
+    {
+        var maxShips = 780082;
+        var jake = Factions.First(x => x.FactionID == 7);
+        //Station defense
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(3, 14),jake , CombatAssetSize.Station,
+            _shipIDs++, maxShips++), jake);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(11, 9),jake , CombatAssetSize.Station,
+            _shipIDs++, maxShips++), jake);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(6, 6),jake , CombatAssetSize.Station,
+            _shipIDs++, maxShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(9, 6),jake , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), jake);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(3, 13),jake , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), jake);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(3, 10),jake , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), jake);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(5, 9),jake , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), jake);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(7, 8),jake , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(5, 2),jake , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), jake);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(5, 4),jake , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), jake);
+        
+    }
+
+    private void AddJakeShips()
+    {
+        var jakeShips = 980082;
+        var jake = Factions.First(x => x.FactionID == 9);
+        //Station at Attack fleet
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(19, 9),jake , CombatAssetSize.Small,
+            _shipIDs++, jakeShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(19, 7),jake , CombatAssetSize.Small,
+            _shipIDs++, jakeShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(18, 6),jake , CombatAssetSize.Small,
+            _shipIDs++, jakeShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(16, 6),jake , CombatAssetSize.Small,
+            _shipIDs++, jakeShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(18, 10),jake , CombatAssetSize.Small,
+            _shipIDs++, jakeShips++), jake);
+        
+        //Big guns
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(11, 3),jake , CombatAssetSize.Large,
+            _shipIDs++, jakeShips++), jake);
+
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(9, 3),jake , CombatAssetSize.Large,
+            _shipIDs++, jakeShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(7, 2),jake , CombatAssetSize.Large,
+            _shipIDs++, jakeShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(12, 5),jake , CombatAssetSize.Large,
+            _shipIDs++, jakeShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(12, 6),jake , CombatAssetSize.Large,
+            _shipIDs++, jakeShips++), jake);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(21, 6),jake , CombatAssetSize.Large,
+            _shipIDs++, jakeShips++), jake);
+    }
+
+    private void AddFinnShips()
+    {
+        var finnShips = 1080082;
+        var finn = Factions.First(x => x.FactionID == 10);
+        //Station at Veneto
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(22, 25),finn , CombatAssetSize.Station,
+            _shipIDs++, finnShips++), finn);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(31, 31),finn , CombatAssetSize.Station,
+            _shipIDs++, finnShips++), finn);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(28, 23),finn , CombatAssetSize.Station,
+            _shipIDs++, finnShips++), finn);
+        
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(29, 22),finn , CombatAssetSize.Medium,
+            _shipIDs++, finnShips++), finn);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(31, 26),finn , CombatAssetSize.Medium,
+            _shipIDs++, finnShips++), finn);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(32, 27),finn , CombatAssetSize.Medium,
+            _shipIDs++, finnShips++), finn);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(32, 28),finn , CombatAssetSize.Medium,
+            _shipIDs++, finnShips++), finn);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(25, 27),finn , CombatAssetSize.Medium,
+            _shipIDs++, finnShips++), finn);
+    }
+
+    private void AddMalikShips()
+    {
+        
+        var malikShips = 1380082;
+        var malik = Factions.First(x => x.FactionID == 13);
+        //South Start fleet
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(33, 2),malik , CombatAssetSize.Large,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(33, 3),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(33, 4),malik , CombatAssetSize.Large,
+            _shipIDs++, malikShips++), malik);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(38, 5),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(38, 4),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(39, 4),malik , CombatAssetSize.Large,
+            _shipIDs++, malikShips++), malik);
+        
+        //North east fleet
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(9, 27),malik , CombatAssetSize.Large,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(9 ,28),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(10, 29),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(11, 29),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(12, 29),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(9, 30),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(9, 31),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(8, 32),malik , CombatAssetSize.Large,
+            _shipIDs++, malikShips++), malik);
+        
+        //Middle fleets
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(16, 24),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(15, 17),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(13, 20),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(20, 18),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(19, 24),malik , CombatAssetSize.Medium,
+            _shipIDs++, malikShips++), malik);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(20, 24),malik , CombatAssetSize.Large,
+            _shipIDs++, malikShips++), malik);
+    }
+
+    private void AddLoganShips()
+    {
+        var loganShips = 1280082;
+        var logan = Factions.First(x => x.FactionID == 12);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(11, 27),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(10, 26),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(8, 28),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(4, 20),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(3, 23),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(8, 22),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(10, 24),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(6, 19),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(5, 19),logan , CombatAssetSize.Large,
+            _shipIDs++, loganShips++), logan);
+    }
+
+    private void AddMayaShips()
+    {
+
+        var mayaShips = 1180082;
+        var maya = Factions.First(x => x.FactionID == 11);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(8, 10),maya , CombatAssetSize.Large,
+            _shipIDs++, mayaShips++), maya);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(11, 17),maya , CombatAssetSize.Large,
+            _shipIDs++, mayaShips++), maya);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(4, 16),maya , CombatAssetSize.Large,
+            _shipIDs++, mayaShips++), maya);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(2, 17),maya , CombatAssetSize.Large,
+            _shipIDs++, mayaShips++), maya);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(6, 16),maya , CombatAssetSize.Large,
+            _shipIDs++, mayaShips++), maya);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(9, 15),maya , CombatAssetSize.Large,
+            _shipIDs++, mayaShips++), maya);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(1, 23),maya , CombatAssetSize.Station,
+            _shipIDs++, mayaShips++), maya);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(5, 13),maya , CombatAssetSize.Station,
+            _shipIDs++, mayaShips++), maya);
+        
     }
 
     private void SetupBaseRelationships()

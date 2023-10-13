@@ -2,6 +2,7 @@
 using System.Text;
 using KnownUniversePoliticsGameWebApp.Data;
 using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
+using KnownUniversePoliticsGameWebApp.Pages.Basic_Player_Pages;
 using KUP_Simple_Sector_Generator;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
@@ -86,23 +87,50 @@ namespace TravellerMapSystem.Tools
                          .Where(x => x.Location == world?.SystemsPrimaryStation?.PrimaryStationAsset?.Location)
                          .OfType<KUPCombatAsset>())
             {
-                var y = (fontSize * 2 + row * height) + (SPACER*2);
+                var y = (fontSize * 2 + row * height) + (SPACER * 2);
                 if (col % 2 == 1) y += height / 2;
                 xMod = 23 * shipCount;
-                
+
                 var x = (col * (width * 0.75f));
                 x += width / 2; //* Font.Size / 4.5f;
                 x += xMod;
 
-                var shipPoints = new PointF[]
+
+
+                var shipPoints = ship.Size switch
                 {
-                    new(x, y),
-                    new(x + 20, y + 10),
-                    new(x - 20, y + 10),
+                    CombatAssetSize.Small => new PointF[]
+                    {
+                        new(x, y),
+                        new(x + 10, y + 7),
+                        new(x - 10, y + 7),
+                    },
+                    
+                    CombatAssetSize.Medium => new PointF[]
+                    {
+                        new(x, y),
+                        new(x + 20, y + 14),
+                        new(x - 20, y + 14),
+                    },
+                    
+                    CombatAssetSize.Large => new PointF[]
+                    {
+                        new(x, y),
+                        new(x + 30, y + 20),
+                        new(x - 30, y + 20),
+                    },
+
+                    CombatAssetSize.Station => new PointF[]
+                    {
+                        new(x, y),
+                        new(x + 30, y + 20),
+                        new(x,y+26),
+                        new(x - 30, y + 20),
+                    },
                 };
 
                 subsector.Mutate(x =>
-                    x.DrawPolygon(Color.Black, 5, shipPoints));
+                    x.DrawPolygon(Color.White, 6, shipPoints));
                 subsector.Mutate(x =>
                     x.FillPolygon(GetFactionColour(ship.Controller.FactionType), shipPoints));
                 shipCount++;
@@ -343,10 +371,10 @@ namespace TravellerMapSystem.Tools
                         
                         else if  (  controllingFaction == FactionType.Vers1)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.Gold, points));
+                            grid.Mutate(x => x.FillPolygon(Color.Yellow, points));
                         }else if  (  controllingFaction == FactionType.Vers2)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.DarkGoldenrod, points));
+                            grid.Mutate(x => x.FillPolygon(Color.PaleGoldenrod, points));
                         }else if  (  controllingFaction == FactionType.Vers3)
                         {
                             grid.Mutate(x => x.FillPolygon(Color.PaleGoldenrod, points));
@@ -360,12 +388,12 @@ namespace TravellerMapSystem.Tools
                             grid.Mutate(x => x.FillPolygon(Color.CornflowerBlue, points));
                         }else if (  controllingFaction == FactionType.UFE3)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.AliceBlue, points));
+                            grid.Mutate(x => x.FillPolygon(Color.SkyBlue, points));
                         }
                         
                         else if (  controllingFaction == FactionType.XiaoMing1)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.Purple, points));
+                            grid.Mutate(x => x.FillPolygon(Color.MediumPurple, points));
                         }else if (  controllingFaction == FactionType.XiaoMing1)
                         {
                             grid.Mutate(x => x.FillPolygon(Color.RebeccaPurple, points));
@@ -376,24 +404,27 @@ namespace TravellerMapSystem.Tools
                         
                         else if (  controllingFaction == FactionType.Deutchria1)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.LightGrey, points));
+                            grid.Mutate(x => x.FillPolygon(Color.DarkGrey, points));
                         }else if (  controllingFaction == FactionType.Deutchri2)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.DarkGray, points));
+                            grid.Mutate(x => x.FillPolygon(Color.SlateGray, points));
                         }else if (  controllingFaction == FactionType.Deutchria3)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.SlateGray, points));
+                            grid.Mutate(x => x.FillPolygon(Color.Grey, points));
                         }
                         
                         else if (  controllingFaction == FactionType.Bank)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.ForestGreen, points));
+                            grid.Mutate(x => x.FillPolygon(Color.HotPink, points));
                         }else if (  controllingFaction == FactionType.GM)
                         {
-                            grid.Mutate(x => x.FillPolygon(Color.LightGreen, points));
+                            grid.Mutate(x => x.FillPolygon(Color.Green, points));
                         }else if (  controllingFaction == FactionType.Food)
                         {
                             grid.Mutate(x => x.FillPolygon(Color.SeaGreen, points));
+                        }else if (controllingFaction == FactionType.Pirates)
+                        {
+                            grid.Mutate(x => x.FillPolygon(Color.DarkOliveGreen, points));
                         }
                         
                         grid.Mutate(x => x.DrawPolygon(Color.Black, 2, points));

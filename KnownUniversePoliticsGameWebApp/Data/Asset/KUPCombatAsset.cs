@@ -38,58 +38,64 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
 
     public KUPLocation Location { get; private set; }
     public KUPFaction Controller { get; set; }
-    CombatAssetSize Size { get; }
+    public CombatAssetSize Size { get; }
 
     int IKUPAsset.MoralIncome => 0;
 
+    private const int SMALL_SHIP_COST = -75;
+    private const int MEDIUM_SHIP_COST = -125;
+    private const int HURT_LARGE_SHIP_COST = -175;
+    private const int HEALHTY_LARGE_SHIP_COST = -225;
+    private const int STATION_COST = -300;
+    
     private int _MoneyTotal {
         get
         {
             if (Size == CombatAssetSize.Small)
             {
-                return 10;
+                return SMALL_SHIP_COST;
             }
             else if (Size == CombatAssetSize.Medium)
             {
                 if (HP == 2)
                 {
-                    return 20;
+                    return MEDIUM_SHIP_COST;
                 }
 
                 if (HP == 1)
                 {
-                    return 10;
+                    return SMALL_SHIP_COST;
                 }
             }
             else if (Size == CombatAssetSize.Large || Size == CombatAssetSize.Station)
             {
                 if (HP == 5)
                 {
-                    return 80;
+                    return STATION_COST;
                 }
                 
                 if (HP == 4)
                 {
-                    return 50;
+                    return HEALHTY_LARGE_SHIP_COST;
                 }
 
                 if (HP == 3)
                 {
-                    return 35;
+                    return HURT_LARGE_SHIP_COST;
                 }
 
                 if (HP == 2)
                 {
-                    return 20;
+                    return MEDIUM_SHIP_COST;
                 }
 
                 if (HP == 1)
                 {
-                    return 10;
+                    return SMALL_SHIP_COST;
                 }
             }
 
-            return 5;
+            return -50;
         }
     }
         
