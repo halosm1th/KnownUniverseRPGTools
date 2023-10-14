@@ -1,0 +1,22 @@
+﻿@page "/mapDisplay"
+@using KnownUniversePoliticsGameWebApp.Data
+@using SixLabors.ImageSharp
+@inject KnownUniversePoliticsGameService PoliticsGameService
+
+@{
+}
+
+<html>
+<head>
+    <PageTitle>Map Display</PageTitle>
+</head>
+<body>
+<div>
+    @if (PoliticsGameService.PoliticsGame != null
+        && PoliticsGameService.HasBeenInited)
+    {
+        <img src="img.png"/>
+    }
+</div>
+</body>
+</html>

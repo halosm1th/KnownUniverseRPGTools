@@ -1,0 +1,50 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Military Actions</h3>
+
+@code {
+
+    
+    [Parameter] public KUPPlayer player { get; set; }
+
+    choiceTypes choice = choiceTypes.BuildShip;
+    
+    enum choiceTypes
+    {
+        BuildShip,
+        Operation,
+        OrderShip,
+    }
+    
+    
+    
+
+}
+
+    <h3>@player.Faction.Name</h3>
+    <div>
+        <h4>List of Military Assets</h4>
+        <ul>
+            @foreach (var asset in player.Faction.GetMilitaryAssets())
+            {
+                <li>@asset</li>
+            }
+        </ul>
+    </div>
+    
+    <select @bind="choice">
+        <option value="@choiceTypes.BuildShip" >Build Ships </option>
+        <option value="@choiceTypes.OrderShip" >Order your ship around </option>
+    </select>
+    
+    @if (choice == choiceTypes.BuildShip)
+    {
+        <BuildShip Faction="player.Faction"></BuildShip>
+    }
+    else if (choice == choiceTypes.OrderShip)
+    {
+    <OrderShip Faction = "player.Faction" ></OrderShip>
+    }

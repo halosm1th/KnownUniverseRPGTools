@@ -1,0 +1,41 @@
+﻿@page "/BankDisplayPage"
+@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>BankDisplayPage</h3>
+@code {
+    string depositingPlayerName = "";
+    int depositAmount = 0;
+
+
+    private void Deposit()
+    {
+        var player = PoliticsGameService.GetPlayer(depositingPlayerName);
+        var bank = PoliticsGameService.GetFaction("Bank");
+        EventService.AddEvent(
+            new KUPMoneyDepositEvent(bank.SenderID,player.ReceiverID,depositAmount));
+    }
+
+}
+
+<form>
+    <h4>Player Deposit</h4>
+    <label for="depositingPlayer">Player:</label>
+    <label for="depositAmount">Amount:</label>
+    <select id="depositingPlayer" @bind="depositingPlayerName">
+        @foreach(var player in PoliticsGameService.PoliticsGame.Players){
+            <option value="@player.Name">@player.Name</option>
+        }
+    </select>
+    <button @onclick="Deposit">Deposit</button>
+    <input type="number" id="depositAmount" @bind="depositAmount"/>
+</form>
+<h3>List Of Withdrawls</h3>
+<ul>
+@foreach (var withdraw in EventService.GetEvents(PoliticsGameService.GetFaction("Bank").ReceiverID))
+{
+    <li>@withdraw</li>
+}
+</ul>

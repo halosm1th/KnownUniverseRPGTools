@@ -1,0 +1,63 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+<h3>PlayerViewFactionRelationships</h3>
+
+@code {
+    [Parameter] public KUPPlayer player { get; set; }
+
+}
+
+
+    <div>
+        <ul>
+            @foreach (var faction in player.Faction.FactionRelationships)
+            {
+                @if (faction.Value == FactionRelationshipOptions.Peace)
+                {
+                    <li style="background: darkviolet;color:yellow;border:black;border-width: thick;border-style:solid">
+                        <p>@faction.Key</p>
+                        <br/>
+                        <p>Current Relationship: @faction.Value</p>
+                        <button type="button" @onclick="() => EventService.AddEvent(new KUPWarDeclareEvent(player.Faction.SenderID,faction.Key.ReceiverID))">To War!</button>
+                        <button @onclick="() => EventService.AddEvent(new KUPDefenseEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Oath Defense</button>
+                        <button @onclick="() => EventService.AddEvent(new KUPAllianceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Oath Alliance</button>
+                    </li>
+                }
+            
+                @if (faction.Value == FactionRelationshipOptions.War)
+                {
+                    <li style="background: darkred;color: yellow;border:black;border-width: thick;border-style:solid">
+                        <p>@faction.Key</p>
+                        <br/>
+                        <p>Current Relationship: @faction.Value</p>
+                    
+                        <button type="button" @onclick="() => EventService.AddEvent(new KUPPeaceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Declare Peace!</button>
+                    </li>
+                }
+            
+                @if (faction.Value == FactionRelationshipOptions.DefenceAlliance)
+                {
+                    <li style="background: darkblue;color: yellow;border:black;border-width: thick;border-style:solid">
+                        <p>@faction.Key</p>
+                        <br/>
+                        <p>Current Relationship: @faction.Value</p> 
+                        <button type="button" @onclick="() => EventService.AddEvent(new KUPPeaceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Declare Peace!</button>
+                        <button @onclick="() => EventService.AddEvent(new KUPAllianceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Oath Alliance</button>
+                    </li>
+                }
+
+                @if (faction.Value == FactionRelationshipOptions.TotalAlliance)
+                {
+                    <li style="background: darkgreen;color: yellow;border:black;border-width: thick;border-style:solid">
+                        <p>@faction.Key</p>
+                        <br/>
+                        <p>Current Relationship: @faction.Value</p>
+                        <button type="button" @onclick="() => EventService.AddEvent(new KUPPeaceEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Declare Peace!</button>
+                        <button @onclick="() => EventService.AddEvent(new KUPDefenseEvent(player.Faction.SenderID,faction.Key.ReceiverID))">Oath Defense</button>
+                    </li>
+                }
+            }
+        </ul>
+              
+    </div>

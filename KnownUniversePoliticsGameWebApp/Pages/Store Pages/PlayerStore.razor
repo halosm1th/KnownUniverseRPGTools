@@ -1,0 +1,54 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+@using System.Diagnostics.Eventing.Reader
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Store Page</h3>
+
+@code {
+    
+    StoreItems ItemToBuy = StoreItems.Chips;
+    int buyAmount = 1;
+    [Parameter] public KUPPlayer player { get; set; }
+    int targetFactionID;
+    int cost => KUPBuyStoreEvent.GetCost(ItemToBuy) * buyAmount;
+
+    
+    public List<(StoreItems, int)> YouBought { get; set; } = new List<(StoreItems, int)>();
+
+
+    private void BuyGood()
+    {
+        YouBought.Add((ItemToBuy,buyAmount));
+        EventService.AddEvent(new KUPBuyStoreEvent(player.SenderID,ItemToBuy,buyAmount));
+    }
+
+}
+<div>
+    <p>You've bought:</p>
+    <ul>
+        @foreach (var item in YouBought)
+        {
+            <li>@item.Item1 * @item.Item2</li>
+        }
+    </ul>
+</div>
+
+<p>You have: $@player.PersonalFunds to spend on food.</p>
+<p>Cost: @cost</p>
+<form>
+    <label for="itemToBuy">What do you want to buy?</label>
+    <select id="itemToBuy" @bind="ItemToBuy">
+        @foreach (var v in Enum.GetNames(typeof(StoreItems)))
+        {
+            <option value="@v">@v</option>
+        }
+    </select>
+    <label for="amount">Amount</label>
+    <input type="number" id="amount" @bind="buyAmount"/>
+    @if (cost <= player.PersonalFunds)
+    {
+        <button @onclick="BuyGood">Buy</button>
+    }
+</form>

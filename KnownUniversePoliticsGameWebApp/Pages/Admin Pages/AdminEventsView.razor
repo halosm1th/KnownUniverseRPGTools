@@ -1,0 +1,21 @@
+﻿@using KnownUniversePoliticsGameWebApp.Data
+<h3>AdminEventsView</h3>
+@inject KUPEventService _eventService;
+@inject KnownUniversePoliticsGameService _politicsGameService
+
+@code {
+    
+}
+
+
+<div>
+    <details>
+        <summary><h4>Events</h4></summary>
+        <ul>
+            @foreach (var evnt in KUPEventService.EventQueue.Reverse())
+            {
+                <li>@evnt</li>
+            }
+        </ul>
+    </details>
+</div>

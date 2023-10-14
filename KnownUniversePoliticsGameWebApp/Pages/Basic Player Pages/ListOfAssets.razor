@@ -1,0 +1,256 @@
+﻿@page "/AssetList"
+@using KnownUniversePoliticsGameWebApp.Data
+
+@code {
+    bool NotControlled = false;
+    bool HighIncome = false;
+    bool HighMoral = false;
+    bool MilitaryBase = false;
+
+    
+    int filter = 0;
+    
+    private void SetFilter()
+    {
+        if (filter == 0)
+        {
+            NotControlled = HighIncome = HighMoral = false;
+        } else if (filter == 1)
+        {
+            HighIncome = HighMoral = false;
+            NotControlled = true;
+        }else if (filter == 2)
+        {
+            NotControlled = HighMoral = false;
+            HighIncome = true;
+        }else if (filter == 3)
+        {
+            
+            NotControlled = HighIncome = false;
+            HighMoral = true;
+        }else if (filter == 4)
+        {
+            HighMoral = false; 
+            NotControlled = HighIncome = true;
+        }else if (filter == 5)
+        {
+            
+            HighIncome = false; 
+            NotControlled = HighMoral = true;
+        }else if (filter == 6)
+        {
+            
+            NotControlled = false; 
+            HighIncome = HighMoral = true;
+        }
+        else if (filter == 7)
+        {
+            NotControlled = HighIncome = HighMoral = true;
+        }else if (filter == 8)
+        {
+            MilitaryBase = true;
+            
+            NotControlled = HighIncome = HighMoral = false;
+        }
+    }
+
+/*
+    private bool DisplayPOI(KUPPointsOfInterest poi)
+    {
+        bool shouldShow = false;
+        if (!NotControlled && !HighIncome && !HighMoral)
+        {
+            return true;
+        }
+        
+        if (poi.GetType() == typeof(KupPrimaryStation))
+        {
+            var station = poi as KupPrimaryStation;
+            if (NotControlled)
+            {
+                if (station.PrimaryStationAsset.Controller != null) shouldShow = false;
+                else shouldShow = true;
+            }
+
+            if (HighIncome)
+            {
+                if (station.PrimaryStationAsset.MoneyTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+
+            if (HighMoral)
+            {
+                if (station.PrimaryStationAsset.InfluenceTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+
+            if (MilitaryBase)
+            {
+                if (station.InSystem.POIAssets().OfType<IKUPLocationAsset>()
+                    .Any(x => x.TradeCodes.Any(x => x == KURPGTradeCodes.Mb || x == KURPGTradeCodes.Ms)))
+                    shouldShow = true;
+                else shouldShow = false;
+            }
+
+        }
+        else if (poi.GetType() == typeof(KupPointsOfInterestAsteroid))
+        {
+            var station = poi as KupPointsOfInterestAsteroid;
+            if (NotControlled)
+            {
+                if (station.AsteroidAsset.Controller != null) shouldShow = false;
+                else shouldShow = true;
+            }
+
+            if (HighIncome)
+            {
+                if (station.AsteroidAsset.MoneyTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+
+            if (HighMoral)
+            {
+                if (station.AsteroidAsset.InfluenceTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+            
+            if (MilitaryBase)
+            {
+                if (station.InSystem.POIAssets().OfType<IKUPLocationAsset>()
+                    .Any(x => x.TradeCodes.Any(x => x == KURPGTradeCodes.Mb || x == KURPGTradeCodes.Ms)))
+                    shouldShow = true;
+                else shouldShow = false;
+            }
+        }else if (poi.GetType() == typeof(KupPointsOfInterestWorld))
+        {
+            var station = poi as KupPointsOfInterestWorld;
+            if (NotControlled)
+            {
+                if (station.WorldAsset.Controller != null) shouldShow = false;
+                else shouldShow = true;
+            }
+
+            if (HighIncome)
+            {
+                if (station.WorldAsset.MoneyTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+
+            if (HighMoral)
+            {
+                if (station.WorldAsset.InfluenceTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+            
+            if (MilitaryBase)
+            {
+                if (station.InSystem.POIAssets().OfType<IKUPLocationAsset>()
+                    .Any(x => x.TradeCodes.Any(x => x == KURPGTradeCodes.Mb || x == KURPGTradeCodes.Ms)))
+                    shouldShow = true;
+                else shouldShow = false;
+            }
+                        
+        }else if (poi.GetType() == typeof(KupPointsOfInterestStation))
+        {
+            var station = poi as KupPointsOfInterestStation;
+            if (NotControlled)
+            {
+                if (station.StationAsset.Controller != null) shouldShow = false;
+                else shouldShow = true;
+            }
+
+            if (HighIncome)
+            {
+                if (station.StationAsset.MoneyTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+
+            if (HighMoral)
+            {
+                if (station.StationAsset.InfluenceTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+            
+            if (MilitaryBase)
+            {
+                if (station.InSystem.POIAssets().OfType<IKUPLocationAsset>()
+                    .Any(x => x.TradeCodes.Any(x => x == KURPGTradeCodes.Mb || x == KURPGTradeCodes.Ms)))
+                    shouldShow = true;
+                else shouldShow = false;
+            }
+                   
+        }else if (poi.GetType() == typeof(KupPointsOfInterestOther))
+        {
+              
+            var station = poi as KupPointsOfInterestOther;
+            if (NotControlled)
+            {
+                if (station.OtherAsset.Controller != null) shouldShow = false;
+                else shouldShow = true;
+            }
+
+            if (HighIncome)
+            {
+                if (station.OtherAsset.MoneyTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }
+
+            if (HighMoral)
+            {
+                if (station.OtherAsset.InfluenceTotal > 0) shouldShow = true;
+                else shouldShow = false;
+            }    
+            
+            if (MilitaryBase)
+            {
+                if (station.InSystem.POIAssets().OfType<IKUPLocationAsset>()
+                    .Any(x => x.TradeCodes.Any(x => x == KURPGTradeCodes.Mb || x == KURPGTradeCodes.Ms)))
+                    shouldShow = true;
+                else shouldShow = false;
+            }
+        }
+
+        return shouldShow;
+    }
+    */
+
+}
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@{
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <PageTitle>Asset List</PageTitle>
+</head>
+<body>
+    <div>
+        <h4>List of Map Assets</h4>
+        <form>
+            <label for="filterValue">Filter Value:</label>
+            <select id="filterValue" @bind="filter">
+                <option value="0">None</option>
+                <option value="1">Not Controlled</option>
+                <option value="2">High Income</option>
+                <option value="3">High Moral</option>
+                <option value="4">Not Controlled & High Income</option>
+                <option value="5">Not Controlled & High Moral</option>
+                <option value="6">High Income & High Moral </option>
+                <option value="7">Not Controlled, High Income, High Moral</option>
+                <option value="8">Places to build ships</option>
+            </select>
+            <button type="button" @onclick="SetFilter"> submit</button>
+        </form>
+        <p>Total money = @(PoliticsGameService.PoliticsGame.AssetsInPlay.OfType<KUPSystemAsset>().Aggregate(0, (h,t) => h + t.MoneyTotal)) </p>
+        <p>Total Influence = @(PoliticsGameService.PoliticsGame.AssetsInPlay.OfType<KUPSystemAsset>().Aggregate(0, (h,t) => h + t.InfluenceTotal)) </p>
+        <ul id="AssetsToLookAt">
+            @foreach (var system in PoliticsGameService.PoliticsGame.AssetsInPlay.OfType<KUPSystemAsset>())
+            {
+                <li>[#@system.assetID] @system.Name @system.Location $@system.MoneyTotal, 😊@system.InfluenceTotal </li>
+            }
+        </ul>
+    </div>
+</body>
+</html>

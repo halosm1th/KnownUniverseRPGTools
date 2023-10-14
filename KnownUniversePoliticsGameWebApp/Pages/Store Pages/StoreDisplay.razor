@@ -1,0 +1,27 @@
+﻿@page "/StoreDisplay"
+@using KnownUniversePoliticsGameWebApp.Data
+@using Microsoft.VisualBasic
+@inject KnownUniversePoliticsGameService PoliticsGameService
+@inject KUPEventService EventService;
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
+@inject NavigationManager NavigationManager
+<h3>Store Display</h3>
+
+@code {
+    
+}
+
+<ul>
+    @foreach (var msg in EventService.GetEvents(PoliticsGameService.GetFaction("Food").ReceiverID).OfType<KUPStoreSomeoneBought>())
+    {
+        @if (msg.HasBeenDone)
+        {
+            <li><s> @msg </s></li>
+        }
+        else
+        {
+            //TODO: Write the Code so ninno can remove/hide/otherwise change a food order which he has finished.
+            <li>@msg Finished <input type="checkbox" @Value="@msg.HasBeenDone"/> </li>
+        }
+    }
+</ul>
