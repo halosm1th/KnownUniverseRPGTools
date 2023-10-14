@@ -173,7 +173,7 @@
                     @foreach (var shipLoc in (
                         Faction.CombatAssets
                             .First(x => x.assetID == ShipAssetID))
-                        .MoveLocations())
+                        .MoveLocations(PoliticsGameService.PoliticsGame))
                     {
                         <option value="@shipLoc.SystemX @shipLoc.SystemY">
                             @shipLoc;

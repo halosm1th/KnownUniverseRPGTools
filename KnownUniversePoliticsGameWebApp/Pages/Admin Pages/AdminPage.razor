@@ -8,7 +8,7 @@
     }
 </style>
 <PageTitle>Admin Page</PageTitle>
-<h3>Admin Console</h3>
+<h3  align="center">Admin Console</h3>
 
 @code {
 
@@ -45,30 +45,30 @@
     AdminActions AdminAction = AdminActions.EventView;
 
 }
-<div>
+<div  align="center">
     @if (!_politicsGameService.HasBeenInited)
     {
-        <button @onclick="SetupGame" type="button">Click me to Init the Game!</button>
+        <button class="btn btn-outline-primary btn-lg" @onclick="SetupGame" type="button">Click me to Init the Game!</button>
     }
     else
     {
-        <button @onclick="RefreshMap" type="button">Click me to refresh the map!</button>
+        <button class="btn btn-outline-success btn-lg" @onclick="RefreshMap" type="button">Click me to refresh the map!</button>
     }
 </div>
 @if (_politicsGameService.HasBeenInited)
 {
-    <button @onclick="EndOfTurn">End of Turn!</button>
- 
-    
-    <select @bind="AdminAction">
-        <option value="@AdminActions.EventView">Event View</option>
-        <option value="@AdminActions.FactionList">Faction List</option>
-        <option value="@AdminActions.AssetList">Asset List</option>
-        <option value="@AdminActions.TransferFactionAsset">Transfer Faction Asset</option>
-        <option value="@AdminActions.CreateShip">Create Ship</option>
-        <option value="@AdminActions.AssignPlayerToFaction">Assign Player To Faction</option>
-        <option value="@AdminActions.CreateNewFaction">Create New Faction</option>
-    </select>
+    <div class="hstack gap-2 col-md-4 align-content-center mx-auto p-2" >
+        <button class="btn btn-outline-info text-nowrap" @onclick="EndOfTurn">End of Turn!</button>
+        <select  class="form-select" @bind="AdminAction">
+            <option value="@AdminActions.EventView">Event View</option>
+            <option value="@AdminActions.FactionList">Faction List</option>
+            <option value="@AdminActions.AssetList">Asset List</option>
+            <option value="@AdminActions.TransferFactionAsset">Transfer Faction Asset</option>
+            <option value="@AdminActions.CreateShip">Create Ship</option>
+            <option value="@AdminActions.AssignPlayerToFaction">Assign Player To Faction</option>
+            <option value="@AdminActions.CreateNewFaction">Create New Faction</option>
+        </select>
+    </div>
 
     @if(AdminAction == AdminActions.EventView){ <AdminEventsView></AdminEventsView>}
     else if(AdminAction == AdminActions.FactionList){ <AdminFactionList></AdminFactionList>}

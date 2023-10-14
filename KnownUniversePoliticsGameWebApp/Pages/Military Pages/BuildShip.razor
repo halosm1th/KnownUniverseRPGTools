@@ -5,11 +5,14 @@
 @inject KUPEventService EventService;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
-<h3>BuildShip</h3>
+<h3>Build a Ship</h3>
 
 @code {
     public int BuildLocationID { get; set; }
-    [Parameter] public KUPFaction Faction { get; set; }
+
+    [Parameter]
+    public KUPFaction Faction { get; set; }
+
     bool buildOrderSubmitted = false;
 
     CombatAssetSize Size { get; set; } = CombatAssetSize.Small;
@@ -33,47 +36,52 @@
     private void SubmitBuildOrder()
     {
         EventService.AddEvent(
-            new KUPBuildShipEvent(Faction.SenderID,Size,BuildLocationID));
+            new KUPBuildShipEvent(Faction.SenderID, Size, BuildLocationID));
         buildOrderSubmitted = true;
         StateHasChanged();
     }
 
 }
+
 @if (buildOrderSubmitted)
 {
     <p>The build order has been submitted.</p>
     <button @onclick="AnotherBuildOrder">Click me to do another</button>
 }
 <div>
-    <h4>Build a Ship</h4>
     <form>
-        <label for="location"> Build Location</label>
         @if (GetBuildLocations().Count <= 0)
         {
             <p>Sorry: you need a Military station of some kind (Either a Defense Station, a Miltiary Outpost, research station, or High Tech) to build a ship.</p>
         }
         else
         {
-            <select id="location" @bind="BuildLocationID">
-                @foreach (var loc in GetBuildLocations())
-                {
-                    <option selected value="@loc.assetID">
-                        @loc.Name (@loc.Location)
-                    </option>
-                }
-            </select>
-            <label for="shipType">Ship Type</label>
-            <select id="shipType" @bind="Size">
-                <option selected value="@CombatAssetSize.Small">Small Ship</option>
-                <option value="@CombatAssetSize.Medium">Medium Ship</option>
-                <option value="@CombatAssetSize.Large">Large Ship</option>
-                <option value="@CombatAssetSize.Station">Station</option>
-            </select>
-            <p>Total Cost: @GetCost()</p>
-                                     @if (Faction.Money >= GetCost())
-                                     {
-                                         <button @onclick="SubmitBuildOrder" type="button">Submit Build Order</button>
-                                     }
+            <div class="hstack gap-2 p-2 " style="max-width: 500px">
+                <label class="text-nowrap" for="location" style="width: 100px"> Build Location</label>
+                <select class="form-select mx-auto" id="location" @bind="BuildLocationID" style="max-width: 300px">
+                    @foreach (var loc in GetBuildLocations())
+                    {
+                        <option selected value="@loc.assetID">
+                            @loc.Name (@loc.Location)
+                        </option>
+                    }
+
+                </select>
+            </div>
+            <div class="hstack gap-2 p-2" style="max-width: 500px" >
+                <label class="text-nowrap" for="shipType" style="width: 100px">Ship Type</label>
+                <select class="form-select mx-auto" id="shipType" @bind="Size " style="max-width: 300px">
+                    <option selected value="@CombatAssetSize.Small">Small Ship</option>
+                    <option value="@CombatAssetSize.Medium">Medium Ship</option>
+                    <option value="@CombatAssetSize.Large">Large Ship</option>
+                    <option value="@CombatAssetSize.Station">Station</option>
+                </select>
+            </div>
+            <p class=" ext-center fs-4">Total Cost: @GetCost()</p>
+            @if (Faction.Money >= GetCost())
+            {
+                <button class="btn btn-outline-dark " @onclick="SubmitBuildOrder" type="button">Submit Build Order</button>
+            }
         }
     </form>
 </div>

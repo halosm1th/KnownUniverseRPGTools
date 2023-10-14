@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using KnownUniversePoliticsGameWebApp.Data.Politics_Game;
 
 namespace KnownUniversePoliticsGameWebApp.Data;
 
@@ -169,7 +170,7 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         HP =- evntAmountOfDamage;
     }
 
-    private void GetMoveLocations(KUPLocation currentLocation, List<KUPLocation> movable, int depth = 0)
+    private void GetMoveLocations(KUPLocation currentLocation, List<KUPLocation> movable,KnownUniversePoliticsGame game , int depth = 0)
     {
         int XMAX = 41;
         int yMAX = 33;
@@ -187,8 +188,12 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
             {
                 var newLocs = new KUPLocation(x0, y0);
                 var newDepth = depth - 1;
-                movable.Add(newLocs);
-                GetMoveLocations(newLocs,movable,newDepth);
+                if (game.TravelLocations(newLocs))
+                {
+                    movable.Add(newLocs);
+                }
+
+                GetMoveLocations(newLocs,movable,game,newDepth);
             }
 
             if (x1 >= xMIN && y0 >= yMIN && !movable.Any(x => x.SystemX == x1 && x.SystemY == y0))
@@ -196,16 +201,24 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                 
                 var newLocs = new KUPLocation(x1, y0);
                 var newDepth = depth - 1;
-                movable.Add(newLocs);
-                GetMoveLocations(newLocs,movable,newDepth);
+                if (game.TravelLocations(newLocs))
+                {
+                    movable.Add(newLocs);
+                }
+
+                GetMoveLocations(newLocs,movable,game,newDepth);
             }
             if (x2 < XMAX && y0 > yMIN && !movable.Any(x => x.SystemX == x2 && x.SystemY == y0))
             {
                 
                 var newLocs = new KUPLocation(x2, y0);
                 var newDepth = depth - 1;
-                movable.Add(newLocs);
-                GetMoveLocations(newLocs,movable,newDepth);
+                if (game.TravelLocations(newLocs))
+                {
+                    movable.Add(newLocs);
+                }
+
+                GetMoveLocations(newLocs,movable,game,newDepth);
             }
 
             if (x0 >= xMIN && y1 < yMAX && !movable.Any(x => x.SystemX == x0 && x.SystemY == y1))
@@ -213,16 +226,24 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                 
                 var newLocs = new KUPLocation(x0, y1);
                 var newDepth = depth - 1;
-                movable.Add(newLocs);
-                GetMoveLocations(newLocs,movable,newDepth);
+                if (game.TravelLocations(newLocs))
+                {
+                    movable.Add(newLocs);
+                }
+
+                GetMoveLocations(newLocs,movable,game,newDepth);
             }
             if (x1 > xMIN && y2 < yMAX && !movable.Any(x => x.SystemX == x1 && x.SystemY == y2))
             {
                 
                 var newLocs = new KUPLocation(x1, y2);
                 var newDepth = depth - 1;
-                movable.Add(newLocs);
-                GetMoveLocations(newLocs,movable,newDepth);
+                if (game.TravelLocations(newLocs))
+                {
+                    movable.Add(newLocs);
+                }
+
+                GetMoveLocations(newLocs,movable,game,newDepth);
             }
 
             if (x2 < XMAX && y1 < yMAX && !movable.Any(x => x.SystemX == x2 && x.SystemY == y1))
@@ -230,8 +251,12 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
                 
                 var newLocs = new KUPLocation(x2, y1);
                 var newDepth = depth - 1;
-                movable.Add(newLocs);
-                GetMoveLocations(newLocs,movable,newDepth);
+                if (game.TravelLocations(newLocs))
+                {
+                    movable.Add(newLocs);
+                }
+
+                GetMoveLocations(newLocs,movable,game,newDepth);
             }
 
         }
@@ -258,13 +283,13 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         return true;
     }*/
     
-    public bool ChangeLocationTo(KUPLocation location)
+    public bool ChangeLocationTo(KUPLocation location, KnownUniversePoliticsGame game)
     {
         if (!HasMoved)
         {
             var moveLocs = new List<KUPLocation>();
             GetMoveLocations(Location,
-                moveLocs, MoveSpeed());
+                moveLocs, game,MoveSpeed());
             if (moveLocs.Any(x => x == location))
             {
                 Location = location;
@@ -276,13 +301,13 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
         return false;
     }
 
-    public List<KUPLocation> MoveLocations()
+    public List<KUPLocation> MoveLocations(KnownUniversePoliticsGame game)
     {
         int maxX = 8 * 4;
         int maxY = 10 * 4;
         var locs = new List<KUPLocation>();
 
-        GetMoveLocations(this.Location,locs,MoveSpeed());
+        GetMoveLocations(this.Location,locs,game,MoveSpeed());
         
         //for()
 

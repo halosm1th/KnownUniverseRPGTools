@@ -1158,4 +1158,9 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         //Put the assigned player in charge of the new faction and assign the old faction to no one.
 
     }
+
+    public bool TravelLocations(KUPLocation newLocs)
+    {
+        return AssetsInPlay.OfType<IKUPLocationAsset>().Any(x => x.Location == newLocs);
+    }
 }

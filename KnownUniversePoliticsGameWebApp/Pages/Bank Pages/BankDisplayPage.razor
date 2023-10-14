@@ -1,15 +1,14 @@
-﻿@page "/BankDisplayPage"
+﻿@page "/ElBancoDeBarbara"
 @using KnownUniversePoliticsGameWebApp.Data
 @inject KnownUniversePoliticsGameService PoliticsGameService
 @inject KUPEventService EventService;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
-<h3>BankDisplayPage</h3>
+<h3 align="center">Bank Display Page</h3>
 @code {
     string depositingPlayerName = "";
     int depositAmount = 0;
-
-
+    
     private void Deposit()
     {
         var player = PoliticsGameService.GetPlayer(depositingPlayerName);
@@ -21,18 +20,31 @@
 }
 
 <form>
-    <h4>Player Deposit</h4>
-    <label for="depositingPlayer">Player:</label>
-    <label for="depositAmount">Amount:</label>
-    <select id="depositingPlayer" @bind="depositingPlayerName">
-        @foreach(var player in PoliticsGameService.PoliticsGame.Players){
-            <option value="@player.Name">@player.Name</option>
-        }
-    </select>
-    <button @onclick="Deposit">Deposit</button>
-    <input type="number" id="depositAmount" @bind="depositAmount"/>
+    <div class="dropdown-divider"></div>
+    <h4 align="center">Player Deposit</h4>
+    <div class="vstack gap-2 col-md-4 align-content-center mx-auto" style="max-width: 400px">
+        <div class="hstack gap-2 align-content-center" style="max-width: 400px">
+            <label class="form-label text-nowrap" for="depositingPlayer"> Deposit to the player </label>
+            <select class="form-select" id="depositingPlayer" @bind="depositingPlayerName">
+                @foreach (var player in PoliticsGameService.PoliticsGame.Players)
+                {
+                    <option value="@player.Name">@player.Name</option>
+                }
+            </select>
+        </div>
+        <div class="hstack gap-2 align-content-center" style="max-width: 500px">
+            <label class="form-label text-nowrap " for="depositAmount"> the following amount </label>
+            <div class="input-group align-content-center flex-nowrap">
+              <span class="input-group-text">$</span>
+              <input type="number" id="depositAmount" @bind="depositAmount">
+              <span class="input-group-text">.00</span>
+            </div>
+        </div>
+        <button n class="btn btn-outline-success " @onclick="Deposit">Deposit</button>
+    </div>
 </form>
-<h3>List Of Withdrawls</h3>
+<div class="dropdown-divider"></div>
+<h3 align="center">List of Withdrawls</h3>
 <ul>
 @foreach (var withdraw in EventService.GetEvents(PoliticsGameService.GetFaction("Bank").ReceiverID))
 {

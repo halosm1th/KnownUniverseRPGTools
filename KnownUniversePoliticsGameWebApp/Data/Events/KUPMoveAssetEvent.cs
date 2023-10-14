@@ -12,7 +12,7 @@ public class KUPMoveAssetEvent : IKUPEvent
     {
         
         var target = (EventService.GetActorByReciverID(TargetID) as KUPCombatAsset);
-        if (!target?.ChangeLocationTo(Destination) ?? false)
+        if (!target?.ChangeLocationTo(Destination,game) ?? false)
         {
             EventService.AddEvent(new IKUPMessageEvent(SenderID, SenderID,
                 "Error building your ship. The location was invalid."));

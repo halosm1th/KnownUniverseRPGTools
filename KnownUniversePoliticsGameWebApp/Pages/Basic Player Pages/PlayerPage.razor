@@ -8,21 +8,20 @@
 @inject KUPEventService EventService;
 @inject Blazored.LocalStorage.ILocalStorageService localStorage
 @inject NavigationManager NavigationManager
+
 @code {
     bool LoggedIn = false;
     bool logginError = false;
     string Password = "";
     string Username = "";
     KUPPlayer? player;
-
-
+    
     bool GetLoggedInValue = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (GetLoggedInValue)
         {
-            
             var loggedIn = await localStorage.GetItemAsync<string>("LoggedIn");
             if (loggedIn == "True")
             {
@@ -32,6 +31,7 @@
             }
         }
     }
+
     private void Login()
     {
         try
@@ -60,7 +60,7 @@
         LoggedIn = false;
         localStorage.SetItemAsync("LoggedIn", "False");
         localStorage.SetItemAsync("LoggedInAs", "");
-       // NavigationManager.NavigateTo("/PlayerPage", false);
+    // NavigationManager.NavigateTo("/PlayerPage", false);
     }
 
     private void AlreadyLoggedIn()
@@ -76,75 +76,71 @@
         Military,
         Trade,
         Store,
-        Bank,
+        Bank
     }
 
     PlayerMenuChoice MenuChoice { get; set; } = PlayerMenuChoice.FactionRelations;
 
 }
 
-@if (!LoggedIn || (player == null))
+@if (!LoggedIn || player == null)
 {
     if (logginError)
     {
         <p style="text-color: red">Error you put something in wrong when logging in.</p>
     }
-    <div class="vstack gap-2">
-        <div class="hstack gap-0">
-            <label class="form-label" for="playerName">Name: </label>
-            <input class="form-text" type="text" id="playerName" @bind="Username"/>
-        </div>
-        <div  class="hstack gap-0">
-        <label class="form-label" for="playerPassword">password: </label>
-            <input class="form-text" type="password" id="playerPassword" @bind="Password"/>
-            </div>
+    <div class="vstack gap-2 col-md-4 align-content-center mx-auto" style="max-width: 150px">
+        <input placeholder="Username" class="form-text" type="text" id="playerName" @bind="Username" style="max-width: 150px"/>
+        <input placeholder="Password" class="form-text" type="password" id="playerPassword" @bind="Password" style="max-width: 150px"/>
+        <button class="btn btn-primary btn-sm" @onclick="Login"> Log In</button>
+        <button class="btn btn-secondary btn-sm" @onclick="AlreadyLoggedIn">Already Logged In</button>
     </div>
-    <button  class="btn btn-primary"  @onclick="Login">Try Logging in</button>
-    <button class="btn btn-secondary" @onclick="AlreadyLoggedIn">Already Logged In.</button>
-
-    }
+}
 else
 {
+    <div class="hstack gap-2 p-2 ">
+        <h2 align="center">@player.Name</h2>
+        <button class="btn btn-outline-danger ms-auto" @onclick="Loggout" >Log out</button>
+    </div>
+
+    <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group mr-2" role="group">
+            <button type="button" @onclick="() => MenuChoice = PlayerMenuChoice.FactionRelations" class="btn btn-outline-secondary">Faction Relations</button>
+            <button type="button" @onclick="() => MenuChoice = PlayerMenuChoice.Message" class="btn btn-outline-secondary">Show Messages</button>
+            <button type="button" @onclick="() => MenuChoice = PlayerMenuChoice.FactionView" class="btn btn-outline-secondary">Show Faction</button>
+            <button type="button" @onclick="() => MenuChoice = PlayerMenuChoice.Bank" class="btn btn-outline-secondary">Bank</button>
+            <button type="button" @onclick="() => MenuChoice = PlayerMenuChoice.Military" class="btn btn-outline-secondary">Military</button>
+            <button type="button" @onclick="() => MenuChoice = PlayerMenuChoice.Trade" class="btn btn-outline-secondary">Trade</button>
+        </div>
+    </div>
     <div>
-        <h2>@player.Name</h2>
-        
-    <button class="btn-danger" @onclick="Loggout">Log out</button>
-         </div>          
-         
-    <div>
-          <label class="form-label" for="SelectOption">Select player page option</label>
-        <select class="form-select" id="SelectOption" @bind="MenuChoice">
-            <option value="@PlayerMenuChoice.FactionRelations">Faction Relations</option>
-            <option value="@PlayerMenuChoice.Message">Show Messages </option>
-            <option value="@PlayerMenuChoice.FactionView">Show Faction</option>
-            <option value="@PlayerMenuChoice.Bank">Bank</option>
-            <option value="@PlayerMenuChoice.Military">Military</option>
-            <option value="@PlayerMenuChoice.Trade">Trade</option>
-        </select>
-        
         @if (MenuChoice == PlayerMenuChoice.FactionRelations)
         {
             <PlayerViewFactionRelationships player="player"></PlayerViewFactionRelationships>
-        }else if (MenuChoice == PlayerMenuChoice.Message)
+        }
+        else if (MenuChoice == PlayerMenuChoice.Message)
         {
             <PlayerSendMessage player="player"></PlayerSendMessage>
-        }else if (MenuChoice == PlayerMenuChoice.FactionView)
+        }
+        else if (MenuChoice == PlayerMenuChoice.FactionView)
         {
             <FactionView Faction="player?.Faction"></FactionView>
-        }else if (MenuChoice == PlayerMenuChoice.Store)
+        }
+        else if (MenuChoice == PlayerMenuChoice.Store)
         {
             <PlayerStore player="player"></PlayerStore>
-        }else if (MenuChoice == PlayerMenuChoice.Bank)
+        }
+        else if (MenuChoice == PlayerMenuChoice.Bank)
         {
             <PlayerBank player="player"></PlayerBank>
-        }else if (MenuChoice == PlayerMenuChoice.Military){
+        }
+        else if (MenuChoice == PlayerMenuChoice.Military)
+        {
             <MilitaryPage player="player"></MilitaryPage>
-            }else if (MenuChoice == PlayerMenuChoice.Trade)
-            {
-                <Trade player="player"></Trade>
-            }
-    
+        }
+        else if (MenuChoice == PlayerMenuChoice.Trade)
+        {
+            <Trade player="player"></Trade>
+        }
     </div>
-    
-                  
 }

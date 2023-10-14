@@ -7,44 +7,41 @@
 
 @code {
 
-    
-    [Parameter] public KUPPlayer player { get; set; }
+    [Parameter]
+    public KUPPlayer player { get; set; }
 
     choiceTypes choice = choiceTypes.BuildShip;
-    
+
     enum choiceTypes
     {
         BuildShip,
         Operation,
-        OrderShip,
+        OrderShip
     }
-    
-    
-    
 
 }
 
-    <h3>@player.Faction.Name</h3>
-    <div>
-        <h4>List of Military Assets</h4>
-        <ul>
-            @foreach (var asset in player.Faction.GetMilitaryAssets())
-            {
-                <li>@asset</li>
-            }
-        </ul>
-    </div>
-    
-    <select @bind="choice">
-        <option value="@choiceTypes.BuildShip" >Build Ships </option>
-        <option value="@choiceTypes.OrderShip" >Order your ship around </option>
-    </select>
-    
-    @if (choice == choiceTypes.BuildShip)
-    {
-        <BuildShip Faction="player.Faction"></BuildShip>
-    }
-    else if (choice == choiceTypes.OrderShip)
-    {
-    <OrderShip Faction = "player.Faction" ></OrderShip>
-    }
+<h3>@player.Faction.Name</h3>
+<div>
+    <h4>List of Military Assets</h4>
+    <ul>
+        @foreach (var asset in player.Faction.GetMilitaryAssets())
+        {
+            <li>@asset</li>
+        }
+    </ul>
+</div>
+
+<select class="form-select align-content-center mx-auto p-2" @bind="choice" style="max-width: 400px">
+    <option value="@choiceTypes.BuildShip">Build Ships </option>
+    <option value="@choiceTypes.OrderShip">Order your ship around </option>
+</select>
+
+@if (choice == choiceTypes.BuildShip)
+{
+    <BuildShip Faction="player.Faction"></BuildShip>
+}
+else if (choice == choiceTypes.OrderShip)
+{
+    <OrderShip Faction="player.Faction"></OrderShip>
+}
