@@ -59,21 +59,21 @@ public class KnownUniversePoliticsGame : IKUPEventActor
 
         //Setup Playesr
         var thomas = new KUPPlayer("Thomas", "password", 100, 10001);
-        var pirate = new KUPPlayer("PIRATE", "Federation", 10, 10002);
-        var bank = new KUPPlayer("BANK", "Federation", 10, 10003);
-        var food = new KUPPlayer("FOOD", "Federation", 10, 10004);
+        var pirate = new KUPPlayer("Owen", "BaringSea", 10, 10002);
+        var bank = new KUPPlayer("Barbara", "ILUBoobsHigh", 10, 10003);
+        var food = new KUPPlayer("Ninno", "123456789", 10, 10004);
         
         
-        var grayson = new KUPPlayer("Grayson", "Empire", 10, 10005);
-        var max = new KUPPlayer("Max", "Empire", 10, 10006);
-        var solange = new KUPPlayer("Solange", "Federation", 10, 10007);
-        var alex = new KUPPlayer("Alex", "Federation", 10, 10008);
-        var wes = new KUPPlayer("Wes", "Federation", 10, 10009);
-        var jake = new KUPPlayer("Jake", "Federation", 10, 10010);
-        var finn = new KUPPlayer("Finn", "Federation", 10, 10011);
-        var maya = new KUPPlayer("Maya", "Federation", 10, 10012);
-        var logan = new KUPPlayer("Logan", "Federation", 10, 10013);
-        var malik = new KUPPlayer("Malik", "Federation", 10, 10014);
+        var grayson = new KUPPlayer("Grayson", "ThirtyYearsWar", 10, 10005);
+        var max = new KUPPlayer("Max", "GodIsDead", 10, 10006);
+        var solange = new KUPPlayer("Solange", "CeramicsRCool", 10, 10007);
+        var alex = new KUPPlayer("Alex", "TyranidsRU", 10, 10008);
+        var wes = new KUPPlayer("Wes", "BeerRecBro", 10, 10009);
+        var jake = new KUPPlayer("Jake", "GunsWomenDrugs", 10, 10010);
+        var finn = new KUPPlayer("Finn", "UCRSpartans", 10, 10011);
+        var maya = new KUPPlayer("Maya", "JabezIsCool", 10, 10012);
+        var logan = new KUPPlayer("Logan", "Cousins4Life", 10, 10013);
+        var malik = new KUPPlayer("Gay", "CumInMyAssBby", 10, 10014);
 
 
         Players = new List<KUPPlayer?>()
@@ -93,7 +93,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         GameMaster = new("Game Master", 0, FactionType.GM, 1000000, 10000000,
             GetAssetsFromIDS(new()
             {
-                81
+                80
             }), thomas);
         
         
@@ -104,24 +104,25 @@ public class KnownUniversePoliticsGame : IKUPEventActor
             new("Bank", 1, FactionType.Bank, 1000000, 10000000,
                 GetAssetsFromIDS(new()
                 {
-                    629
+                    85
                 }), bank),
             new("Food", 2, FactionType.Food, 1000000, 10000000,
                 GetAssetsFromIDS(new()
                 {
-                    546
+                    87
                 }), food),
             new("Pirates", 3, FactionType.Pirates, 0, 0,
                 GetAssetsFromIDS(new()
                 {
                     67,66,75,71,69,73,74,86,34, 42, 43, 44, 49, 60,
                     56, 439, 448, 260, 175, 31, 26, 35, 15, 181, 184,
-                    322, 562, 377, 539,544, 543, 
+                    322, 562, 377, 539,544, 543, 343,348, 347, 332, 523,530,203,
+                    215, 424, 587, 624
                 }), pirate),
             
             
             
-            new KUPFaction("Federation Industry",6,FactionType.UFE3, 0,0,
+            new KUPFaction("Edyonda-Federation Industrial Alliance",6,FactionType.UFE3, 0,0,
                 GetAssetsFromIDS(new ()
                 {
                     567,568, 564, 563, 558, 557, 556, 561, 560, 571, 566, 555, 554,
@@ -158,7 +159,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                 "Don't loose the homeland of freedom: Haryana (38, 21)"
             }),
             
-            new KUPFaction("Federation Military",5,FactionType.UFE2, 0,0,
+            new KUPFaction("Parliamentary Fleet of Edyonda",5,FactionType.UFE2, 0,0,
                 GetAssetsFromIDS(new ()
                 {
                     94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107,
@@ -179,7 +180,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                     "Keep control of: Ile-De-France (32, 9), Baden0Wurttembe (29, 2), Indiana (23, 10), and Utah (23, 4)"
                 }),
             
-            new KUPFaction("Lord of the Sector",7,FactionType.Vers1, 0,0,
+            new KUPFaction("Monarch of Edonius",7,FactionType.Vers1, 0,0,
                 GetAssetsFromIDS(new ()
                 {
                     0,1,2,3,4,5,6,7,8,9,10,12,13,14,16,17,18,19,20, 11,21,
@@ -214,6 +215,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                 }), solange,
                 new ()
                 {
+                    "You believe you are the illegimate daughter of the Old Emperor, Marcus Tullius Caesar",
                     "You are rebellious and independent by nature. You know your rightful place is to rule, not to be ruled, and anyone who wants to rule you must be made to understand they were wrong for daring to assert their superiority to you. ",
                     "Your people are kind and caring, they want to avoid war as much as possible. The only just war is when the oppressed fights the oppressor. ",
                     "You are the princess; chosen because of your kindness, your people look up to you for justice and as an inspiration for what good can be."
@@ -225,7 +227,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
                     "You must never loose the following systems, as they are the heart of your kingdom: New Jersey (40, 14), Uttar Pradesh (38, 15), Zonguldak (38, 7)"
                 }),
             
-            new KUPFaction("Ancapitstan",9,FactionType.Deutchria1, 0,0,
+            new KUPFaction("Ancapistan",9,FactionType.Deutchria1, 0,0,
                 GetAssetsFromIDS(new ()
                 { 
                     62,22,24, 27, 28, 29, 32,33,  68,70,72, 76, 77, 78,
@@ -347,16 +349,22 @@ public class KnownUniversePoliticsGame : IKUPEventActor
     {
         /*
         //Game
+        //ID 3
+        */
         AddPirateShips();
-        AddGmBankShips();
+        //ID 0, 1, and 2
+        //AddGmBankShips();
         
         //Federation
+
+        //ID 4
         AddGraysonShips();
+        
         AddWesShips();
+        
         AddAlexShips();
 
         //Vers
-        */
         AddMaxShips();
         AddSolangeShips();
         
@@ -373,53 +381,261 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         
     }
 
+    private void AddPirateShips()
+    {
+        var owenSHips = 380082;
+        var owen = Factions.First(x => x.FactionID == 3);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(19, 28),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(19, 29),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(23, 30),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(36, 17),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(33, 20),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(29, 9),owen , CombatAssetSize.Large,
+            _shipIDs++, owenSHips++), owen);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(19, 17),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(18, 6),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(18, 7),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(18, 8),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(12, 1),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(12, 2),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(12, 3),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(4, 8),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(5, 17),owen , CombatAssetSize.Medium,
+            _shipIDs++, owenSHips++), owen);
+    }
+
+    private void AddGraysonShips()
+    {
+        var graysonShips = 480082;
+        var grayson = Factions.First(x => x.FactionID == 4);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(38, 21),grayson , CombatAssetSize.Station,
+            _shipIDs++, graysonShips++), grayson);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(35, 17),grayson , CombatAssetSize.Station,
+            _shipIDs++, graysonShips++), grayson);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(34, 19),grayson , CombatAssetSize.Station,
+            _shipIDs++, graysonShips++), grayson);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(32, 22),grayson , CombatAssetSize.Station,
+            _shipIDs++, graysonShips++), grayson);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(33, 26),grayson , CombatAssetSize.Station,
+            _shipIDs++, graysonShips++), grayson);
+        
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(34, 27),grayson , CombatAssetSize.Medium,
+            _shipIDs++, graysonShips++), grayson);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(33, 25),grayson , CombatAssetSize.Medium,
+            _shipIDs++, graysonShips++), grayson);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(33, 26),grayson , CombatAssetSize.Medium,
+            _shipIDs++, graysonShips++), grayson);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(38, 17),grayson , CombatAssetSize.Medium,
+            _shipIDs++, graysonShips++), grayson);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(39, 18),grayson , CombatAssetSize.Medium,
+            _shipIDs++, graysonShips++), grayson);
+
+        
+    }
+
+    private void AddWesShips()
+    {
+        var wesShips = 680082;
+        var wes = Factions.First(x => x.FactionID == 6);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(22, 26),wes , CombatAssetSize.Station,
+            _shipIDs++, wesShips++), wes);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(23, 29),wes , CombatAssetSize.Station,
+            _shipIDs++, wesShips++), wes);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(24, 31),wes , CombatAssetSize.Station,
+            _shipIDs++, wesShips++), wes);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(23, 32),wes , CombatAssetSize.Station,
+            _shipIDs++, wesShips++), wes);
+
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(25, 29),wes , CombatAssetSize.Small,
+            _shipIDs++, wesShips++), wes);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(24, 30),wes , CombatAssetSize.Small,
+            _shipIDs++, wesShips++), wes);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(23, 31),wes , CombatAssetSize.Small,
+            _shipIDs++, wesShips++), wes);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(20, 29),wes , CombatAssetSize.Small,
+            _shipIDs++, wesShips++), wes);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(20, 28),wes , CombatAssetSize.Small,
+            _shipIDs++, wesShips++), wes);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(21, 26),wes , CombatAssetSize.Small,
+            _shipIDs++, wesShips++), wes);
+        
+    }
+
+    private void AddAlexShips()
+    {
+        //Ile-De-France (32, 9), Baden0Wurttembe (29, 2), Indiana (23, 10), and Utah (23, 4)
+        var alexShis = 580082;
+        var alex = Factions.First(x => x.FactionID == 5);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(32, 9),alex , CombatAssetSize.Station,
+            _shipIDs++, alexShis++), alex);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(29, 2),alex , CombatAssetSize.Station,
+            _shipIDs++, alexShis++), alex);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(23, 10),alex , CombatAssetSize.Station,
+            _shipIDs++, alexShis++), alex);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(23, 4 ),alex , CombatAssetSize.Station,
+            _shipIDs++, alexShis++), alex);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(23, 5),alex , CombatAssetSize.Large,
+            _shipIDs++, alexShis++), alex);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(23, 6),alex , CombatAssetSize.Large,
+            _shipIDs++, alexShis++), alex);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(33, 7),alex , CombatAssetSize.Large,
+            _shipIDs++, alexShis++), alex);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(32, 8),alex , CombatAssetSize.Large,
+            _shipIDs++, alexShis++), alex);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(31, 3),alex , CombatAssetSize.Large,
+            _shipIDs++, alexShis++), alex);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(31, 4),alex , CombatAssetSize.Large,
+            _shipIDs++, alexShis++), alex);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(31, 1),alex , CombatAssetSize.Large,
+            _shipIDs++, alexShis++), alex);
+    }
+
     private void AddSolangeShips()
     {
+        //New Jersey (40, 14), Uttar Pradesh (38, 15), Zonguldak (38, 7)
         var solangeShips = 880082;
         var solange = Factions.First(x => x.FactionID == 8);
         //Station at Attack fleet
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(19, 9),solange , CombatAssetSize.Small,
+            new KUPLocation(40, 14),solange , CombatAssetSize.Station,
             _shipIDs++, solangeShips++), solange);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(38, 15),solange , CombatAssetSize.Station,
+            _shipIDs++, solangeShips++), solange);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(38, 7),solange , CombatAssetSize.Station,
+            _shipIDs++, solangeShips++), solange);
+        
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(34, 8),solange , CombatAssetSize.Large,
+            _shipIDs++, solangeShips++), solange);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(35, 13),solange , CombatAssetSize.Large,
+            _shipIDs++, solangeShips++), solange);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(37, 15),solange , CombatAssetSize.Large,
+            _shipIDs++, solangeShips++), solange);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(39, 16),solange , CombatAssetSize.Large,
+            _shipIDs++, solangeShips++), solange);
+        
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(40, 16),solange , CombatAssetSize.Large,
+            _shipIDs++, solangeShips++), solange);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(36, 13),solange , CombatAssetSize.Large,
+            _shipIDs++, solangeShips++), solange);
+        NewAsset(new KUPCombatAsset(
+            new KUPLocation(35, 8),solange , CombatAssetSize.Large,
+            _shipIDs++, solangeShips++), solange);
+        
     }
 
     private void AddMaxShips()
     {
         var maxShips = 780082;
-        var jake = Factions.First(x => x.FactionID == 7);
+        var max = Factions.First(x => x.FactionID == 7);
         //Station defense
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(3, 14),jake , CombatAssetSize.Station,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(3, 14),max , CombatAssetSize.Station,
+            _shipIDs++, maxShips++), max);
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(11, 9),jake , CombatAssetSize.Station,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(11, 9),max , CombatAssetSize.Station,
+            _shipIDs++, maxShips++), max);
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(6, 6),jake , CombatAssetSize.Station,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(6, 6),max , CombatAssetSize.Station,
+            _shipIDs++, maxShips++), max);
         
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(9, 6),jake , CombatAssetSize.Large,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(9, 6),max , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), max);
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(3, 13),jake , CombatAssetSize.Large,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(3, 13),max , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), max);
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(3, 10),jake , CombatAssetSize.Large,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(3, 10),max , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), max);
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(5, 9),jake , CombatAssetSize.Large,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(5, 9),max , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), max);
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(7, 8),jake , CombatAssetSize.Large,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(7, 8),max , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), max);
         
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(5, 2),jake , CombatAssetSize.Large,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(5, 2),max , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), max);
         NewAsset(new KUPCombatAsset(
-            new KUPLocation(5, 4),jake , CombatAssetSize.Large,
-            _shipIDs++, maxShips++), jake);
+            new KUPLocation(5, 4),max , CombatAssetSize.Large,
+            _shipIDs++, maxShips++), max);
         
     }
 

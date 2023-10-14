@@ -215,7 +215,7 @@ namespace TravellerMapSystem.Tools
             }
             else if (controllingFaction == FactionType.Food)
             {
-                return Color.SeaGreen;
+                return Color.LimeGreen;
             }
 
             return Color.White;
