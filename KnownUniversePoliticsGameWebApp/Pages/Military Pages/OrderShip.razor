@@ -112,16 +112,15 @@
     </div>
     @if (!UsedShip)
     {
-        <h4>Use A ship</h4>
-        <div>
-        <label for="SelectShip">Select a Ship</label>
-            <select @bind="ShipAssetID" id="SelectShip">
+        <h4>Use a ship</h4>
+        <div class="hstack gap-2 p-2 " style="max-width: 500px">
+            <label class="text-nowrap" for="SelectShip" style="width: 100px">Select a Ship</label>
+            <select class="form-select mx-auto"@bind="ShipAssetID" id="SelectShip" style="max-width: 300px">
                 <option selected value="-1">None</option>
                 @foreach (var asset in Faction.GetMilitaryAssets())
-                { 
-                    if ((_militaryAction is MilitaryAction.MoveShip && asset.HasMoved))
+                {
+                    if (_militaryAction is MilitaryAction.MoveShip && asset.HasMoved)
                     {
-                        
                     }
                     else
                     {
@@ -129,16 +128,14 @@
                     }
                 }
             </select>
-            </div>
-            
-        <div>
-            <label for="SelectAction">Select an Action</label>
-            <select @bind="_militaryAction" id="SelectAction">
+        </div>
+
+        <div class="hstack gap-2 p-2 " style="max-width: 500px">
+            <label class="text-nowrap" for="SelectAction"  style="width: 100px">Select an Action</label>
+            <select class="form-select mx-auto" @bind="_militaryAction" id="SelectAction" style="max-width: 300px">
                 @if (ShipAssetID != -1)
                 {
                     <option selected value="@MilitaryAction.MoveShip">Move Ship</option>
-                                                                           
-                                                                           
                     {
                         var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
                         system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
@@ -163,30 +160,32 @@
             </select>
             </div>
 
-        <label style="">Extra Information</label>
+
         @if (_militaryAction == MilitaryAction.MoveShip)
         {
-            <select @bind="shipLoc">
-                <option selected value="none">None</option>
-                @if (Faction.CombatAssets.Any(x => x.assetID == ShipAssetID))
-                {
-                    @foreach (var shipLoc in (
-                        Faction.CombatAssets
-                            .First(x => x.assetID == ShipAssetID))
-                        .MoveLocations(PoliticsGameService.PoliticsGame))
+            <div class="hstack gap-2 p-2 " style="max-width: 500px">
+                <label lass="text-nowrap" style="width: 100px">Move Location</label>
+                <select class="form-select mx-auto" @bind="shipLoc" style="max-width: 300px">
+                    <option selected value="none">None</option>
+                    @if (Faction.CombatAssets.Any(x => x.assetID == ShipAssetID))
                     {
-                        <option value="@shipLoc.SystemX @shipLoc.SystemY">
-                            @shipLoc;
-                        </option>
+                        @foreach (var shipLoc in Faction.CombatAssets
+                            .First(x => x.assetID == ShipAssetID)
+                            .MoveLocations(PoliticsGameService.PoliticsGame))
+                        {
+                            <option value="@shipLoc.SystemX @shipLoc.SystemY">
+                                @shipLoc;
+                            </option>
+                        }
                     }
-                }
-            </select>
+                </select>
+            </div>
         }
-        <button @onclick="PerformMilitaryAction">Execute!</button>
+        <button class="btn btn-outline-success align-content-center btn-lg" @onclick="PerformMilitaryAction" style="max-width: 200px">Execute!</button>
     }
     else
     {
-        <p>Ship action submitted!</p>
-        <button @onclick="AnotherShipAction">Hit me to do another ship action</button>
+        <p class="text-center fs-4">Ship action submitted!</p>
+        <button class="btn btn-outline-warning" @onclick="AnotherShipAction" style="max-width: 200px">Do another ship action</button>
     }
 </div>

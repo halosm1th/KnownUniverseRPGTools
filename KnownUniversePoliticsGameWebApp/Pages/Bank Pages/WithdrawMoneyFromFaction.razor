@@ -8,7 +8,8 @@
     
     private void PlayerWithdrawFRomBank()
     {
-        if (player.Faction.Money >= withdrawAmount)
+        if (player.Faction.Money >= withdrawAmount ||
+            player.PersonalFunds >= withdrawAmount)
         {
     //Refer to PoliticsGame.cs for info on why this is the bank ID
             var bankID = PoliticsGameService.GetFaction("Bank").ReceiverID;
@@ -27,10 +28,16 @@
 
 <div class="form-control">
     <form>
-        <h3 class="align-content-center">Withdraw Money from Faction</h3>
-        <label class="form-label" for="withdrawAmount">Amount to Withdraw:</label>
-        <input class="form-text" type="number" id="withdrawAmount" @bind="withdrawAmount"/>
-        <button class="btn btn-primary" @onclick="PlayerWithdrawFRomBank">Withdraw from Bank</button>
-        <button class="btn btn-primary" @onclick="ResetWithdraw">Reset Withdraw Amount</button>
+        <h3 align="center">Withdraw Money from Faction</h3>
+        <div class="vstack gap-2 col-md-4 align-content-center mx-auto" style="max-width: 500px">
+            <div class="hstack gap-2 align-content-center" style="max-width: 500px">
+                <label class="form-label text-nowrap" for="withdrawAmount" style="width: 200px">Amount to Withdraw:</label>
+                <input type="number" id="withdrawAmount " @bind="withdrawAmount" style="width: 300px"/>
+            </div>
+            <div class="hstack gap-2 p-2 " style="max-width: 400px">
+                <button class="btn btn-primary" @onclick="PlayerWithdrawFRomBank">Withdraw from Bank</button>
+                <button class="btn btn-primary" @onclick="ResetWithdraw">Reset Withdraw Amount</button>
+            </div>
+        </div>
     </form>
 </div>

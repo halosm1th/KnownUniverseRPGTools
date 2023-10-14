@@ -12,6 +12,7 @@ public class KUPMoneyDepositEvent : IKUPEvent
 
     public int TargetAccountID { get; }
     public int AmountOfMoney { get; }
+    public bool HasBeenChecked { get; set; } = false;
 
     public KUPMoneyDepositEvent(int senderId, int targetAccountId, int amountOfMoney)
     {

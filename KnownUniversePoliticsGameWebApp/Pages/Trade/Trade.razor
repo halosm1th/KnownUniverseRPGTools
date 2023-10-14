@@ -62,51 +62,52 @@
 
 }
 
-    <form>
-            <label for="target">Transfer Asset To</label>
-            
-            @if (targetFactionID == -1)
-            {
-
-                <select @bind="FactionToGiveTo" id="target">
-                    @foreach (var faction in PoliticsGameService.PoliticsGame.Factions)
-                    {
-                        <option value="@faction.ReceiverID">
-                            @faction.Name
-                        </option>
-                    }
-                </select>
-                <button type="button" @onclick="SetFaction">Click me to Set Target Faction</button>
-                <br/>
-            }
-            else
-            {
-                <h4>Target Faction: @PoliticsGameService.GetFaction(targetFactionID) </h4>
-                <button type="button" @onclick="ResetFaction">Reset Target Faction</button>
-                <br/>
-            }
-            <label for="asset">Asset to Transfer</label>
-            <select id="asset" @bind=AssetToTrade>
-                         @foreach (var asset in player.Faction.Assets)
-                            {
-                                <option value="@asset.assetID">
-                                    @asset.Name @asset.Location
-                                </option>
-                            }
-            </select>
-            <button @onclick="AddAsset" type="button">Add Asset to Transfer List</button>
-            <br/>
-            
-            
-            <label for="assetsToTrade">Assets to Trade</label>
-            <ul id="assetsToTrade">
-                @foreach (var asset in AssetsToTrade)
+<form>
+    <div class="hstack gap-2 p-2" style="max-width: 700px">
+        <label class="text-nowrap" for="target" style="width: 200px">Transfer Asset To</label>
+        @if (targetFactionID == -1)
+        {
+            <select class="form-select mx-auto" @bind="FactionToGiveTo" id="target" style="max-width: 400px">
+                @foreach (var faction in PoliticsGameService.PoliticsGame.Factions)
                 {
-                    <li>@PoliticsGameService.GetAsset(asset)</li>
+                    <option value="@faction.ReceiverID">
+                        @faction.Name
+                    </option>
                 }
-            </ul>
-            @if (targetFactionID != -1 && AssetsToTrade.Count > 0)
+            </select>
+            <button class="btn btn-outline-dark text-nowrap" type="button" @onclick="SetFaction" style="max-width: 250px">Click me to Set Target Faction</button>
+            <br/>
+        }
+        else
+        {
+            <h5>Target Faction: @PoliticsGameService.GetFaction(targetFactionID) </h5>
+            <button class="btn btn-outline-dark text-nowrap" type="button" @onclick="ResetFaction">Reset Target Faction</button>
+            <br/>
+        }
+    </div>
+    <div class="hstack gap-2 p-2" style="max-width: 700px">
+        <label class="text-nowrap" for="asset" style="width: 200px">Asset to Transfer</label>
+        <select class="form-select mx-auto" id="asset" @bind="AssetToTrade" style="max-width: 400px">
+            @foreach (var asset in player.Faction.Assets)
             {
-                <button type="button" @onclick="TransferAsset">Transfer Asset</button>
+                <option value="@asset.assetID">
+                    @asset.Name @asset.Location
+                </option>
             }
-        </form>
+        </select>
+        <button class="btn btn-outline-dark text-nowrap" @onclick="AddAsset" type="button">Add Asset to Transfer List</button>
+        <br/>
+    </div>
+
+    <label for="assetsToTrade">Assets to Trade</label>
+    <ul id="assetsToTrade">
+        @foreach (var asset in AssetsToTrade)
+        {
+            <li>@PoliticsGameService.GetAsset(asset)</li>
+        }
+    </ul>
+    @if (targetFactionID != -1 && AssetsToTrade.Count > 0)
+    {
+        <button class="btn btn-outline-dark" type="button" @onclick="TransferAsset">Transfer Asset</button>
+    }
+</form>

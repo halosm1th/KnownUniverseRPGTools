@@ -77,7 +77,7 @@
                     <option value="@CombatAssetSize.Station">Station</option>
                 </select>
             </div>
-            <p class=" ext-center fs-4">Total Cost: @GetCost()</p>
+            <p class="fs-4">Total Cost: @GetCost()</p>
             @if (Faction.Money >= GetCost())
             {
                 <button class="btn btn-outline-dark " @onclick="SubmitBuildOrder" type="button">Submit Build Order</button>

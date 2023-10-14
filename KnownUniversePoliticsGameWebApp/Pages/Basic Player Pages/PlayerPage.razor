@@ -87,12 +87,13 @@
 {
     if (logginError)
     {
-        <p style="text-color: red">Error you put something in wrong when logging in.</p>
+        <p class="text-danger">Error you put something in wrong when logging in.</p>
     }
     <div class="vstack gap-2 col-md-4 align-content-center mx-auto" style="max-width: 150px">
+        <h5 align="center">User Login</h5>
         <input placeholder="Username" class="form-text" type="text" id="playerName" @bind="Username" style="max-width: 150px"/>
         <input placeholder="Password" class="form-text" type="password" id="playerPassword" @bind="Password" style="max-width: 150px"/>
-        <button class="btn btn-primary btn-sm" @onclick="Login"> Log In</button>
+        <button class="btn btn-primary btn-sm" @onclick="Login">Log In</button>
         <button class="btn btn-secondary btn-sm" @onclick="AlreadyLoggedIn">Already Logged In</button>
     </div>
 }
@@ -103,7 +104,7 @@ else
         <button class="btn btn-outline-danger ms-auto" @onclick="Loggout" >Log out</button>
     </div>
 
-    <div class="btn-toolbar" role="toolbar">
+    <div class="btn-toolbar align-content-center align-items-center center p-2" role="toolbar">
         <div class="btn-group mr-2" role="group">
             <button type="button" @onclick="() => MenuChoice = PlayerMenuChoice.FactionRelations" class="btn btn-outline-secondary">Faction Relations</button>
             <button type="button" @onclick="() => MenuChoice = PlayerMenuChoice.Message" class="btn btn-outline-secondary">Show Messages</button>

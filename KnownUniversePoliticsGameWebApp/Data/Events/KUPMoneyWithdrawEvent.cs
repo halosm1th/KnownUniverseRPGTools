@@ -9,15 +9,17 @@ public class KUPMoneyWithdrawEvent : IKUPEvent
     public int SenderID { get; }
     public int TargetID => 1919991701;
     public DateTime CreationTime { get; }
+    public bool HasBeenChecked { get; set; } = false;
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
         
-        var transferer = EventService.GetActorBySenderID(SenderID);
-        var transferee = game.Factions.First(x => x.Name == "Bank");
-        EventService.AddEvent(new IKUPMessageEvent(SenderID, transferee.ReceiverID, $"{AmountOfMoney}"));
+        var sender = EventService.GetActorBySenderID(SenderID);
+        var bank = game.Factions.First(x => x.Name == "Bank");
+        EventService.AddEvent(new KUPWithdrawMessageEvent(SenderID, 
+            bank.ReceiverID, $"{AmountOfMoney}"));
 
-        game.WithdrawMoney(transferer, AmountOfMoney);
-        game.DepositMoney(transferee, AmountOfMoney);
+        game.WithdrawMoney(sender, AmountOfMoney);
+        game.DepositMoney(bank, AmountOfMoney);
     }
 
     public int TargetAccountID { get; }

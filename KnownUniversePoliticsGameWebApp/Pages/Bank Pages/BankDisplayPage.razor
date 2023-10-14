@@ -46,8 +46,24 @@
 <div class="dropdown-divider"></div>
 <h3 align="center">List of Withdrawls</h3>
 <ul>
-@foreach (var withdraw in EventService.GetEvents(PoliticsGameService.GetFaction("Bank").ReceiverID))
+@foreach (var withdraw in EventService
+    .GetEvents(PoliticsGameService.GetFaction("Bank").ReceiverID))
 {
-    <li>@withdraw</li>
+    if (withdraw.GetType() == typeof(KUPWithdrawMessageEvent))
+    {
+        <li class="hstack gap-2 align-content-center" style="max-width: 500px">
+            <input type="checkbox" @bind="((KUPWithdrawMessageEvent) withdraw).HasBeenChecked"/>
+            @if (((KUPWithdrawMessageEvent) withdraw).HasBeenChecked)
+            {
+                <p style="text-decoration: line-through">@withdraw</p>
+            }
+            else
+            {
+                <p>
+                    @withdraw
+                </p>
+            }
+        </li>
+    }
 }
 </ul>
