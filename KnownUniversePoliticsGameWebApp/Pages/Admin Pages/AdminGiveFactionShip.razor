@@ -41,9 +41,8 @@
     
     <label>Location</label>
     <select @bind="LocationID">
-        @foreach (var location in _politicsGameService
-            .GetBuildLocations(
-            _politicsGameService?.GetPlayer(ChosenPlayerID)?.Faction))
+        <option value="-1">None</option>
+        @foreach (var location in _politicsGameService?.GetPlayer(ChosenPlayerID)?.Faction.LocationAssets ?? new List<IKUPLocationAsset>())
         {
             <option value="@location.assetID">@location.Name</option>
         }

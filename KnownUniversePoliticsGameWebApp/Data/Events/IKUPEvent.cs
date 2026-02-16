@@ -6,7 +6,7 @@ public interface IKUPEvent
 {
     int eventID { get; }
     int SenderID { get; }
-    int TargetID { get; }
+    int ShipToDelete { get; }
     DateTime CreationTime { get; }
 
     void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService);

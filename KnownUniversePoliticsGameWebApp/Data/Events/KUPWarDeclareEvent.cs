@@ -7,13 +7,13 @@ public class KUPWarDeclareEvent : IKUPEvent
     
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID { get; }
+    public int ShipToDelete { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
         
         var sender = game.GetFaction(SenderID);
-        var reciever = game.GetFaction(TargetID);
+        var reciever = game.GetFaction(ShipToDelete);
         
         sender.AtWar(reciever);
         //Send the event that the war started to the person its actually declared against.
@@ -48,7 +48,7 @@ public class KUPWarDeclareEvent : IKUPEvent
     public KUPWarDeclareEvent(int senderId, int targetId)
     {
         SenderID = senderId;
-        TargetID = targetId;
+        ShipToDelete = targetId;
         eventID = KUPEventService.GetEventID();
         CreationTime = DateTime.Now;
         ;
@@ -58,6 +58,6 @@ public class KUPWarDeclareEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [War declared Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} ";
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} ";
     }
 }

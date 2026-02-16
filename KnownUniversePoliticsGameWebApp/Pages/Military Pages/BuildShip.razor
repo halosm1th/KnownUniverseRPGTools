@@ -35,10 +35,13 @@
 
     private void SubmitBuildOrder()
     {
-        EventService.AddEvent(
-            new KUPBuildShipEvent(Faction.SenderID, Size, BuildLocationID));
-        buildOrderSubmitted = true;
-        StateHasChanged();
+        if (Faction.Money >= GetCost())
+        {
+            EventService.AddEvent(
+                new KUPBuildShipEvent(Faction.SenderID, Size, BuildLocationID));
+            buildOrderSubmitted = true;
+            StateHasChanged();
+        }
     }
 
 }

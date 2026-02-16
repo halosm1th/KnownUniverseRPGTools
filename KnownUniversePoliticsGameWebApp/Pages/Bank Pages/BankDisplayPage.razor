@@ -14,7 +14,7 @@
         var player = PoliticsGameService.GetPlayer(depositingPlayerName);
         var bank = PoliticsGameService.GetFaction("Bank");
         EventService.AddEvent(
-            new KUPMoneyDepositEvent(bank.SenderID,player.ReceiverID,depositAmount));
+            new KUPMoneyDepositEvent(bank.SenderID,player.Faction.ReceiverID,depositAmount));
     }
 
 }

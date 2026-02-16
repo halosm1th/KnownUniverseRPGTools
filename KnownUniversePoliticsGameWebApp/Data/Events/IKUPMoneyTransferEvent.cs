@@ -6,7 +6,7 @@ public class IKUPMoneyTransferEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID => 1919991701;
+    public int ShipToDelete => 1919991701;
     public DateTime CreationTime { get; }
 
 
@@ -38,7 +38,7 @@ public class IKUPMoneyTransferEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Transfer Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"${AmountOfMoney}";
     }
 }

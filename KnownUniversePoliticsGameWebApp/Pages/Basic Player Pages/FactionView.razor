@@ -19,9 +19,7 @@
    <summary>Faction Info &amp; Goals</summary>
    <div>
       <h5>Summary</h5>
-      <p>Income: @Faction.Assets.Aggregate(0,(h,t) => h + t.MoneyIncome)</p>
-      <p>Exepensies: @Faction.Assets.Aggregate(0, (h,t) => h + t.UpKeepCost)</p>
-      <p>Net: @(Faction.Assets.Aggregate(0,(h,t) => h + t.MoneyIncome) - Faction.Assets.Aggregate(0, (h,t) => h + t.UpKeepCost)) </p>
+      <p>Income: @Faction.Assets.Aggregate(0,(h,t) => h + t.MoneyTotal)</p>
       <ul>
          @foreach (var point in Faction.Summary)
          {

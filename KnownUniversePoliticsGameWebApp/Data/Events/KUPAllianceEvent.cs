@@ -7,12 +7,12 @@ public class KUPAllianceEvent : IKUPEvent
     
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID { get; }
+    public int ShipToDelete { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
         
-        var enemy = game.GetFaction(TargetID);
+        var enemy = game.GetFaction(ShipToDelete);
         var me = game.GetFaction(SenderID);
 
         me.Alliance(enemy);
@@ -21,7 +21,7 @@ public class KUPAllianceEvent : IKUPEvent
     public KUPAllianceEvent(int senderId, int targetId)
     {
         SenderID = senderId;
-        TargetID = targetId;
+        ShipToDelete = targetId;
         eventID = KUPEventService.GetEventID();
         CreationTime = DateTime.Now;
     }
@@ -30,6 +30,6 @@ public class KUPAllianceEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Alliance Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} ";
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} ";
     }
 }

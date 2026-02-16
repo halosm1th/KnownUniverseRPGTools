@@ -6,7 +6,7 @@ public class KUPBuildShipEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID => 1919991701;
+    public int ShipToDelete => 1919991701;
     public DateTime CreationTime { get; }
 
     public CombatAssetSize Size { get; set; }

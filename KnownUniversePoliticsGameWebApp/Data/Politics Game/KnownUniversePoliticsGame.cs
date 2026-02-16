@@ -79,7 +79,7 @@ public class KnownUniversePoliticsGame : IKUPEventActor
         Players = new List<KUPPlayer?>()
         {
             thomas,pirate,bank,food,
-            grayson, max,solange,alex,wes,jake,finn,maya,logan
+            grayson, max,solange,alex,wes,jake,finn,maya,logan, malik
         };
 
         //Setup the subsector

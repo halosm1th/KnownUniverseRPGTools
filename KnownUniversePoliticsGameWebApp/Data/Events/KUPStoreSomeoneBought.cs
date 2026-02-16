@@ -8,7 +8,7 @@ public class KUPStoreSomeoneBought : IKUPEvent
     
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID { get; }
+    public int ShipToDelete { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
@@ -37,7 +37,7 @@ public class KUPStoreSomeoneBought : IKUPEvent
         SenderID = senderId;
         BuyerName = buyerName;
         ItemToBuy = itemToBuy;
-        TargetID = targetId;
+        ShipToDelete = targetId;
         eventID = KUPEventService.GetEventID();
         CreationTime = DateTime.Now;
         Amount = amount;

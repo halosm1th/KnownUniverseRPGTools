@@ -6,12 +6,12 @@ public class KUPMoveAssetEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID { get; }
+    public int ShipToDelete { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
         
-        var target = (EventService.GetActorByReciverID(TargetID) as KUPCombatAsset);
+        var target = (EventService.GetActorByReciverID(ShipToDelete) as KUPCombatAsset);
         if (!target?.ChangeLocationTo(Destination,game) ?? false)
         {
             EventService.AddEvent(new IKUPMessageEvent(SenderID, SenderID,
@@ -24,7 +24,7 @@ public class KUPMoveAssetEvent : IKUPEvent
     public KUPMoveAssetEvent(int senderId, int targetID, KUPLocation destination)
     {
         SenderID = senderId;
-        TargetID = targetID;
+        ShipToDelete = targetID;
         eventID = KUPEventService.GetEventID();
         CreationTime = DateTime.Now;
         Destination = destination;
@@ -35,7 +35,7 @@ public class KUPMoveAssetEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Move Asset Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"Moved asset to:  {Destination}";
     }
 }

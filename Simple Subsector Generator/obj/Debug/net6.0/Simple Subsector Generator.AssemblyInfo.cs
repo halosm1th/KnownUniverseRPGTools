@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Simple Subsector Generator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c9a5815b70f15d975f4b11a534086de7b0bd78e1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Simple Subsector Generator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Simple Subsector Generator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

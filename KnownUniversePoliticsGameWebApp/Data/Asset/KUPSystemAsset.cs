@@ -33,4 +33,9 @@ public class KUPSystemAsset : IKUPLocationAsset
         Location = location;
         Controller = controller;
     }
+
+    public override string ToString()
+    {
+        return $"{Name} {Location} {Controller.Name}";
+    }
 }

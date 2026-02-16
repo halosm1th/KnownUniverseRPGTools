@@ -154,9 +154,14 @@ public class KnownUniversePoliticsGameService
         }
     }
 
-    public IKUPAsset GetAsset(int assetId)
+    public IKUPAsset? GetAsset(int assetId)
     {
-        return PoliticsGame.AssetsInPlay.First(x => x.assetID == assetId);
+        if (PoliticsGame.AssetsInPlay.Any(x => x.assetID == assetId))
+        {
+            return PoliticsGame.AssetsInPlay.First(x => x.assetID == assetId);
+        }
+
+        return null;
     }
 
     public bool CouldCaptureSystem(KUPFilledSystem system, KUPFaction who)

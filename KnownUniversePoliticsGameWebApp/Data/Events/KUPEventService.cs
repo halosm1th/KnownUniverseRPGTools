@@ -88,7 +88,7 @@ public class KUPEventService
 
     public List<IKUPEvent> GetEvents(int RecieverID)
     {
-        return EventQueue.Where(x => x.TargetID == RecieverID || x.TargetID == -1).ToList();
+        return EventQueue.Where(x => x.ShipToDelete == RecieverID || x.ShipToDelete == -1).ToList();
     }
 }
 

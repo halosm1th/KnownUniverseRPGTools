@@ -116,7 +116,7 @@
         <option value="-1">None</option>
         @foreach (var asset in AssetsToSee())
         {
-            <option value="@asset.assetID">@asset</option>
+            <option value="@asset.assetID">@asset.Location, @asset.assetID</option>
         }
     </select>
     @if (AssetID != -1)

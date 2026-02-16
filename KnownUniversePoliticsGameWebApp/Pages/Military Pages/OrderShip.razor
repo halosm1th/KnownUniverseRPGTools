@@ -17,6 +17,7 @@
         TakeAsset,
         CaptureSystem,
         AttackSystem,
+        DestroyShip
     }
 
     [Parameter]
@@ -48,7 +49,7 @@
                 {
                     var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
                     var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
-                    var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
+                    var locID = system.SysetmAsset.assetID;
                     EventService.AddEvent(new
                         KUPTakeSystemEvent(Faction.SenderID, locID, ShipAssetID));
                 }
@@ -64,7 +65,7 @@
                     UsedShip = true;
                     var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
                     var system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
-                    var locID = system.SystemsPrimaryStation.PrimaryStationAsset.assetID;
+                    var locID = system.SysetmAsset.assetID;
                     EventService.AddEvent(new
                         KUPCaptureSystemEvent(Faction.SenderID, locID, ShipAssetID));
                 }
@@ -90,6 +91,14 @@
                     var ID = PoliticsGameService.GetShip(ShipAssetID).ReceiverID;
                     EventService.AddEvent(new
                         KUPMoveAssetEvent(Faction.SenderID, ID, dest));
+                }else if (_militaryAction == MilitaryAction.DestroyShip)
+                {
+                    
+                    UsedShip = true;
+                    var ship = PoliticsGameService.GetShip(ShipAssetID);
+                    var ID = ship.ReceiverID;
+                    EventService.AddEvent(new
+                        KUPShipDeleteEvent(Faction.SenderID, ID));
                 }
             }
         }
@@ -136,6 +145,7 @@
                 @if (ShipAssetID != -1)
                 {
                     <option selected value="@MilitaryAction.MoveShip">Move Ship</option>
+                    <option value="@MilitaryAction.DestroyShip">Destroy Ship</option>
                     {
                         var loc = PoliticsGameService.GetAsset(ShipAssetID).Location;
                         system = PoliticsGameService.FindSystem(loc.SystemX, loc.SystemY);
@@ -181,7 +191,10 @@
                 </select>
             </div>
         }
-        <button class="btn btn-outline-success align-content-center btn-lg" @onclick="PerformMilitaryAction" style="max-width: 200px">Execute!</button>
+        @if (ShipAssetID != -1 && Faction.Money >= PoliticsGameService.GetAsset(ShipAssetID)?.UpKeepCost )
+        {
+            <button class="btn btn-outline-success align-content-center btn-lg" @onclick="PerformMilitaryAction" style="max-width: 200px">Execute!</button>
+        }
     }
     else
     {

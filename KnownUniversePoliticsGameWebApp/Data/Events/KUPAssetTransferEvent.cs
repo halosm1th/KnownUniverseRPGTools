@@ -6,7 +6,7 @@ public class KUPAssetTransferEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID => 1919991701;
+    public int ShipToDelete => 1919991701;
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
@@ -55,7 +55,7 @@ public class KUPAssetTransferEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Transfer Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"Assets ID #s: {AssetsToTransfer.Aggregate("", (h,t) => h + ", " + t)}";
     }
 }

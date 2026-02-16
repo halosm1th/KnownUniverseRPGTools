@@ -6,12 +6,12 @@ public class KUPWithdrawMessageEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID { get; }
+    public int ShipToDelete { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
 
-        Console.WriteLine($"Message from: {SenderID} to {TargetID} saying: {Message}");
+        Console.WriteLine($"Message from: {SenderID} to {ShipToDelete} saying: {Message}");
     }
 
     public string Message { get; }
@@ -21,7 +21,7 @@ public class KUPWithdrawMessageEvent : IKUPEvent
     {
         eventID = KUPEventService.GetEventID();
         SenderID = senderId;
-        TargetID = bank;
+        ShipToDelete = bank;
         Message = message;
         CreationTime = DateTime.Now;
     }
@@ -30,7 +30,7 @@ public class KUPWithdrawMessageEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) [Message] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"M: {Message}";
     }
 }
@@ -39,12 +39,12 @@ public class IKUPMessageEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID { get; }
+    public int ShipToDelete { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
 
-        Console.WriteLine($"Message from: {SenderID} to {TargetID} saying: {Message}");
+        Console.WriteLine($"Message from: {SenderID} to {ShipToDelete} saying: {Message}");
     }
 
     public string Message { get; }
@@ -53,7 +53,7 @@ public class IKUPMessageEvent : IKUPEvent
     {
         eventID = KUPEventService.GetEventID();
         SenderID = senderId;
-        TargetID = targetId;
+        ShipToDelete = targetId;
         Message = message;
         CreationTime = DateTime.Now;
     }
@@ -62,7 +62,7 @@ public class IKUPMessageEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) [Message] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"M: {Message}";
     }
 }

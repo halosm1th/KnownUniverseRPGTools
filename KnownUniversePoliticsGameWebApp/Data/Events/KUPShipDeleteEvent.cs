@@ -2,25 +2,58 @@
 
 namespace KnownUniversePoliticsGameWebApp.Data;
 
+public class KUPShipDeleteEvent : IKUPEvent
+{
+    public int eventID { get; }
+    public int SenderID { get; }
+    public int ShipToDelete { get; }
+    public DateTime CreationTime { get; }
+    public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
+    {
+        var ship = game.AssetsInPlay.OfType<KUPCombatAsset>()
+            .First(x => x.ReceiverID == ShipToDelete);
+        
+        ship.Controller.DestroyAsset(ship);
+    }
+
+    public int AmountOfDamage { get; }
+
+    public KUPShipDeleteEvent(int senderId, int shipToDelete)
+    {
+        SenderID = senderId;
+        ShipToDelete = shipToDelete;
+        eventID = KUPEventService.GetEventID();
+        CreationTime = DateTime.Now;
+        ;
+    }
+
+    public override string ToString()
+    {
+        return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Ship Destroyed Event] " +
+               $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} ";
+    }
+}
+
 public class KUPShipDamagedEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID { get; }
+    public int ShipToDelete { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
     {
         
         var ship = game.AssetsInPlay.OfType<KUPCombatAsset>()
-            .First(x => x.ReceiverID == TargetID);
+            .First(x => x.ReceiverID == ShipToDelete);
         if (ship.HP - AmountOfDamage <= 0)
         {
             EventService.AddEvent(
                 new IKUPMessageEvent(SenderID,
-                    TargetID, $"Ship was Destroyed."));
+                    ShipToDelete, $"Ship was Destroyed."));
 
             EventService.AddEvent(
-                new IKUPMessageEvent(TargetID,
+                new IKUPMessageEvent(ShipToDelete,
                     SenderID, $"Ship was Destroyed."));
             game.DestroyAsset(ship, ship.Controller);
         }
@@ -29,9 +62,9 @@ public class KUPShipDamagedEvent : IKUPEvent
             ship.TakeDamage(AmountOfDamage);
             EventService.AddEvent(
                 new IKUPMessageEvent(SenderID,
-                    TargetID, $"Took 1 point of damage."));
+                    ShipToDelete, $"Took 1 point of damage."));
             EventService.AddEvent(
-                new IKUPMessageEvent(TargetID,
+                new IKUPMessageEvent(ShipToDelete,
                     SenderID, $"Took 1 point of damage."));
         }
     }
@@ -41,7 +74,7 @@ public class KUPShipDamagedEvent : IKUPEvent
     public KUPShipDamagedEvent(int senderId, int targetId, int amountOfDamage)
     {
         SenderID = senderId;
-        TargetID = targetId;
+        ShipToDelete = targetId;
         AmountOfDamage = amountOfDamage;
         eventID = KUPEventService.GetEventID();
         CreationTime = DateTime.Now;
@@ -52,7 +85,7 @@ public class KUPShipDamagedEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Ship Damaged event Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"Amount: {AmountOfDamage}";
     }
 }

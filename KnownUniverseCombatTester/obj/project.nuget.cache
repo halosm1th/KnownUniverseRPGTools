@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "Bem2W0ZOC9oKFyof8GSGRUuu0zupWo1aXK5ugPhXF+NLlH4rsP1LSF85DEArQjeY0jbdojrvmkm91ECDuD93JA==",
+  "dgSpecHash": "RWytk27rInM=",
   "success": true,
   "projectFilePath": "C:\\Users\\thoma\\RiderProjects\\KnownUniverseRPGTools\\KnownUniverseCombatTester\\KnownUniverseCombatTester.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\thoma\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\thoma\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\thoma\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\thoma\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
+  ],
   "logs": []
 }

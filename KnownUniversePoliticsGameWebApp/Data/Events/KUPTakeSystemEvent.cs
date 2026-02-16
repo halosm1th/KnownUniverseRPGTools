@@ -7,7 +7,7 @@ public class KUPTakeSystemEvent : IKUPEvent
     public int eventID { get; }
     public int SenderID { get; }
     public int AssetWhichTookID { get; }
-    public int TargetID => 1919991701;
+    public int ShipToDelete => 1919991701;
     public int SystemStationID { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
@@ -42,7 +42,7 @@ public class KUPTakeSystemEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [System Take Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"Has taken over system:  {SystemStationID}";
     }
 }

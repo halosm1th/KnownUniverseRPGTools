@@ -6,7 +6,7 @@ public class KUPOperationEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID => 1919991701;
+    public int ShipToDelete => 1919991701;
     public int OperationTarget { get; }
     public DateTime CreationTime { get; }
     public void RunEvent(KnownUniversePoliticsGame game, KUPEventService EventService)
@@ -80,7 +80,7 @@ public class KUPOperationEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Operation Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"Doing: {OperationNumber} of {OperationSize}. With message: {OperationMessage}";
     }
 }

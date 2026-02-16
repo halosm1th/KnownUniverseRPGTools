@@ -6,7 +6,7 @@ public class KUPTakeAssetEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID => 1919991701;
+    public int ShipToDelete => 1919991701;
     public int AssetID { get; }
     public int AssetWhichTookID { get; }
     public DateTime CreationTime { get; }
@@ -14,6 +14,7 @@ public class KUPTakeAssetEvent : IKUPEvent
     {
         
         var ship = (game.GetAssetFromID(AssetWhichTookID) as KUPCombatAsset);
+        ship.HasMoved = true;
         
             var taker = EventService.GetActorBySenderID(SenderID);
             var targetStation = game.AssetsInPlay.First(x => x.assetID == AssetID);
@@ -36,7 +37,7 @@ public class KUPTakeAssetEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [Asset Taken Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} " +
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} " +
                $"Has taken asset:  {AssetID}";
     }
 }

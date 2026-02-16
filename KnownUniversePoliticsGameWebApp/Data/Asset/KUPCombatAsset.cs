@@ -265,9 +265,9 @@ public class KUPCombatAsset : IKUPAsset, IKUPEventActor
     public int MoveSpeed() =>
         Size switch
         {
-            CombatAssetSize.Small => 2,
+            CombatAssetSize.Small => 6,
             CombatAssetSize.Medium => 4,
-            CombatAssetSize.Large => 6,
+            CombatAssetSize.Large => 2,
             CombatAssetSize.Station => 1
         };
 

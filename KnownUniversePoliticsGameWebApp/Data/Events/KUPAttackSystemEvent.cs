@@ -6,7 +6,7 @@ public class KUPAttackSystemEvent : IKUPEvent
 {
     public int eventID { get; }
     public int SenderID { get; }
-    public int TargetID => 1919991701;
+    public int ShipToDelete => 1919991701;
     public int ShipOrdered { get; }
     private KUPLocation _location;
     public DateTime CreationTime { get; }
@@ -30,7 +30,7 @@ public class KUPAttackSystemEvent : IKUPEvent
     {
         return $"#{eventID} ({CreationTime.ToLocalTime()}) - [System Attack Event] " +
                $"F:{KUPEventService.GetActorBySenderIDStatic(SenderID).Name} " +
-               $"T:{KUPEventService.GetActorByReciverIDStatic(TargetID).Name} "+
+               $"T:{KUPEventService.GetActorByReciverIDStatic(ShipToDelete).Name} "+
                $"@ {_location}";
     }
 }
